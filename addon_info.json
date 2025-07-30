@@ -1,0 +1,10 @@
+﻿{
+  "addon_name": "logViewer",
+  "addon_description": "A productivity add-on that enhances NVDA's log viewer with advanced search and bookmarking.",
+  "addon_version": "2025.8",
+  "addon_author": "chaichaimee",
+  "addon_url": "https://github.com/chaichaimee/logViewer",
+  "addon_download_url": "https://github.com/chaichaimee/logViewer/releases/download/v2025.8/logViewer_v2025.8.nvda-addon",
+  "addon_min_nvda_version": "2022.4"
+}
+
