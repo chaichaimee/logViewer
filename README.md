@@ -2,7 +2,7 @@
 
 **Add-on Name:** logViewer  
 **Summary:** Enhance the NVDA Log Viewer with advanced search and bookmarking features for easier function tracking and debugging.  
-**Authors:** chai chaimee & Pierre-Louis D.  
+**Authors:** chai chaimee & Pierre-Louis R.  
 **URL:** [https://github.com/chaichaimee/logViewer](https://github.com/chaichaimee/logViewer)  
 
 ## Features
