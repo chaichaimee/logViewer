@@ -1,28 +1,27 @@
-logViewer: Enhanced Log Viewer for NVDA  
+# logViewer
 
-Name: logViewer            
+**Add-on Name:** logViewer  
+**Summary:** Enhance the NVDA Log Viewer with advanced search and bookmarking features for easier function tracking and debugging.  
+**Authors:** chai chaimee & Pierre-Louis  
+**URL:** [https://github.com/chaichaimee/logViewer](https://github.com/chaichaimee/logViewer)  
 
+## Features
 
-Description:  
-              A productivity add-on that enhances NVDA's log viewer with advanced search and bookmarking.            
-Author: chaichaimee            
-Project URL:  
-              https://github.com/chaichaimee/logViewer        
+logViewer improves the functionality of NVDA's built-in Log Viewer, making it more powerful for developers and advanced users who need to analyze logs efficiently. Key features include:  
 
-       
+- **Advanced Search:**  
+  Press `Control+F` to open the search dialog.  
+  Supports case-sensitive search, wrap-around, regular expressions, and search history for quick reuse of previous terms.  
 
-The logViewer add-on significantly improves NVDA's built-in log viewer by adding powerful search capabilities and a robust bookmarking system. This productivity tool helps users efficiently navigate through NVDA logs, quickly find relevant information, and mark important entries for later review.  
-        ---        
-Features  
-       
-    Powerful Search Dialog (Control+F): Access a comprehensive search dialog with history and regular expression (regex) support for highly efficient log analysis.
-               
-    Quick Navigation (F3/Shift+F3): Easily jump between search matches using dedicated shortcuts.  
-               
-   Create Bookmarks (Control+F2): Quickly create new bookmarks to highlight and revisit specific log entries, especially useful for tracking bugs or errors during NVDA operation.  
-               
-    Bookmark System (F2/Shift+F2): Navigate through your saved bookmarks with simple key presses.  
-               
-    Preserves Search Settings: Your search preferences are saved between sessions, providing a consistent experience.  
-               
-    Seamless Integration: Works effortlessly within NVDA's log viewer interface.
+- **Quick Search Navigation:**  
+  Jump to the next search result with `F3`, or go back to the previous one with `Shift+F3` — without reopening the search dialog.  
+
+- **Bookmark System:**  
+  Add bookmarks using `Control+F2`.  
+  Navigate between bookmarks using `F2` (next) and `Shift+F2` (previous).  
+
+## Language Support
+
+This add-on is designed to work seamlessly with NVDA in any language.  
+Instead of checking the window title (which depends on UI language), it detects the NVDA Log Viewer using its window handle.  
+This ensures full compatibility across all languages NVDA supports.  
