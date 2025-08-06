@@ -1,86 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>logViewer Add-on for NVDA</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            color: #333;
-        }
-        h1, h2 {
-            color: #0056b3;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-        dl {
-            margin-bottom: 1em;
-        }
-        dt {
-            font-weight: bold;
-            margin-top: 1em;
-        }
-        dd {
-            margin-left: 20px;
-        }
-        .version-info {
-            background-color: #f9f9f9;
-            border-left: 5px solid #0056b3;
-            padding: 10px 15px;
-            margin-top: 20px;
-        }
-        a {
-            color: #0056b3;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>logViewer - README</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #0056b3;
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>logViewer: Enhanced Log Viewer for NVDA</h1>
-        <dl>
-            <dt>Name:</dt>
-            <dd>logViewer</dd>
 
-            <dt>Description:</dt>
-            <dd>A productivity add-on that enhances NVDA's log viewer with advanced search and bookmarking.</dd>
+  <h1>logViewer</h1>
 
-            <dt>Author:</dt>
-            <dd>chaichaimee</dd>
+  <div class="section">
+    <p><strong>Add-on Name:</strong> logViewer</p>
+    <p><strong>Summary:</strong> Enhance the NVDA Log Viewer with advanced search and bookmarking features for easier function tracking and debugging.</p>
+    <p><strong>Authors:</strong> chai chaimee &amp; Pierre-Louis R.</p>
+    <p><strong>URL:</strong> <a href="https://github.com/chaichaimee/logViewer">https://github.com/chaichaimee/logViewer</a></p>
+  </div>
 
-            <dt>Project URL:</dt>
-            <dd><a href="https://github.com/chaichaimee/logViewer" target="_blank">https://github.com/chaichaimee/logViewer</a></dd>
-        </dl>
+  <div class="section">
+    <h2>Features</h2>
+    <p>logViewer improves the functionality of NVDA's built-in Log Viewer, making it more powerful for developers and advanced users who need to analyze logs efficiently. Key features include:</p>
+    <ul>
+      <li>
+        <strong>Advanced Search:</strong><br />
+        Press <code>Control+F</code> to open the search dialog.<br />
+        Supports case-sensitive search, wrap-around, regular expressions, and search history for quick reuse of previous terms.
+      </li>
+      <li>
+        <strong>Quick Search Navigation:</strong><br />
+        Jump to the next search result with <code>F3</code>, or go back to the previous one with <code>Shift+F3</code> — without reopening the search dialog.
+      </li>
+      <li>
+        <strong>Bookmark System:</strong><br />
+        Add bookmarks using <code>Control+F2</code>.<br />
+        Navigate between bookmarks using <code>F2</code> (next) and <code>Shift+F2</code> (previous).
+      </li>
+    </ul>
+  </div>
 
-        <p>The <strong>logViewer</strong> add-on significantly improves NVDA's built-in log viewer by adding powerful search capabilities and a robust bookmarking system. This productivity tool helps users efficiently navigate through NVDA logs, quickly find relevant information, and mark important entries for later review.</p>
+  <div class="section">
+    <h2>Language Support</h2>
+    <p>This add-on is designed to work seamlessly with NVDA in any language.</p>
+    <p>Instead of checking the window title (which depends on UI language), it detects the NVDA Log Viewer using its window handle.</p>
+    <p>This ensures full compatibility across all languages NVDA supports.</p>
+  </div>
 
-        ---
-
-        <h2>Features</h2>
-        <ul>
-            <li><strong>Powerful Search Dialog (Control+F):</strong> Access a comprehensive search dialog with history and regular expression (regex) support for highly efficient log analysis.</li>
-            <li><strong>Quick Navigation (F3/Shift+F3):</strong> Easily jump between search matches using dedicated shortcuts.</li>
-            <li><strong>Create Bookmarks (Control+F2):</b> Quickly create new bookmarks to highlight and revisit specific log entries, especially useful for tracking bugs or errors during NVDA operation.</li>
-            <li><strong>Bookmark System (F2/Shift+F2):</strong> Navigate through your saved bookmarks with simple key presses.</li>
-            <li><strong>Preserves Search Settings:</strong> Your search preferences are saved between sessions, providing a consistent experience.</li>
-            <li><strong>Seamless Integration:</strong> Works effortlessly within NVDA's log viewer interface.</li>
-        </ul>
-    </div>
 </body>
 </html>
+

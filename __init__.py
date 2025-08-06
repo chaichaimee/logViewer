@@ -1,4 +1,4 @@
-# Copyright (C) 2025 ['chai chaimee']
+# Copyright (C) 2025 ['Chai Chaimee & Pierre-Louis R.']
 # Licensed under GNU General Public License. See COPYING.txt for details.
 
 import wx
@@ -22,8 +22,26 @@ import core
 from enum import Enum, unique
 import time
 import threading
+import winUser
+import gui.logViewer
 
 addonHandler.initTranslation()
+
+def fIsLogViewer(obj):
+    """
+    language independant  determination of a log viewer's object.
+    """
+    if obj.role == controlTypes.Role.PANE:
+        hParent = obj.windowHandle
+    else:
+        hParent = winUser.getAncestor(obj.windowHandle, winUser.GA_PARENT)
+    try:
+        hLogViewer = gui.logViewer.logViewer.GetHandle()
+        isLogViewer = hLogViewer == hParent
+    except (AttributeError, RuntimeError):
+        isLogViewer = False
+    return isLogViewer
+
 
 def initConfiguration():
     confspec = {
@@ -49,14 +67,20 @@ class SearchHistory:
 
     def load(self):
         try:
-            self._terms = json.loads(config.conf["LogViewerPlugin"]["searchHistory"])
+            terms = json.loads(config.conf["LogViewerPlugin"]["searchHistory"])
+            if isinstance(terms, list) and all(isinstance(term, str) for term in terms):
+                self._terms = terms
+            else:
+                log.error("Corrupted search history data, resetting to empty list.")
+                self._terms = []
         except Exception as e:
-            log.error(f"Error loading search history: {e}")
+            log.error(f"Error loading search history: {e}, resetting to empty list.")
             self._terms = []
 
     def save(self):
         try:
             config.conf["LogViewerPlugin"]["searchHistory"] = json.dumps(self._terms)
+            config.conf.save()
         except Exception as e:
             log.error(f"Error saving search history: {e}")
 
@@ -90,14 +114,14 @@ class SearchType(Enum):
         for index, type in enumerate(SearchType):
             if type.name == name:
                 return index
-        raise ValueError(f"No variant with name '{name}' found in SearchType Enum")
+        return 0  # Default to first item
 
     @staticmethod
     def getByName(name):
         for type in SearchType:
             if type.name == name:
                 return type
-        raise ValueError(f"No variant with name '{name}' found in SearchType Enum")
+        return SearchType.NORMAL  # Default to normal search
 
     @staticmethod
     def getSearchTypes():
@@ -171,7 +195,9 @@ class LogSearchDialog(wx.Dialog):
 
     def onClose(self, event):
         self.dialogOpen = False
-        self.Destroy()
+        if self.globalPlugin and self.globalPlugin.searchDialog is self:
+            self.globalPlugin.searchDialog = None
+        event.Skip()
 
     def doSearch(self, term, caseSensitive, wrap, searchType):
         with self.searchLock:
@@ -199,7 +225,7 @@ class LogSearchDialog(wx.Dialog):
                 for match in found_iter:
                     start_pos, end_pos = match.span()
                     self.matches.append((start_pos, end_pos))
-                
+                    
                 self.lastSearchTerm = term
                 self.lastCaseSensitive = caseSensitive
                 self.lastSearchWrap = wrap
@@ -239,12 +265,12 @@ class LogSearchDialog(wx.Dialog):
                 not self.matches):
             if not self.doSearch(term, caseSensitive, wrap, searchType):
                 self.resultBox.SetValue("Search failed or invalid expression")
-                message("find not foul")
+                message("No matches found")
                 return
 
         if not self.matches:
             self.resultBox.SetValue("No matches found")
-            message("find not foul")
+            message("No matches found")
             return
 
         current_caret_pos = self.getCaretPosition()
@@ -276,7 +302,7 @@ class LogSearchDialog(wx.Dialog):
                 found = True
 
         if not found:
-            message("find not foul")
+            message("No matches found")
             return
 
         self.globalPlugin.lastSearchTerm = term
@@ -287,6 +313,8 @@ class LogSearchDialog(wx.Dialog):
 
         self.updateResultDisplay()
         self.moveToMatch(focus)
+        
+        message(f"Found {len(self.matches)} matches.")
 
     def updateResultDisplay(self):
         displayText = []
@@ -300,6 +328,7 @@ class LogSearchDialog(wx.Dialog):
         textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
         allText = textInfo.text
 
+        
         for i in range(start_idx, end_idx):
             start_pos, end_pos = self.matches[i]
             
@@ -337,7 +366,7 @@ class LogSearchDialog(wx.Dialog):
                     textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
                     textInfo.collapse()
                     textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
-                    textInfo.expand(textInfos.UNIT_CHARACTER)
+                    textInfo.collapse()
                     textInfo.updateSelection()
                     
                     line_num = textInfo.text.count('\n', 0, start_pos) + 1
@@ -346,6 +375,7 @@ class LogSearchDialog(wx.Dialog):
                     if line_end == -1:
                         line_end = len(textInfo.text)
                     line_text = textInfo.text[line_start:line_end].strip()
+                
                     message(f"Line {line_num}: {line_text}")
                 except Exception as e:
                     log.error(f"Error moving to match: {e}")
@@ -357,15 +387,9 @@ class LogSearchDialog(wx.Dialog):
 
     def isNVDAViewerObject(self, obj):
         try:
-            if isinstance(obj, IAccessible) and obj.role == controlTypes.Role.EDITABLETEXT:
-                parent = obj.parent
-                while parent:
-                    if hasattr(parent, 'name') and parent.name and "NVDA Log Viewer" in parent.name:
-                        return True
-                    parent = parent.parent
+            return fIsLogViewer(obj) and obj.role == controlTypes.Role.EDITABLETEXT
         except Exception:
-            pass
-        return False
+            return False
 
 class GlobalPlugin(GlobalPlugin):
     bookmarkString = "BOOKMARK {0}"
@@ -374,7 +398,7 @@ class GlobalPlugin(GlobalPlugin):
         super().__init__(*args, **kwargs)
         initConfiguration()
         self.bookmarkCount = getattr(globalVars, 'devHelperBookmarkCount', 1)
-        self.logViewerHandle = None
+        self.logViewerObj = None
         self.bookmarks = []
         self.currentBookmark = -1
         self.searchDialog = None
@@ -389,25 +413,17 @@ class GlobalPlugin(GlobalPlugin):
     def isNVDAViewer(self):
         try:
             focusObj = api.getFocusObject()
-            if not focusObj:
-                return False
-            return self.isNVDAViewerObject(focusObj)
+            return focusObj and self.isNVDAViewerObject(focusObj)
         except Exception as e:
             log.error(f"Error checking NVDA Log Viewer: {e}")
         return False
     
     def isNVDAViewerObject(self, obj):
-        try:
-            if isinstance(obj, IAccessible) and obj.role == controlTypes.Role.EDITABLETEXT:
-                parent = obj.parent
-                while parent:
-                    if hasattr(parent, 'name') and parent.name and "NVDA Log Viewer" in parent.name:
-                        self.logViewerHandle = obj
-                        return True
-                    parent = parent.parent
-        except Exception:
-            pass
-        return False
+        if not fIsLogViewer(obj) or obj.role != controlTypes.Role.EDITABLETEXT:
+            return False
+        
+        self.logViewerObj = obj
+        return True
     
     def isNotepadPlusPlus(self):
         try:
@@ -421,9 +437,9 @@ class GlobalPlugin(GlobalPlugin):
             return False
     
     def getLogTextControl(self):
-        if not self.logViewerHandle:
-            self.isNVDAViewer() 
-        return self.logViewerHandle
+        if not self.logViewerObj:
+            self.isNVDAViewer()
+        return self.logViewerObj
     
     @script(description="Search in NVDA Log Viewer", gesture="kb:control+f", category="LogViewer")
     def script_searchInLogViewer(self, gesture):
@@ -436,9 +452,12 @@ class GlobalPlugin(GlobalPlugin):
             message("NVDA Log Viewer not accessible")
             return
         
-        if self.searchDialog and self.searchDialog.IsShown():
+        if self.searchDialog is not None and not self.searchDialog.IsBeingDeleted():
             self.searchDialog.Raise()
+            self.searchDialog.searchBox.SetFocus()
             return
+            
+        self.searchDialog = None
             
         def showDialog():
             try:
@@ -467,9 +486,9 @@ class GlobalPlugin(GlobalPlugin):
         if self.isNotepadPlusPlus():
             gesture.send()
             return
-         
+            
         bookmarkText = f"\n{self.bookmarkString.format(self.bookmarkCount)}\n"
-        log.info(bookmarkText) 
+        log.info(bookmarkText)
         message(f"Bookmark {self.bookmarkCount}")
         globalVars.devHelperBookmarkCount = self.bookmarkCount + 1
         self.bookmarkCount += 1
@@ -491,7 +510,7 @@ class GlobalPlugin(GlobalPlugin):
                 if not all_log_text.strip():
                     message("Log is empty")
                     return
-           
+            
                 bookmark_pattern = re.compile(r"BOOKMARK (\d+)")
                 
                 for match in bookmark_pattern.finditer(all_log_text):
@@ -541,7 +560,7 @@ class GlobalPlugin(GlobalPlugin):
         
         if not self.bookmarks:
             message("No bookmarks found")
-            self.currentBookmark = -1 
+            self.currentBookmark = -1
             return
             
         current_caret_pos = self.getCaretPosition(textCtrl)
@@ -598,7 +617,7 @@ class GlobalPlugin(GlobalPlugin):
         
         if not self.bookmarks:
             message("No bookmarks found")
-            self.currentBookmark = -1 
+            self.currentBookmark = -1
             return
             
         current_caret_pos = self.getCaretPosition(textCtrl)
@@ -631,7 +650,7 @@ class GlobalPlugin(GlobalPlugin):
         if not found_prev:
             if config.conf["LogViewerPlugin"]["searchWrap"]:
                 self.currentBookmark = len(self.bookmarks) - 1
-                message("Wrapping to last bookmark")
+                message("Wrapping to last match")
                 found_prev = True
             else:
                 message("Already at first bookmark")
@@ -659,6 +678,7 @@ class GlobalPlugin(GlobalPlugin):
                     textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
                     textInfo.collapse()
                     textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
+                    textInfo.collapse()
                     textInfo.updateSelection()
                     message(f"Bookmark {bookmark_num}")
                 except Exception as e:
@@ -677,7 +697,6 @@ class GlobalPlugin(GlobalPlugin):
                 
             textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
             allText = textInfo.text
-           
             if not allText.strip():
                 message("Log is empty")
                 return False
@@ -707,61 +726,43 @@ class GlobalPlugin(GlobalPlugin):
         if not self.isNVDAViewer():
             gesture.send()
             return
-         
+            
         textCtrl = self.getLogTextControl()
         if not textCtrl:
             message("NVDA Log Viewer not accessible")
             return
             
-        term = self.lastSearchTerm if self.lastSearchTerm else self.searchDialog.searchBox.GetValue().strip() if self.searchDialog else ""
-        if not term:
-            message("No search performed yet or search term is empty.")
+        if not self.lastSearchTerm:
+            message("No search has been performed yet. Please use Control+F to perform a search first.")
             return
 
         caseSensitive = config.conf["LogViewerPlugin"]["searchCaseSensitivity"]
         searchType = SearchType.getByName(config.conf["LogViewerPlugin"]["searchType"])
         wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
-        if not self.lastMatches or \
-           term != self.lastSearchTerm or \
-           caseSensitive != self._lastSearchCaseSensitive or \
-           searchType != self._lastSearchType:
-            if not self._doQuickSearch(term, caseSensitive, searchType):
-                message("find not foul")
+        if (
+            not self.lastMatches or
+            caseSensitive != self._lastSearchCaseSensitive or
+            searchType != self._lastSearchType
+        ):
+            if not self._doQuickSearch(self.lastSearchTerm, caseSensitive, searchType):
+                message("No matches found")
                 return
-           
+            
         if not self.lastMatches:
-            message("find not foul")
+            message("No matches found")
             return
 
-        current_caret_pos = self.getCaretPosition(textCtrl)
-        found = False
-        
-        next_match_index = -1
-        for i, (start_pos, end_pos) in enumerate(self.lastMatches):
-            if start_pos >= current_caret_pos or (start_pos < current_caret_pos and end_pos > current_caret_pos):
-                if start_pos < current_caret_pos and end_pos > current_caret_pos:
-                    if i + 1 < len(self.lastMatches):
-                        next_match_index = i + 1
-                    else:
-                        next_match_index = -1
-                    break
-                else:
-                    next_match_index = i
-                    break
-        
-        if next_match_index != -1:
-            self.currentMatchIndex = next_match_index
-            found = True
-        elif wrap and not (next_match_index == -1 and self.currentMatchIndex == len(self.lastMatches) - 1):
-            self.currentMatchIndex = 0
-            found = True
-            message("Wrapping to first match")
-            
-        if not found:
-            message("find not foul")
-            return
-            
+        self.currentMatchIndex += 1
+        if self.currentMatchIndex >= len(self.lastMatches):
+            if wrap:
+                self.currentMatchIndex = 0
+                message("Wrapping to first match")
+            else:
+                self.currentMatchIndex = len(self.lastMatches) - 1
+                message("Reached end of matches")
+                return
+
         self._moveToQuickSearchResult(textCtrl)
     
     @script(description="Find previous match", gesture="kb:shift+f3", category="LogViewer")
@@ -775,59 +776,37 @@ class GlobalPlugin(GlobalPlugin):
             message("NVDA Log Viewer not accessible")
             return
             
-        term = self.lastSearchTerm if self.lastSearchTerm else self.searchDialog.searchBox.GetValue().strip() if self.searchDialog else ""
-        if not term:
-            message("No search performed yet or search term is empty.")
+        if not self.lastSearchTerm:
+            message("No search has been performed yet. Please use Control+F to perform a search first.")
             return
 
         caseSensitive = config.conf["LogViewerPlugin"]["searchCaseSensitivity"]
         searchType = SearchType.getByName(config.conf["LogViewerPlugin"]["searchType"])
         wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
-        if not self.lastMatches or \
-           term != self.lastSearchTerm or \
-           caseSensitive != self._lastSearchCaseSensitive or \
-           searchType != self._lastSearchType:
-            if not self._doQuickSearch(term, caseSensitive, searchType):
-                message("find not foul")
+        if (
+            not self.lastMatches or
+            caseSensitive != self._lastSearchCaseSensitive or
+            searchType != self._lastSearchType
+        ):
+            if not self._doQuickSearch(self.lastSearchTerm, caseSensitive, searchType):
+                message("No matches found")
                 return
                 
         if not self.lastMatches:
-            message("find not foul")
+            message("No matches found")
             return
 
-        current_caret_pos = self.getCaretPosition(textCtrl)
-        found = False
-        
-        prev_match_index = -1
-        current_match_containing_caret = -1
-        for i, (start_pos, end_pos) in enumerate(self.lastMatches):
-            if start_pos <= current_caret_pos < end_pos:
-                current_match_containing_caret = i
-                break
-
-        if current_match_containing_caret != -1:
-            if current_match_containing_caret > 0:
-                prev_match_index = current_match_containing_caret - 1
-        else:
-            for i in range(len(self.lastMatches) - 1, -1, -1):
-                start_pos, end_pos = self.lastMatches[i]
-                if end_pos <= current_caret_pos:
-                    prev_match_index = i
-                    break
-
-        if prev_match_index != -1:
-            self.currentMatchIndex = prev_match_index
-            found = True
-        elif wrap:
-            self.currentMatchIndex = len(self.lastMatches) - 1
-            found = True
-            message("Wrapping to last match")
-            
-        if not found:
-            message("find not foul")
-            return
-            
+        self.currentMatchIndex -= 1
+        if self.currentMatchIndex < 0:
+            if wrap:
+                self.currentMatchIndex = len(self.lastMatches) - 1
+                message("Wrapping to last match")
+            else:
+                self.currentMatchIndex = 0
+                message("Already at first match")
+                return
+                
         self._moveToQuickSearchResult(textCtrl)
     
     def _moveToQuickSearchResult(self, textCtrl):
@@ -849,7 +828,7 @@ class GlobalPlugin(GlobalPlugin):
                     textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
                     textInfo.collapse()
                     textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
-                    textInfo.expand(textInfos.UNIT_CHARACTER)
+                    textInfo.collapse()
                     textInfo.updateSelection()
                     
                     message(f"{self.lastSearchTerm} {self.currentMatchIndex + 1} of {len(self.lastMatches)}")
