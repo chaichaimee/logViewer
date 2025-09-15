@@ -1,10 +1,10 @@
 ﻿{
   "addon_name": "logViewer",
   "addon_description": "Increase the efficiency of the NVDA LOG Viewer to be able to search. Add Bookmark to check the NVDA function.",
-  "addon_version": "2025.10",
+  "addon_version": "2025.11",
   "addon_author": "chaichaimee",
   "addon_url": "https://github.com/chaichaimee/logViewer",
-  "addon_download_url": "https://github.com/chaichaimee/logViewer/releases/download/v2025.10/logViewer-v2025.10.nvda-addon",
+  "addon_download_url": "https://github.com/chaichaimee/logViewer/releases/download/v2025.11/logViewer-v2025.11.nvda-addon",
   "addon_min_nvda_version": "2022.4"
 }
 
