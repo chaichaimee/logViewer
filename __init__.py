@@ -1,3 +1,4 @@
+# __init__.py
 # Copyright (C) 2025 ['Chai Chaimee & Pierre-Louis R.']
 # Licensed under GNU General Public License. See COPYING.txt for details.
 
@@ -125,11 +126,11 @@ class SearchType(Enum):
 
     @staticmethod
     def getSearchTypes():
-        return [i.value for i in SearchType]
+        return [_(i.value) for i in SearchType]
 
 class LogSearchDialog(wx.Dialog):
     def __init__(self, parent, logTextCtrl, globalPluginInstance):
-        super().__init__(parent, title="Search in NVDA Log", size=(600, 400))
+        super().__init__(parent, title=_("Search in NVDA Log"), size=(600, 400))
         self.logCtrl = logTextCtrl
         self.dialogOpen = True
         self.searchHistory = SearchHistory.get()
@@ -149,20 +150,20 @@ class LogSearchDialog(wx.Dialog):
         self.searchBox = wx.ComboBox(self.panel, style=wx.CB_DROPDOWN|wx.TE_PROCESS_ENTER, choices=self.searchHistory.getItems())
         searchSizer.Add(self.searchBox, proportion=1, flag=wx.EXPAND|wx.ALL, border=5)
         
-        self.searchButton = wx.Button(self.panel, label="Find Next")
+        self.searchButton = wx.Button(self.panel, label=_("Find Next"))
         searchSizer.Add(self.searchButton, flag=wx.ALIGN_CENTER_VERTICAL|wx.TOP|wx.BOTTOM|wx.RIGHT, border=5)
         
-        self.findAndFocusButton = wx.Button(self.panel, label="Find & Focus")
+        self.findAndFocusButton = wx.Button(self.panel, label=_("Find & Focus"))
         searchSizer.Add(self.findAndFocusButton, flag=wx.ALIGN_CENTER_VERTICAL|wx.TOP|wx.BOTTOM|wx.RIGHT, border=5)
         
         self.mainSizer.Add(searchSizer, flag=wx.EXPAND)
         
         optionsSizer = wx.BoxSizer(wx.VERTICAL)
-        self.caseSensitiveCheck = wx.CheckBox(self.panel, label="Case sensitive")
+        self.caseSensitiveCheck = wx.CheckBox(self.panel, label=_("Case sensitive"))
         self.caseSensitiveCheck.SetValue(config.conf["LogViewerPlugin"]["searchCaseSensitivity"])
         optionsSizer.Add(self.caseSensitiveCheck, flag=wx.ALL, border=5)
         
-        self.wrapCheck = wx.CheckBox(self.panel, label="Wrap around")
+        self.wrapCheck = wx.CheckBox(self.panel, label=_("Wrap around"))
         self.wrapCheck.SetValue(config.conf["LogViewerPlugin"]["searchWrap"])
         optionsSizer.Add(self.wrapCheck, flag=wx.ALL, border=5)
         
@@ -175,18 +176,18 @@ class LogSearchDialog(wx.Dialog):
         self.mainSizer.Add(self.resultBox, proportion=1, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=5)
         
         buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.prevButton = wx.Button(self.panel, label="Find Previous")
+        self.prevButton = wx.Button(self.panel, label=_("Find Previous"))
         buttonSizer.Add(self.prevButton, flag=wx.ALL, border=5)
         
-        self.cancelButton = wx.Button(self.panel, id=wx.ID_CANCEL, label="Close")
+        self.cancelButton = wx.Button(self.panel, id=wx.ID_CANCEL, label=_("Close"))
         buttonSizer.Add(self.cancelButton, flag=wx.ALL, border=5)
         self.mainSizer.Add(buttonSizer, flag=wx.ALIGN_RIGHT|wx.ALL, border=5)
         
         self.panel.SetSizer(self.mainSizer)
         
-        self.searchButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(focus=False))
-        self.findAndFocusButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(focus=True))
-        self.searchBox.Bind(wx.EVT_TEXT_ENTER, lambda evt: self.performSearch(focus=False))
+        self.searchButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(forward=True, focus=False))
+        self.findAndFocusButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(forward=True, focus=True))
+        self.searchBox.Bind(wx.EVT_TEXT_ENTER, lambda evt: self.performSearch(forward=True, focus=False))
         self.prevButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(forward=False, focus=False))
         self.cancelButton.Bind(wx.EVT_BUTTON, self.onClose)
         self.Bind(wx.EVT_CLOSE, self.onClose)
@@ -197,9 +198,9 @@ class LogSearchDialog(wx.Dialog):
         self.dialogOpen = False
         if self.globalPlugin and self.globalPlugin.searchDialog is self:
             self.globalPlugin.searchDialog = None
-        event.Skip()
+        self.Destroy()
 
-    def doSearch(self, term, caseSensitive, wrap, searchType):
+    def doSearch(self, term, caseSensitive, searchType):
         with self.searchLock:
             self.matches = []
             try:
@@ -207,7 +208,7 @@ class LogSearchDialog(wx.Dialog):
                 allText = textInfo.text
                 
                 if not allText.strip():
-                    message("Log is empty")
+                    message(_("Log is empty"))
                     return False
                     
                 searchFlags = 0 if caseSensitive else re.IGNORECASE
@@ -217,7 +218,7 @@ class LogSearchDialog(wx.Dialog):
                     try:
                         found_iter = re.finditer(term, allText, searchFlags)
                     except re.error as e:
-                        message(f"Invalid regular expression: {e}")
+                        message(_("Invalid regular expression: {error}").format(error=e))
                         return False
                 else:
                     found_iter = re.finditer(re.escape(term), allText, searchFlags)
@@ -228,9 +229,8 @@ class LogSearchDialog(wx.Dialog):
                     
                 self.lastSearchTerm = term
                 self.lastCaseSensitive = caseSensitive
-                self.lastSearchWrap = wrap
                 self.lastSearchType = searchType
-
+                
                 return True
             except Exception as e:
                 log.error(f"Error during search: {e}")
@@ -247,7 +247,7 @@ class LogSearchDialog(wx.Dialog):
     def performSearch(self, forward=True, focus=False):
         term = self.searchBox.GetValue().strip()
         if not term:
-            message("Search term cannot be empty")
+            message(_("Search term cannot be empty"))
             return
             
         self.searchHistory.append(term)
@@ -263,14 +263,14 @@ class LogSearchDialog(wx.Dialog):
                 caseSensitive != self.lastCaseSensitive or
                 searchType != self.lastSearchType or
                 not self.matches):
-            if not self.doSearch(term, caseSensitive, wrap, searchType):
-                self.resultBox.SetValue("Search failed or invalid expression")
-                message("No matches found")
+            if not self.doSearch(term, caseSensitive, searchType):
+                self.resultBox.SetValue(_("Search failed or invalid expression"))
+                message(_("No matches found"))
                 return
 
         if not self.matches:
-            self.resultBox.SetValue("No matches found")
-            message("No matches found")
+            self.resultBox.SetValue(_("No matches found"))
+            message(_("No matches found"))
             return
 
         current_caret_pos = self.getCaretPosition()
@@ -286,7 +286,7 @@ class LogSearchDialog(wx.Dialog):
                     break
             if not found and wrap:
                 self.currentMatch = 0
-                message("Wrapping to first match")
+                message(_("Wrapping to first match"))
                 found = True
         else:
             start_index = self.currentMatch - 1 if self.currentMatch != -1 else len(self.matches) - 1
@@ -298,11 +298,11 @@ class LogSearchDialog(wx.Dialog):
                     break
             if not found and wrap:
                 self.currentMatch = len(self.matches) - 1
-                message("Wrapping to last match")
+                message(_("Wrapping to last match"))
                 found = True
 
         if not found:
-            message("No matches found")
+            message(_("No matches found"))
             return
 
         self.globalPlugin.lastSearchTerm = term
@@ -314,12 +314,12 @@ class LogSearchDialog(wx.Dialog):
         self.updateResultDisplay()
         self.moveToMatch(focus)
         
-        message(f"Found {len(self.matches)} matches.")
+        message(_("Found {count} matches.").format(count=len(self.matches)))
 
     def updateResultDisplay(self):
         displayText = []
         if not self.matches:
-            self.resultBox.SetValue("No matches found")
+            self.resultBox.SetValue(_("No matches found"))
             return
 
         start_idx = max(0, self.currentMatch - 2)
@@ -340,19 +340,19 @@ class LogSearchDialog(wx.Dialog):
             line_text = allText[line_start:line_end].strip()
 
             prefix = "> " if i == self.currentMatch else "  "
-            displayText.append(f"{prefix}Line {line_num}: {line_text}")
+            displayText.append(f"{prefix}{_('Line {number}: {text}').format(number=line_num, text=line_text)}")
             
         self.resultBox.SetValue("\n".join(displayText))
     
     def moveToMatch(self, focus=False):
         if not self.matches or self.currentMatch < 0 or self.currentMatch >= len(self.matches):
-            message("No matches available")
+            message(_("No matches available"))
             return
             
         start_pos, end_pos = self.matches[self.currentMatch]
         try:
             if focus:
-                self.Close()
+                self.Destroy()
             
             def _move():
                 try:
@@ -376,10 +376,10 @@ class LogSearchDialog(wx.Dialog):
                         line_end = len(textInfo.text)
                     line_text = textInfo.text[line_start:line_end].strip()
                 
-                    message(f"Line {line_num}: {line_text}")
+                    message(_("Line {number}: {text}").format(number=line_num, text=line_text))
                 except Exception as e:
                     log.error(f"Error moving to match: {e}")
-                    message("Error moving to match")
+                    message(_("Error moving to match"))
             
             queueHandler.queueFunction(queueHandler.eventQueue, _move)
         except Exception as e:
@@ -387,7 +387,7 @@ class LogSearchDialog(wx.Dialog):
 
     def isNVDAViewerObject(self, obj):
         try:
-            return fIsLogViewer(obj) and obj.role == controlTypes.Role.EDITABLETEXT
+            return obj.role == controlTypes.Role.EDITABLETEXT and fIsLogViewer(obj)
         except Exception:
             return False
 
@@ -419,21 +419,22 @@ class GlobalPlugin(GlobalPlugin):
         return False
     
     def isNVDAViewerObject(self, obj):
-        if not fIsLogViewer(obj) or obj.role != controlTypes.Role.EDITABLETEXT:
+        if obj.role != controlTypes.Role.EDITABLETEXT or not fIsLogViewer(obj):
             return False
         
         self.logViewerObj = obj
         return True
     
-    def isNotepadPlusPlus(self):
+    def isInBookmarkConflictingApp(self):
+        conflicting_processes = ["notepad++", "winword", "code", "sublime_text", "atom", "brackets"]
         try:
             focusObj = api.getFocusObject()
             if not focusObj:
                 return False
-            processName = focusObj.processName.lower() if hasattr(focusObj, 'processName') else ""
-            return "notepad++" in processName
+            processName = focusObj.appModule.appName.lower() if hasattr(focusObj.appModule, 'appName') else ""
+            return processName in conflicting_processes
         except Exception as e:
-            log.error(f"Error checking Notepad++ focus: {e}")
+            log.error(f"Error checking conflicting app: {e}")
             return False
     
     def getLogTextControl(self):
@@ -441,7 +442,7 @@ class GlobalPlugin(GlobalPlugin):
             self.isNVDAViewer()
         return self.logViewerObj
     
-    @script(description="Search in NVDA Log Viewer", gesture="kb:control+f", category="LogViewer")
+    @script(description=_("Search in NVDA Log Viewer"), gesture="kb:control+f", category=_("LogViewer"))
     def script_searchInLogViewer(self, gesture):
         if not self.isNVDAViewer():
             gesture.send()
@@ -449,15 +450,18 @@ class GlobalPlugin(GlobalPlugin):
             
         textCtrl = self.getLogTextControl()
         if not textCtrl:
-            message("NVDA Log Viewer not accessible")
+            message(_("NVDA Log Viewer not accessible"))
             return
         
-        if self.searchDialog is not None and not self.searchDialog.IsBeingDeleted():
-            self.searchDialog.Raise()
-            self.searchDialog.searchBox.SetFocus()
-            return
-            
-        self.searchDialog = None
+        if hasattr(self, 'searchDialog') and self.searchDialog and self.searchDialog.dialogOpen:
+            try:
+                self.searchDialog.Raise()
+                self.searchDialog.searchBox.SetFocus()
+                return
+            except Exception:
+                if self.searchDialog:
+                    self.searchDialog.Destroy()
+                self.searchDialog = None
             
         def showDialog():
             try:
@@ -477,19 +481,19 @@ class GlobalPlugin(GlobalPlugin):
                 gui.mainFrame.postPopup()
             except Exception as e:
                 log.error(f"Error opening search dialog: {str(e)}")
-                message("Failed to open search dialog")
+                message(_("Failed to open search dialog"))
                 
         core.callLater(100, showDialog)
     
-    @script(description="Insert bookmark in log", gesture="kb:control+f2", category="LogViewer")
+    @script(description=_("Insert bookmark in log"), gesture="kb:control+f2", category=_("LogViewer"))
     def script_insertBookmark(self, gesture):
-        if self.isNotepadPlusPlus():
+        if self.isInBookmarkConflictingApp():
             gesture.send()
             return
             
         bookmarkText = f"\n{self.bookmarkString.format(self.bookmarkCount)}\n"
         log.info(bookmarkText)
-        message(f"Bookmark {self.bookmarkCount}")
+        message(_("Bookmark {number}").format(number=self.bookmarkCount))
         globalVars.devHelperBookmarkCount = self.bookmarkCount + 1
         self.bookmarkCount += 1
     
@@ -508,7 +512,7 @@ class GlobalPlugin(GlobalPlugin):
                 all_log_text = textInfo.text
                 
                 if not all_log_text.strip():
-                    message("Log is empty")
+                    message(_("Log is empty"))
                     return
             
                 bookmark_pattern = re.compile(r"BOOKMARK (\d+)")
@@ -545,26 +549,31 @@ class GlobalPlugin(GlobalPlugin):
             log.error(f"Error checking if on bookmark: {e}")
             return False
 
-    @script(description="Jump to next bookmark in log", gesture="kb:f2", category="LogViewer")
+    @script(description=_("Jump to next bookmark in log"), gesture="kb:f2", category=_("LogViewer"))
     def script_jumpToNextBookmark(self, gesture):
+        if self.isInBookmarkConflictingApp():
+            gesture.send()
+            return
+        
         if not self.isNVDAViewer():
             gesture.send()
             return
             
         textCtrl = self.getLogTextControl()
         if not textCtrl:
-            message("NVDA Log Viewer not accessible")
+            message(_("NVDA Log Viewer not accessible"))
             return
         
         self._refreshBookmarks(textCtrl)
         
         if not self.bookmarks:
-            message("No bookmarks found")
+            message(_("No bookmarks found"))
             self.currentBookmark = -1
             return
             
         current_caret_pos = self.getCaretPosition(textCtrl)
         found_next = False
+        wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
         if self.isOnBookmark(textCtrl):
             current_bookmark_end = -1
@@ -591,37 +600,42 @@ class GlobalPlugin(GlobalPlugin):
                     break
         
         if not found_next:
-            if config.conf["LogViewerPlugin"]["searchWrap"]:
+            if wrap:
                 self.currentBookmark = 0
-                message("Wrapping to first bookmark")
+                message(_("Wrapping to first bookmark"))
                 found_next = True
             else:
-                message("Reached end of bookmarks")
+                message(_("Reached end of bookmarks"))
                 return
 
         if found_next:
             self._moveToBookmark(textCtrl)
 
-    @script(description="Jump to previous bookmark in log", gesture="kb:shift+f2", category="LogViewer")
+    @script(description=_("Jump to previous bookmark in log"), gesture="kb:shift+f2", category=_("LogViewer"))
     def script_jumpToPreviousBookmark(self, gesture):
+        if self.isInBookmarkConflictingApp():
+            gesture.send()
+            return
+        
         if not self.isNVDAViewer():
             gesture.send()
             return
             
         textCtrl = self.getLogTextControl()
         if not textCtrl:
-            message("NVDA Log Viewer not accessible")
+            message(_("NVDA Log Viewer not accessible"))
             return
             
         self._refreshBookmarks(textCtrl)
         
         if not self.bookmarks:
-            message("No bookmarks found")
+            message(_("No bookmarks found"))
             self.currentBookmark = -1
             return
             
         current_caret_pos = self.getCaretPosition(textCtrl)
         found_prev = False
+        wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
         if self.isOnBookmark(textCtrl):
             current_bookmark_start = -1
@@ -648,12 +662,12 @@ class GlobalPlugin(GlobalPlugin):
                     break
 
         if not found_prev:
-            if config.conf["LogViewerPlugin"]["searchWrap"]:
+            if wrap:
                 self.currentBookmark = len(self.bookmarks) - 1
-                message("Wrapping to last match")
+                message(_("Wrapping to last bookmark"))
                 found_prev = True
             else:
-                message("Already at first bookmark")
+                message(_("Already at first bookmark"))
                 return
                 
         if found_prev:
@@ -661,7 +675,7 @@ class GlobalPlugin(GlobalPlugin):
     
     def _moveToBookmark(self, textCtrl):
         if not self.bookmarks or self.currentBookmark < 0 or self.currentBookmark >= len(self.bookmarks):
-            message("No bookmarks available")
+            message(_("No bookmarks available"))
             return
             
         start_pos, end_pos, bookmark_num = self.bookmarks[self.currentBookmark]
@@ -680,10 +694,10 @@ class GlobalPlugin(GlobalPlugin):
                     textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
                     textInfo.collapse()
                     textInfo.updateSelection()
-                    message(f"Bookmark {bookmark_num}")
+                    message(_("Bookmark {number}").format(number=bookmark_num))
                 except Exception as e:
                     log.error(f"Error moving to bookmark: {e}")
-                    message("Error moving to bookmark")
+                    message(_("Error moving to bookmark"))
             
             queueHandler.queueFunction(queueHandler.eventQueue, _move)
         except Exception as e:
@@ -698,7 +712,7 @@ class GlobalPlugin(GlobalPlugin):
             textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
             allText = textInfo.text
             if not allText.strip():
-                message("Log is empty")
+                message(_("Log is empty"))
                 return False
                 
             searchFlags = 0 if caseSensitive else re.IGNORECASE
@@ -708,7 +722,7 @@ class GlobalPlugin(GlobalPlugin):
                 try:
                     self.lastMatches = [m.span() for m in re.finditer(term, allText, searchFlags)]
                 except re.error as e:
-                    message(f"Invalid regular expression: {e}")
+                    message(_("Invalid regular expression: {error}").format(error=e))
                     return False
             else:
                 self.lastMatches = [m.span() for m in re.finditer(re.escape(term), allText, searchFlags)]
@@ -721,7 +735,7 @@ class GlobalPlugin(GlobalPlugin):
             log.error(f"Error during quick search: {e}")
             return False
 
-    @script(description="Find next match", gesture="kb:f3", category="LogViewer")
+    @script(description=_("Find next match"), gesture="kb:f3", category=_("LogViewer"))
     def script_findNext(self, gesture):
         if not self.isNVDAViewer():
             gesture.send()
@@ -729,11 +743,11 @@ class GlobalPlugin(GlobalPlugin):
             
         textCtrl = self.getLogTextControl()
         if not textCtrl:
-            message("NVDA Log Viewer not accessible")
+            message(_("NVDA Log Viewer not accessible"))
             return
             
         if not self.lastSearchTerm:
-            message("No search has been performed yet. Please use Control+F to perform a search first.")
+            message(_("No search has been performed yet. Please use Control+F to perform a search first."))
             return
 
         caseSensitive = config.conf["LogViewerPlugin"]["searchCaseSensitivity"]
@@ -746,26 +760,26 @@ class GlobalPlugin(GlobalPlugin):
             searchType != self._lastSearchType
         ):
             if not self._doQuickSearch(self.lastSearchTerm, caseSensitive, searchType):
-                message("No matches found")
+                message(_("No matches found"))
                 return
             
         if not self.lastMatches:
-            message("No matches found")
+            message(_("No matches found"))
             return
 
         self.currentMatchIndex += 1
         if self.currentMatchIndex >= len(self.lastMatches):
             if wrap:
                 self.currentMatchIndex = 0
-                message("Wrapping to first match")
+                message(_("Wrapping to first match"))
             else:
                 self.currentMatchIndex = len(self.lastMatches) - 1
-                message("Reached end of matches")
+                message(_("Reached end of matches"))
                 return
 
         self._moveToQuickSearchResult(textCtrl)
     
-    @script(description="Find previous match", gesture="kb:shift+f3", category="LogViewer")
+    @script(description=_("Find previous match"), gesture="kb:shift+f3", category=_("LogViewer"))
     def script_findPrevious(self, gesture):
         if not self.isNVDAViewer():
             gesture.send()
@@ -773,11 +787,11 @@ class GlobalPlugin(GlobalPlugin):
             
         textCtrl = self.getLogTextControl()
         if not textCtrl:
-            message("NVDA Log Viewer not accessible")
+            message(_("NVDA Log Viewer not accessible"))
             return
             
         if not self.lastSearchTerm:
-            message("No search has been performed yet. Please use Control+F to perform a search first.")
+            message(_("No search has been performed yet. Please use Control+F to perform a search first."))
             return
 
         caseSensitive = config.conf["LogViewerPlugin"]["searchCaseSensitivity"]
@@ -790,28 +804,28 @@ class GlobalPlugin(GlobalPlugin):
             searchType != self._lastSearchType
         ):
             if not self._doQuickSearch(self.lastSearchTerm, caseSensitive, searchType):
-                message("No matches found")
+                message(_("No matches found"))
                 return
                 
         if not self.lastMatches:
-            message("No matches found")
+            message(_("No matches found"))
             return
 
         self.currentMatchIndex -= 1
         if self.currentMatchIndex < 0:
             if wrap:
                 self.currentMatchIndex = len(self.lastMatches) - 1
-                message("Wrapping to last match")
+                message(_("Wrapping to last match"))
             else:
                 self.currentMatchIndex = 0
-                message("Already at first match")
+                message(_("Already at first match"))
                 return
                 
         self._moveToQuickSearchResult(textCtrl)
     
     def _moveToQuickSearchResult(self, textCtrl):
         if not self.lastMatches or self.currentMatchIndex < 0 or self.currentMatchIndex >= len(self.lastMatches):
-            message("No matches available")
+            message(_("No matches available"))
             return
             
         start_pos, end_pos = self.lastMatches[self.currentMatchIndex]
@@ -824,23 +838,19 @@ class GlobalPlugin(GlobalPlugin):
                             textCtrl.setFocus()
                         else:
                             api.setFocusObject(textCtrl)
-                        
+
                     textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
                     textInfo.collapse()
                     textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
                     textInfo.collapse()
                     textInfo.updateSelection()
                     
-                    message(f"{self.lastSearchTerm} {self.currentMatchIndex + 1} of {len(self.lastMatches)}")
+                    # Use the actual search term in the message instead of "Match"
+                    message(_("{term} {current} of {total}").format(term=self.lastSearchTerm, current=self.currentMatchIndex + 1, total=len(self.lastMatches)))
                 except Exception as e:
-                    log.error(f"Error moving to search result: {e}")
-                    message("Error moving to search result")
-            
+                    log.error(f"Error moving to quick search result: {e}")
+                    message(_("Error moving to match"))
+
             queueHandler.queueFunction(queueHandler.eventQueue, _move)
         except Exception as e:
             log.error(f"Error in _moveToQuickSearchResult: {e}")
-    
-    def terminate(self):
-        if self.searchDialog and self.searchDialog.dialogOpen:
-            self.searchDialog.Destroy()
-        super().terminate()
