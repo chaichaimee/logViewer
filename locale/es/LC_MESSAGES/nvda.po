@@ -1,0 +1,163 @@
+# LogViewer Add-on Translation File
+# Copyright (C) 2025 Chai Chaimee & Pierre-Louis R.
+# This file is distributed under the same license as the LogViewer package.
+# Chai Chaimee <chaicm75@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LogViewer v 2025.11\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-12 10:01+0700\n"
+"PO-Revision-Date: 2025-09-13 10:44+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: __init__.py:149
+msgid "Search in NVDA Log Viewer"
+msgstr "Buscar en el visor de registros de NVDA"
+
+#: __init__.py:153
+msgid "LogViewer"
+msgstr "LogViewer"
+
+#: __init__.py:178
+msgid "Find Next"
+msgstr "Buscar siguiente"
+
+#: __init__.py:181
+msgid "Find & Focus"
+msgstr "Buscar y enfocar"
+
+#: __init__.py:187
+msgid "Case sensitive"
+msgstr "Distinguir mayúsculas"
+
+#: __init__.py:190
+msgid "Wrap around"
+msgstr "Búsqueda circular"
+
+#: __init__.py:198
+msgid "Find Previous"
+msgstr "Buscar anterior"
+
+#: __init__.py:201
+msgid "Close"
+msgstr "Cerrar"
+
+#: __init__.py:245
+msgid "Log is empty"
+msgstr "El registro está vacío"
+
+#: __init__.py:252
+msgid "Invalid regular expression: {error}"
+msgstr "Expresión regular no válida: {error}"
+
+#: __init__.py:292
+msgid "Search term cannot be empty"
+msgstr "El término de búsqueda no puede estar vacío"
+
+#: __init__.py:305
+msgid "Search failed or invalid expression"
+msgstr "La búsqueda falló o la expresión es inválida"
+
+#: __init__.py:308
+msgid "No matches found"
+msgstr "No se encontraron coincidencias"
+
+#: __init__.py:331
+msgid "Wrapping to first match"
+msgstr "Volviendo a la primera coincidencia"
+
+#: __init__.py:339
+msgid "Wrapping to last match"
+msgstr "Volviendo a la última coincidencia"
+
+#: __init__.py:347
+msgid "Found {count} matches."
+msgstr "Se encontraron {count} coincidencias."
+
+#: __init__.py:361
+msgid "Line {number}: {text}"
+msgstr "Línea {number}: {text}"
+
+#: __init__.py:374
+msgid "No matches available"
+msgstr "No hay coincidencias disponibles"
+
+#: __init__.py:392
+msgid "Error moving to match"
+msgstr "Error al ir a la coincidencia"
+
+#: __init__.py:441
+msgid "Insert bookmark in log"
+msgstr "Insertar marcador en el registro"
+
+#: __init__.py:448
+msgid "Bookmark {number}"
+msgstr "Marcador {number}"
+
+#: __init__.py:117
+msgid "Search in NVDA Log"
+msgstr "Buscar en el registro de NVDA"
+
+#: __init__.py:464
+msgid "NVDA Log Viewer not accessible"
+msgstr "El visor de registros de NVDA no es accesible"
+
+#: __init__.py:481
+msgid "Failed to open search dialog"
+msgstr "No se pudo abrir el cuadro de búsqueda"
+
+#: __init__.py:520
+msgid "No bookmarks found"
+msgstr "No se encontraron marcadores"
+
+#: __init__.py:548
+msgid "Wrapping to first bookmark"
+msgstr "Volviendo al primer marcador"
+
+#: __init__.py:556
+msgid "Reached end of bookmarks"
+msgstr "Se alcanzó el final de los marcadores"
+
+#: __init__.py:618
+msgid "Already at first bookmark"
+msgstr "Ya en el primer marcador"
+
+#: __init__.py:614
+msgid "Wrapping to last bookmark"
+msgstr "Volviendo al último marcador"
+
+#: __init__.py:638
+msgid "No bookmarks available"
+msgstr "No hay marcadores disponibles"
+
+#: __init__.py:653
+msgid "Error moving to bookmark"
+msgstr "Error al ir al marcador"
+
+#: __init__.py:683
+msgid "No search has been performed yet. Please use Control+F to perform a search first."
+msgstr "Aún no se ha realizado ninguna búsqueda. Use Control+F primero."
+
+#: __init__.py:700
+msgid "Reached end of matches"
+msgstr "Se alcanzó el final de las coincidencias"
+
+#: __init__.py:730
+msgid "Already at first match"
+msgstr "Ya en la primera coincidencia"
+
+#: __init__.py:725
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} de {total}"
+
+#: __init__.py:740
+msgid "Error moving to quick search result"
+msgstr "Error al ir al resultado de búsqueda rápida"

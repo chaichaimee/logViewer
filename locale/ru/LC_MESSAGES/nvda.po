@@ -1,0 +1,35 @@
+# LogViewer Add-on Translation File
+# Copyright (C) 2025 Chai Chaimee & Pierre-Louis R.
+# This file is distributed under the same license as the LogViewer package.
+# Chai Chaimee <chaicm75@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LogViewer v 2025.11\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-12 10:01+0700\n"
+"PO-Revision-Date: 2025-09-13 10:45+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: __init__.py:149
+msgid "Search in NVDA Log Viewer"
+msgstr "Поиск в просмотрщике журнала NVDA"
+
+#: __init__.py:153
+msgid "LogViewer"
+msgstr "LogViewer"
+
+#: __init__.py:178
+msgid "Find Next"
+msgstr "Найти далее"
+
+#: __init__.py:181
+msgid "Find & Focus"
+msgstr "Найти и перейти"

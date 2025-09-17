@@ -1,0 +1,163 @@
+# LogViewer Add-on Translation File
+# Copyright (C) 2025 Chai Chaimee & Pierre-Louis R.
+# This file is distributed under the same license as the LogViewer package.
+# Chai Chaimee <chaicm75@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LogViewer v 2025.11\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-12 10:01+0700\n"
+"PO-Revision-Date: 2025-09-13 10:44+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: __init__.py:149
+msgid "Search in NVDA Log Viewer"
+msgstr "Im NVDA-Log-Viewer suchen"
+
+#: __init__.py:153
+msgid "LogViewer"
+msgstr "LogViewer"
+
+#: __init__.py:178
+msgid "Find Next"
+msgstr "Nächstes suchen"
+
+#: __init__.py:181
+msgid "Find & Focus"
+msgstr "Suchen & fokussieren"
+
+#: __init__.py:187
+msgid "Case sensitive"
+msgstr "Groß-/Kleinschreibung beachten"
+
+#: __init__.py:190
+msgid "Wrap around"
+msgstr "Am Dokumentende fortsetzen"
+
+#: __init__.py:198
+msgid "Find Previous"
+msgstr "Vorheriges suchen"
+
+#: __init__.py:201
+msgid "Close"
+msgstr "Schließen"
+
+#: __init__.py:245
+msgid "Log is empty"
+msgstr "Protokoll ist leer"
+
+#: __init__.py:252
+msgid "Invalid regular expression: {error}"
+msgstr "Ungültiger regulärer Ausdruck: {error}"
+
+#: __init__.py:292
+msgid "Search term cannot be empty"
+msgstr "Suchbegriff darf nicht leer sein"
+
+#: __init__.py:305
+msgid "Search failed or invalid expression"
+msgstr "Suche fehlgeschlagen oder ungültiger Ausdruck"
+
+#: __init__.py:308
+msgid "No matches found"
+msgstr "Keine Treffer gefunden"
+
+#: __init__.py:331
+msgid "Wrapping to first match"
+msgstr "Zum ersten Treffer springen"
+
+#: __init__.py:339
+msgid "Wrapping to last match"
+msgstr "Zum letzten Treffer springen"
+
+#: __init__.py:347
+msgid "Found {count} matches."
+msgstr "{count} Treffer gefunden."
+
+#: __init__.py:361
+msgid "Line {number}: {text}"
+msgstr "Zeile {number}: {text}"
+
+#: __init__.py:374
+msgid "No matches available"
+msgstr "Keine Treffer verfügbar"
+
+#: __init__.py:392
+msgid "Error moving to match"
+msgstr "Fehler beim Wechsel zum Treffer"
+
+#: __init__.py:441
+msgid "Insert bookmark in log"
+msgstr "Lesezeichen ins Protokoll einfügen"
+
+#: __init__.py:448
+msgid "Bookmark {number}"
+msgstr "Lesezeichen {number}"
+
+#: __init__.py:117
+msgid "Search in NVDA Log"
+msgstr "Im NVDA-Protokoll suchen"
+
+#: __init__.py:464
+msgid "NVDA Log Viewer not accessible"
+msgstr "NVDA-Log-Viewer nicht erreichbar"
+
+#: __init__.py:481
+msgid "Failed to open search dialog"
+msgstr "Suchdialog konnte nicht geöffnet werden"
+
+#: __init__.py:520
+msgid "No bookmarks found"
+msgstr "Keine Lesezeichen gefunden"
+
+#: __init__.py:548
+msgid "Wrapping to first bookmark"
+msgstr "Zum ersten Lesezeichen springen"
+
+#: __init__.py:556
+msgid "Reached end of bookmarks"
+msgstr "Ende der Lesezeichen erreicht"
+
+#: __init__.py:618
+msgid "Already at first bookmark"
+msgstr "Bereits beim ersten Lesezeichen"
+
+#: __init__.py:614
+msgid "Wrapping to last bookmark"
+msgstr "Zum letzten Lesezeichen springen"
+
+#: __init__.py:638
+msgid "No bookmarks available"
+msgstr "Keine Lesezeichen verfügbar"
+
+#: __init__.py:653
+msgid "Error moving to bookmark"
+msgstr "Fehler beim Wechsel zum Lesezeichen"
+
+#: __init__.py:683
+msgid "No search has been performed yet. Please use Control+F to perform a search first."
+msgstr "Es wurde noch keine Suche durchgeführt. Bitte zuerst Strg+F verwenden."
+
+#: __init__.py:700
+msgid "Reached end of matches"
+msgstr "Ende der Treffer erreicht"
+
+#: __init__.py:730
+msgid "Already at first match"
+msgstr "Bereits beim ersten Treffer"
+
+#: __init__.py:725
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} von {total}"
+
+#: __init__.py:740
+msgid "Error moving to quick search result"
+msgstr "Fehler beim Wechsel zum Schnellsuchergebnis"
