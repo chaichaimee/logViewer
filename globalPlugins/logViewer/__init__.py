@@ -25,13 +25,19 @@ import time
 import threading
 import winUser
 import gui.logViewer
+import os
+import subprocess
+import sys
+import tempfile
 
 addonHandler.initTranslation()
 
 def fIsLogViewer(obj):
     """
-    language independant  determination of a log viewer's object.
+    Language independent determination of a log viewer's object.
     """
+    if obj is None:
+        return False
     if obj.role == controlTypes.Role.PANE:
         hParent = obj.windowHandle
     else:
@@ -328,7 +334,6 @@ class LogSearchDialog(wx.Dialog):
         textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
         allText = textInfo.text
 
-        
         for i in range(start_idx, end_idx):
             start_pos, end_pos = self.matches[i]
             
@@ -391,6 +396,20 @@ class LogSearchDialog(wx.Dialog):
         except Exception:
             return False
 
+class LogMonitorThread(threading.Thread):
+    def __init__(self, plugin):
+        super().__init__(daemon=True)
+        self.plugin = plugin
+        self.running = True
+
+    def run(self):
+        while self.running:
+            try:
+                self.plugin.backupLog()
+            except Exception as e:
+                log.error(f"Error in log monitor thread: {e}")
+            time.sleep(5)
+
 class GlobalPlugin(GlobalPlugin):
     bookmarkString = "BOOKMARK {0}"
     
@@ -409,17 +428,263 @@ class GlobalPlugin(GlobalPlugin):
         self.currentMatchIndex = -1
         self._lastSearchCaseSensitive = None
         self._lastSearchType = None
+        self.logFilePointer = 0
+        
+        self.createOldLogFile()
+        self.handleDailyReset()
+        self.appendPreviousSessionLog()
+        self.lastLogContent = ""
+        self.initializeLogFilePointer() 
+        self.backupLog(initial_backup=True)
+        
+        self.monitor_thread = LogMonitorThread(self)
+        self.monitor_thread.start()
+        
+        self.isLogViewerOpen = False
+    
+    def initializeLogFilePointer(self):
+        """Set the file pointer to the current size of nvda.log after startup operations."""
+        try:
+            tempDir = tempfile.gettempdir()
+            logPath = os.path.join(tempDir, "nvda.log")
+            if os.path.exists(logPath):
+                self.logFilePointer = os.path.getsize(logPath)
+            else:
+                self.logFilePointer = 0
+            log.debug(f"Initialized nvda.log file pointer to {self.logFilePointer} bytes.")
+        except Exception as e:
+            log.error(f"Error initializing log file pointer: {e}")
+
+    def createOldLogFile(self):
+        """Create oldLog.txt file in config directory if it doesn't exist"""
+        try:
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            
+            if not os.path.exists(backupPath):
+                with open(backupPath, "w", encoding="utf-8") as f:
+                    f.write("NVDA Log Backup - Created by LogViewer Plugin\n")
+                    f.write("This file contains the current session's log content.\n")
+                    f.write("=" * 50 + "\n\n")
+                log.debug("Created oldLog.txt file")
+        except Exception as e:
+            log.error(f"Error creating oldLog.txt file: {e}")
+    
+    def handleDailyReset(self):
+        """Check if the day has changed and reset oldLog.txt if necessary"""
+        try:
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            if not os.path.exists(backupPath):
+                return
+            
+            current_date = time.strftime("%Y-%m-%d")
+            last_date = None
+            
+            with open(backupPath, "r", encoding="utf-8") as f:
+                content = f.read()
+                matches = list(re.finditer(r"NVDA LOG BACKUP - (\d{4}-\d{2}-\d{2})", content))
+                if matches:
+                    last_date = matches[-1].group(1)
+            
+            if last_date and last_date != current_date:
+                timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                header = f"{'='*60}\n"
+                header += f"NVDA LOG BACKUP - {timestamp}\n"
+                header += f"{'='*60}\n\n"
+                with open(backupPath, "w", encoding="utf-8") as f:
+                    f.write(header)
+                log.debug("Reset oldLog.txt for new day")
+        except Exception as e:
+            log.error(f"Error handling daily reset: {e}")
+    
+    def appendPreviousSessionLog(self):
+        """Append nvda-old.log to oldLog.txt if it exists"""
+        try:
+            tempDir = tempfile.gettempdir()
+            oldNvdaLogPath = os.path.join(tempDir, "nvda-old.log")
+            if not os.path.exists(oldNvdaLogPath):
+                return
+            
+            with open(oldNvdaLogPath, "r", encoding="utf-8") as f:
+                oldContent = f.read()
+            
+            if not oldContent.strip():
+                return
+            
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+            header = f"\n\n{'='*60}\n"
+            header += f"NVDA PREVIOUS SESSION LOG - {timestamp}\n"
+            header += f"{'='*60}\n\n"
+            
+            with open(backupPath, "a", encoding="utf-8") as f:
+                f.write(header + oldContent)
+            
+            log.debug("Appended previous session log to oldLog.txt")
+        except Exception as e:
+            log.error(f"Error appending previous session log: {e}")
+    
+    def backupLog(self, initial_backup=False):
+        """
+        Backup current log content to oldLog.txt - with rotation to prevent huge files.
+        """
+        try:
+            new_content = self.getIncrementalLogContent()
+            
+            if not new_content.strip() and not initial_backup:
+                return
+
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            
+            if os.path.exists(backupPath):
+                file_size = os.path.getsize(backupPath)
+                if file_size > 5 * 1024 * 1024:
+                    self.rotateOldLogFile()
+            
+            if new_content:
+                with open(backupPath, "a", encoding="utf-8") as f:
+                    if not self.lastLogContent:
+                        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                        backup_header = f"\n\n{'='*60}\n"
+                        backup_header += f"NVDA LOG BACKUP - {timestamp}\n"
+                        backup_header += f"{'='*60}\n\n"
+                        f.write(backup_header)
+                        
+                    f.write(new_content)
+                
+                log.debug("Log content backed up to oldLog.txt")
+            
+            if initial_backup:
+                self.lastLogContent = self.getCurrentLogContent()
+                
+        except Exception as e:
+            log.error(f"Error backing up log: {e}")
+            self.logFilePointer = 0 
+    
+    def rotateOldLogFile(self):
+        """Rotate oldLog.txt to prevent it from growing too large"""
+        try:
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            
+            if not os.path.exists(backupPath):
+                return
+            
+            with open(backupPath, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            lines = content.split('\n')
+            if len(lines) > 1000:
+                recent_lines = lines[-1000:]
+                
+                with open(backupPath, "w", encoding="utf-8") as f:
+                    f.write("NVDA Log Backup - Rotated to prevent large file size\n")
+                    f.write("Previous old content discarded\n")
+                    f.write("=" * 50 + "\n\n")
+                    f.write('\n'.join(recent_lines))
+                
+                log.debug("Rotated oldLog.txt to prevent large file size. Old content discarded.")
+            
+        except Exception as e:
+            log.error(f"Error rotating oldLog.txt: {e}")
+    
+    def getCurrentLogContent(self):
+        """
+        Get current log content by reading the whole file.
+        """
+        try:
+            tempDir = tempfile.gettempdir()
+            logPath = os.path.join(tempDir, "nvda.log")
+            if os.path.exists(logPath):
+                with open(logPath, "r", encoding="utf-8") as f:
+                    return f.read()
+            else:
+                log.error("NVDA log file not found")
+                return ""
+        except Exception as e:
+            log.error(f"Error getting current log content: {e}")
+            return ""
+
+    def getIncrementalLogContent(self):
+        """
+        Get only new log content since the last successful read using a file pointer.
+        """
+        tempDir = tempfile.gettempdir()
+        logPath = os.path.join(tempDir, "nvda.log")
+        if not os.path.exists(logPath):
+            return ""
+
+        try:
+            current_size = os.path.getsize(logPath)
+            
+            if current_size < self.logFilePointer:
+                log.debug("NVDA log file appears to have been cleared. Resetting file pointer.")
+                self.logFilePointer = 0
+                
+            if current_size == self.logFilePointer:
+                return ""
+
+            with open(logPath, "r", encoding="utf-8") as f:
+                f.seek(self.logFilePointer)
+                new_content = f.read()
+                self.logFilePointer = f.tell()
+                
+            return new_content
+            
+        except Exception as e:
+            log.error(f"Error getting incremental log content: {e}")
+            self.logFilePointer = 0
+            return ""
+    
+    def monitorLogViewerState(self):
+        """Monitor when log viewer is opened or closed"""
+        try:
+            currentState = self.isNVDAViewer()
+            
+            if currentState and not self.isLogViewerOpen:
+                self.isLogViewerOpen = True
+                log.debug("Log viewer opened - monitoring for changes")
+                
+            elif not currentState and self.isLogViewerOpen:
+                self.isLogViewerOpen = False
+                self.backupLog()
+                log.debug("Log viewer closed - backed up content")
+                
+        except Exception as e:
+            log.error(f"Error monitoring log viewer state: {e}")
+    
+    def terminate(self):
+        """Backup log when NVDA is terminating"""
+        try:
+            self.monitor_thread.running = False
+            self.backupLog()
+            log.debug("Final log backup completed before NVDA exit")
+        except Exception as e:
+            log.error(f"Error during terminate backup: {e}")
+        super().terminate()
     
     def isNVDAViewer(self):
         try:
             focusObj = api.getFocusObject()
-            return focusObj and self.isNVDAViewerObject(focusObj)
+            if not focusObj:
+                return False
+            currentState = self.isNVDAViewerObject(focusObj)
+            
+            if hasattr(self, 'isLogViewerOpen'):
+                if currentState != self.isLogViewerOpen:
+                    self.monitorLogViewerState()
+            
+            return currentState
         except Exception as e:
             log.error(f"Error checking NVDA Log Viewer: {e}")
-        return False
+            return False
     
     def isNVDAViewerObject(self, obj):
-        if obj.role != controlTypes.Role.EDITABLETEXT or not fIsLogViewer(obj):
+        if not obj or obj.role != controlTypes.Role.EDITABLETEXT or not fIsLogViewer(obj):
             return False
         
         self.logViewerObj = obj
@@ -453,14 +718,16 @@ class GlobalPlugin(GlobalPlugin):
             message(_("NVDA Log Viewer not accessible"))
             return
         
-        if hasattr(self, 'searchDialog') and self.searchDialog and self.searchDialog.dialogOpen:
+        if hasattr(self, 'searchDialog') and self.searchDialog:
             try:
-                self.searchDialog.Raise()
-                self.searchDialog.searchBox.SetFocus()
-                return
-            except Exception:
-                if self.searchDialog:
+                if self.searchDialog.dialogOpen:
+                    self.searchDialog.Raise()
+                    self.searchDialog.searchBox.SetFocus()
+                    return
+                else:
                     self.searchDialog.Destroy()
+                    self.searchDialog = None
+            except Exception:
                 self.searchDialog = None
             
         def showDialog():
@@ -496,7 +763,8 @@ class GlobalPlugin(GlobalPlugin):
         message(_("Bookmark {number}").format(number=self.bookmarkCount))
         globalVars.devHelperBookmarkCount = self.bookmarkCount + 1
         self.bookmarkCount += 1
-    
+        self.backupLog()
+
     def _refreshBookmarks(self, textCtrl):
         current_time = time.time()
         if current_time - self.lastBookmarkRefreshTime < 0.1 and self.bookmarks:
@@ -537,20 +805,8 @@ class GlobalPlugin(GlobalPlugin):
             log.error(f"Error getting caret position: {e}")
             return 0
 
-    def isOnBookmark(self, textCtrl):
-        try:
-            caret_pos = self.getCaretPosition(textCtrl)
-            for bookmark in self.bookmarks:
-                start_pos, end_pos, _ = bookmark
-                if start_pos <= caret_pos <= end_pos:
-                    return True
-            return False
-        except Exception as e:
-            log.error(f"Error checking if on bookmark: {e}")
-            return False
-
-    @script(description=_("Jump to next bookmark in log"), gesture="kb:f2", category=_("LogViewer"))
-    def script_jumpToNextBookmark(self, gesture):
+    @script(description=_("Move to next bookmark in log"), gesture="kb:f2", category=_("LogViewer"))
+    def script_moveToNextBookmark(self, gesture):
         if self.isInBookmarkConflictingApp():
             gesture.send()
             return
@@ -571,48 +827,22 @@ class GlobalPlugin(GlobalPlugin):
             self.currentBookmark = -1
             return
             
-        current_caret_pos = self.getCaretPosition(textCtrl)
-        found_next = False
         wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
-        if self.isOnBookmark(textCtrl):
-            current_bookmark_end = -1
-            for bookmark in self.bookmarks:
-                start_pos, end_pos, _ = bookmark
-                if start_pos <= current_caret_pos <= end_pos:
-                    current_bookmark_end = end_pos
-                    break
-            
-            if current_bookmark_end != -1:
-                for i, bookmark in enumerate(self.bookmarks):
-                    start_pos, _, _ = bookmark
-                    if start_pos > current_bookmark_end:
-                        self.currentBookmark = i
-                        found_next = True
-                        break
-        
-        if not found_next:
-            for i, bookmark in enumerate(self.bookmarks):
-                start_pos, end_pos, _ = bookmark
-                if start_pos > current_caret_pos:
-                    self.currentBookmark = i
-                    found_next = True
-                    break
-        
-        if not found_next:
+        self.currentBookmark += 1
+        if self.currentBookmark >= len(self.bookmarks):
             if wrap:
                 self.currentBookmark = 0
                 message(_("Wrapping to first bookmark"))
-                found_next = True
             else:
+                self.currentBookmark = len(self.bookmarks) - 1
                 message(_("Reached end of bookmarks"))
                 return
 
-        if found_next:
-            self._moveToBookmark(textCtrl)
+        self._moveToBookmark(textCtrl)
 
-    @script(description=_("Jump to previous bookmark in log"), gesture="kb:shift+f2", category=_("LogViewer"))
-    def script_jumpToPreviousBookmark(self, gesture):
+    @script(description=_("Move to previous bookmark in log"), gesture="kb:shift+f2", category=_("LogViewer"))
+    def script_moveToPreviousBookmark(self, gesture):
         if self.isInBookmarkConflictingApp():
             gesture.send()
             return
@@ -633,45 +863,19 @@ class GlobalPlugin(GlobalPlugin):
             self.currentBookmark = -1
             return
             
-        current_caret_pos = self.getCaretPosition(textCtrl)
-        found_prev = False
         wrap = config.conf["LogViewerPlugin"]["searchWrap"]
         
-        if self.isOnBookmark(textCtrl):
-            current_bookmark_start = -1
-            for bookmark in self.bookmarks:
-                start_pos, end_pos, _ = bookmark
-                if start_pos <= current_caret_pos <= end_pos:
-                    current_bookmark_start = start_pos
-                    break
-
-            if current_bookmark_start != -1:
-                for i in range(len(self.bookmarks) - 1, -1, -1):
-                    start_pos, _, _ = self.bookmarks[i]
-                    if start_pos < current_bookmark_start:
-                        self.currentBookmark = i
-                        found_prev = True
-                        break
-
-        if not found_prev:
-            for i in range(len(self.bookmarks) - 1, -1, -1):
-                start_pos, end_pos, _ = self.bookmarks[i]
-                if start_pos < current_caret_pos:
-                    self.currentBookmark = i
-                    found_prev = True
-                    break
-
-        if not found_prev:
+        self.currentBookmark -= 1
+        if self.currentBookmark < 0:
             if wrap:
                 self.currentBookmark = len(self.bookmarks) - 1
                 message(_("Wrapping to last bookmark"))
-                found_prev = True
             else:
+                self.currentBookmark = 0
                 message(_("Already at first bookmark"))
                 return
                 
-        if found_prev:
-            self._moveToBookmark(textCtrl)
+        self._moveToBookmark(textCtrl)
     
     def _moveToBookmark(self, textCtrl):
         if not self.bookmarks or self.currentBookmark < 0 or self.currentBookmark >= len(self.bookmarks):
@@ -702,7 +906,7 @@ class GlobalPlugin(GlobalPlugin):
             queueHandler.queueFunction(queueHandler.eventQueue, _move)
         except Exception as e:
             log.error(f"Error in _moveToBookmark: {e}")
-    
+
     def _doQuickSearch(self, term, caseSensitive, searchType):
         try:
             textCtrl = self.getLogTextControl()
@@ -735,7 +939,7 @@ class GlobalPlugin(GlobalPlugin):
             log.error(f"Error during quick search: {e}")
             return False
 
-    @script(description=_("Find next match"), gesture="kb:f3", category=_("LogViewer"))
+    @script(description=_("Find next occurrence using last search term"), gesture="kb:f3", category=_("LogViewer"))
     def script_findNext(self, gesture):
         if not self.isNVDAViewer():
             gesture.send()
@@ -779,7 +983,7 @@ class GlobalPlugin(GlobalPlugin):
 
         self._moveToQuickSearchResult(textCtrl)
     
-    @script(description=_("Find previous match"), gesture="kb:shift+f3", category=_("LogViewer"))
+    @script(description=_("Find previous occurrence using last search term"), gesture="kb:shift+f3", category=_("LogViewer"))
     def script_findPrevious(self, gesture):
         if not self.isNVDAViewer():
             gesture.send()
@@ -845,7 +1049,6 @@ class GlobalPlugin(GlobalPlugin):
                     textInfo.collapse()
                     textInfo.updateSelection()
                     
-                    # Use the actual search term in the message instead of "Match"
                     message(_("{term} {current} of {total}").format(term=self.lastSearchTerm, current=self.currentMatchIndex + 1, total=len(self.lastMatches)))
                 except Exception as e:
                     log.error(f"Error moving to quick search result: {e}")
@@ -854,3 +1057,23 @@ class GlobalPlugin(GlobalPlugin):
             queueHandler.queueFunction(queueHandler.eventQueue, _move)
         except Exception as e:
             log.error(f"Error in _moveToQuickSearchResult: {e}")
+
+    @script(description=_("Open old log file in default editor"), gesture="kb:NVDA+control+l", category=_("LogViewer"))
+    def script_openOldLog(self, gesture):
+        try:
+            configDir = globalVars.appArgs.configPath
+            backupPath = os.path.join(configDir, "oldLog.txt")
+            
+            if not os.path.exists(backupPath):
+                message(_("Old log file not found"))
+                return
+            
+            # Use subprocess to open the file with the default associated program
+            if sys.platform.startswith("win"):
+                os.startfile(backupPath)
+            else:
+                subprocess.run(["xdg-open", backupPath], check=True)
+            message(_("Opening old log file"))
+        except Exception as e:
+            log.error(f"Error opening old log file: {e}")
+            message(_("Failed to open old log file"))

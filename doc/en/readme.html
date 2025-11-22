@@ -33,17 +33,20 @@
 
   <h1>logViewer</h1>
 
-  <div class="section">
-
-<br><br>
+  
+<br>
     
-    <p><strong>Summary:</strong> Enhance the NVDA Log Viewer with advanced search and bookmarking features for easier function tracking and debugging.</p>
-    <p><strong>Authors:</strong> chai chaimee &amp; Pierre-Louis R.</p>
+        
+<p><strong>Authors:</strong> chai chaimee &amp; Pierre-Louis R.</p>
     <p><strong>URL:</strong> <a href="https://github.com/chaichaimee/logViewer">https://github.com/chaichaimee/logViewer</a></p>
   </div>
 
   <div class="section">
     
+<br>
+<h2>What's New</h2>
+<p>Add oldLog function<br>
+
 <br>
 
 <h2>Features</h2>
@@ -68,11 +71,43 @@
   </div>
 
   <div class="section">
-    <h2>Language Support</h2>
+</li>
+      <li>
+        <strong>Old Log Backup:</strong><br />
+        When NVDA automatically restarts after a crash, the log you’ll want to check is the oldLog file.>NVDA+Control+L</code>.<br />
+        This file is generated and monitored in the background during NVDA’s operation. After NVDA crashes and restarts itself due to an error, oldLog.txt contains the most recent session
+</li>
+    </ul>
+<h2>Old Log Functionality</h2>
+<p>The LogViewer plugin includes features to manage and preserve NVDA log content in an <code>oldLog.txt</code> file, ensuring logs from current and previous sessions are backed up and accessible.</p>
+
+<h3>Key Features</h3>
+<ul>
+    <li><strong>Automatic Log Backup</strong>: Continuously saves new NVDA log content to <code>oldLog.txt</code> in the NVDA configuration directory every 5 seconds, using incremental reading for efficiency.</li>
+    <li><strong>Previous Session Logs</strong>: Appends the previous session's log (<code>nvda-old.log</code>) to <code>oldLog.txt</code> when NVDA starts, with a timestamped header for clarity.</li>
+    <li><strong>Daily Reset</strong>: Resets <code>oldLog.txt</code> with a new timestamped header if the date changes, keeping logs organized by day.</li>
+    <li><strong>File Rotation</strong>: If <code>oldLog.txt</code> exceeds 5MB, it retains the last 1,000 lines and archives older content to a new file (e.g., <code>oldLog_YYYYMMDD_HHMMSS.txt</code>).</li>
+    <li><strong>Access Old Log</strong>: Press <code>NVDA+Ctrl+L</code> to open <code>oldLog.txt</code> in your default text editor for review.</li>
+</ul>
+
+<h3>Handling NVDA Crash and Restart</h3>
+<p>When NVDA crashes and restarts:</p>
+<ul>
+    <li>The previous session's log (<code>nvda-old.log</code>) is automatically appended to <code>oldLog.txt</code> with a timestamped header during plugin initialization.</li>
+    <li>The plugin detects if the current <code>nvda.log</code> is smaller than expected (indicating a crash) and resets the file pointer to ensure accurate incremental backups from the new log file.</li>
+    <li>Continuous backups resume, preserving all log data without loss.</li>
+</ul>
+
+<p>This ensures that logs are reliably preserved, even after unexpected crashes, and can be easily accessed for debugging or review.</p>
+    
+<br>
+
+<h2>Language Support</h2>
     <p>This add-on is designed to work seamlessly with NVDA in any language.</p>
     <p>Instead of checking the window title (which depends on UI language), it detects the NVDA Log Viewer using its window handle.</p>
     <p>This ensures full compatibility across all languages NVDA supports.</p>
   </div>
+<br><br>
 
 </body>
 </html>
