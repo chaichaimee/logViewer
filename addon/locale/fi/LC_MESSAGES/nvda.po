@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:15+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Finnish\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "Olet jo ensimmäisessä kirjanmerkissä"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "Kirjanmerkki {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "Sama kirjainkoko"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "Sulje"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "Virhe siirryttäessä kirjanmerkkiin"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "Virhe siirryttäessä osumaan"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "Lokitiedoston avaaminen epäonnistui"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "Etsintäikkunan avaaminen epäonnistui"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "Etsi ja kohdista"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "Etsi seuraava"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "Etsi edellinen"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "Etsi seuraava osuma (yksi napautus) tai kopioi virhelohko (kaksoisnapautus)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "Etsi edellinen osuma"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "Löytyi {count} kohdetta"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "Löytyi {count} osumaa."
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "Lisää kirjanmerkki lokiin"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "Virheellinen säännöllinen lauseke: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "Rivi {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "Loki on tyhjä"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "Lokikatselin"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "Siirry lokin seuraavaan kirjanmerkkiin"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "Siirry lokin edelliseen kirjanmerkkiin"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "NVDA-lokikatselin ei ole käytettävissä"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "NVDA-lokitiedostoa ei löytynyt"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "Kirjanmerkkejä ei ole saatavilla"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "Kirjanmerkkejä ei löytynyt"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "Tiedostosta ei löytynyt kirjanmerkkejä"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "Osumia ei ole saatavilla"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "Osumia ei löytynyt"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "Osumia ei löytynyt sanalle 'error'"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "Avaa NVDA-lokitiedosto (ensisijaisesti nvda-old.log, muuten nvda.log)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "Avataan {file_type}"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "Saavutettiin kirjanmerkkien loppu"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "Haku epäonnistui tai virheellinen lauseke"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "Etsi NVDA-lokista"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "Etsi NVDA-lokikatselimesta"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "Hakusana ei voi olla tyhjä"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "Jatka alusta"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "Palataan ensimmäiseen kirjanmerkkiin"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "Palataan ensimmäiseen osumaan"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "Siirrytään viimeiseen kirjanmerkkiin"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "Siirrytään viimeiseen osumaan"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "nykyinen lokitiedosto"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "vanha lokitiedosto"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{current} / {total}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} / {total}"

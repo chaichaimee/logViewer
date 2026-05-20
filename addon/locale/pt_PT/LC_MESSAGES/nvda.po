@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:40+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Portuguese (Portugal)\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "Já está no primeiro marcador"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "Marcador {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "Sensível a maiúsculas/minúsculas"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "Fechar"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "Erro ao mover para o marcador"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "Erro ao mover para a correspondência"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "Falha ao abrir o ficheiro de log"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "Falha ao abrir o diálogo de procura"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "Procurar e focar"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "Procurar seguinte"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "Procurar anterior"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "Procurar ocorrência seguinte (um toque) ou copiar bloco de erro (dois toques)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "Procurar ocorrência anterior"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "{count} itens encontrados"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "{count} correspondências encontradas."
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "Inserir marcador no log"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "Expressão regular inválida: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "Linha {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "O log está vazio"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "LogViewer"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "Ir para o marcador seguinte no log"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "Ir para o marcador anterior no log"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "Visualizador de log do NVDA inacessível"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "Nenhum ficheiro de log do NVDA encontrado"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "Nenhum marcador disponível"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "Nenhum marcador encontrado"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "Nenhum marcador encontrado no ficheiro"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "Nenhuma correspondência disponível"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "Nenhuma correspondência encontrada"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "Nenhuma correspondência encontrada para 'error'"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "Abrir log do NVDA (prefere nvda-old.log, senão nvda.log)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "A abrir {file_type}"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "Atingido o fim dos marcadores"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "A procura falhou ou a expressão é inválida"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "Procurar no log do NVDA"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "Procurar no visualizador de log do NVDA"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "O termo de procura não pode estar vazio"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "Recomeçar no início"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "Voltando ao primeiro marcador"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "Voltando à primeira correspondência"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "Voltando ao último marcador"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "Voltando à última correspondência"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "ficheiro de log atual"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "ficheiro de log antigo"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{current} de {total}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} de {total}"

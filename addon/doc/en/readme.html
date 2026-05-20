@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>logViewer - Professional Log Analysis for NVDA</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      line-height: 1.7;
+      margin: 0;
+      padding: 40px;
+      background-color: #f9fafb;
+      color: #333;
+    }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: #ffffff;
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .header-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header-logo img {
+      max-width: 180px;
+      height: auto;
+    }
+    h1 {
+      color: #0056b3;
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+    h2 {
+      color: #004494;
+      border-bottom: 2px solid #f0f3f6;
+      padding-bottom: 8px;
+      margin-top: 45px;
+      font-size: 1.6em;
+    }
+    h3 {
+      color: #0078d4;
+      font-size: 1.3em;
+      margin-top: 25px;
+    }
+    code {
+      background-color: #f3f4f6;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 0.95em;
+      color: #d63384;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 15px;
+    }
+    .author-info {
+      text-align: center;
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    .author-info a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+    .author-info a:hover {
+      text-decoration: underline;
+    }
+    .section p {
+      margin-bottom: 20px;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-logo">
+    <img src="https://www.nvaccess.org/wp-content/uploads/2015/10/NVDA_logo_standard_transparent.png" alt="NVDA Logo">
+  </div>
+
+  <h1>logViewer</h1>
+
+  <div class="author-info">
+    <p><strong>Authors:</strong> chai chaimee &amp; Pierre-Louis R.</p>
+    <p><strong>Project Home:</strong> <a href="https://github.com/chaichaimee/logViewer">https://github.com/chaichaimee/logViewer</a></p>
+  </div>
+
+  <div class="section">
+    <h2>What's New</h2>
+    <p>Experience the new <span class="highlight">Old Log</span> functionality—an intelligent way to recover and review your logs from previous sessions instantly, ensuring no critical data is lost after a system restart.</p>
+  </div>
+
+  <div class="section">
+    <h2>Features</h2>
+    <p><strong>logViewer</strong> transforms the standard NVDA Log Viewer into a high-performance diagnostic tool. Designed for developers and power users, it brings professional-grade editing features directly into your workflow:</p>
+    <ul>
+      <li>
+        <strong>Advanced Search Engine:</strong><br />
+        Harness the power of <code>Control+F</code>. Our search dialog supports Case-sensitivity, Wrap-around navigation, and <span class="highlight">Regular Expressions</span>. Plus, it remembers your search history for rapid re-use.
+      </li>
+      <li>
+        <strong>Instant Navigation:</strong><br />
+        Move through results at lightning speed. Use <code>F3</code> for the next match or <code>Shift+F3</code> for the previous one—all without ever re-opening a dialog.
+      </li>
+      <li>
+        <strong>Precision Bookmarking:</strong><br />
+        Never lose your place again. Tag critical events with <code>Control+F2</code> and navigate between your custom markers effortlessly using <code>F2</code> and <code>Shift+F2</code>.
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Old Log Functionality</h2>
+    <p>Stop worrying about losing logs after a crash. Our refined recovery system ensures your data is always within reach.</p>
+
+    <h3>Reliable Log Recovery</h3>
+    <ul>
+      <li><strong>Direct Session Access</strong>: Instantly retrieve the <code>nvda-old.log</code> from your system's temporary directory. No manual searching required.</li>
+      <li><strong>One-Key Activation</strong>: Press <code>NVDA+Control+L</code> to immediately open your previous session's log in your preferred external text editor.</li>
+      <li><strong>Optimized for Debugging</strong>: By targeting the system's generated old log, you get the most accurate snapshot of what happened right before a crash or restart.</li>
+    </ul>
+
+    <h3>Resilience Against Crashes</h3>
+    <p>When NVDA crashes and restarts, the history of the failed session is preserved by the system. <strong>logViewer</strong> acts as your dedicated gateway to this data, allowing you to bypass technical hurdles and jump straight into analysis and troubleshooting.</p>
+  </div>
+
+  <div class="section">
+    <h2>Universal Language Support</h2>
+    <p>Built for the global NVDA community, <strong>logViewer</strong> works seamlessly in any language.</p>
+    <p>By utilizing advanced <span class="highlight">Window Handle (HWND)</span> detection instead of relying on localized window titles, we guarantee 100% compatibility across all language versions of NVDA.</p>
+  </div>
+
+<br><br>
+<h2>Support Me</h2>
+    <p>If this tool has made your life easier, consider fueling the next update with a small donation.</p>
+
+<br>
+
+<p>
+  <a href="https://buy.stripe.com/dRm9AU1xQ3Ds22N6VK1VK01">
+    <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Support me">
+  </a>
+</p>
+<br>
+
+
+<p>Your support means the world. Let's build something great together</p>
+
+<br>
+
+  <div class="footer-note">
+<p>&copy; 2026 Chai Chaimee NVDA Add-on Released under GN

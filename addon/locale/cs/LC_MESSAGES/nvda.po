@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:15+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Czech\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "Již jste na první záložce"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "Záložka {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "Rozlišovat velikost písmen"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "Zavřít"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "Chyba při přesunu na záložku"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "Chyba při přesunu na shodu"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "Nepodařilo se otevřít soubor protokolu"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "Nepodařilo se otevřít dialog hledání"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "Najít a zaměřit"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "Najít další"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "Najít předchozí"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "Najít další výskyt (jedno poklepání) nebo zkopírovat blok chyb (dvojité poklepání)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "Najít předchozí výskyt"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "Nalezeno {count} položek"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "Nalezeno {count} shod."
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "Vložit záložku do protokolu"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "Neplatný regulární výraz: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "Řádek {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "Protokol je prázdný"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "Prohlížeč protokolu"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "Přejít na další záložku v protokolu"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "Přejít na předchozí záložku v protokolu"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "Prohlížeč protokolu NVDA není přístupný"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "Nebyl nalezen žádný soubor protokolu NVDA"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "Žádné záložky nejsou k dispozici"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "Nebyly nalezeny žádné záložky"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "V souboru nebyly nalezeny žádné záložky"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "Žádné shody nejsou k dispozici"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "Nebyly nalezeny žádné shody"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "Pro 'error' nebyly nalezeny žádné shody"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "Otevřít soubor protokolu NVDA (upřednostňuje nvda-old.log, jinak nvda.log)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "Otevírání {file_type}"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "Dosažen konec záložek"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "Hledání selhalo nebo neplatný výraz"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "Hledat v protokolu NVDA"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "Hledat v prohlížeči protokolu NVDA"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "Hledaný výraz nemůže být prázdný"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "Hledat od začátku"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "Přechod na první záložku"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "Přechod na první shodu"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "Přechod na poslední záložku"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "Přechod na poslední shodu"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "aktuální soubor protokolu"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "starý soubor protokolu"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{current} z {total}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} z {total}"

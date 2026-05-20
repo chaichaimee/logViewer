@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:35+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "पहले से ही पहले बुकमार्क पर हैं"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "बुकमार्क {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "केस सेंसिटिव (अक्षर के आकार का ध्यान रखें)"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "बंद करें"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "बुकमार्क पर जाने में त्रुटि"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "मिलान पर जाने में त्रुटि"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "लॉग फ़ाइल खोलने में विफल"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "खोज संवाद खोलने में विफल"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "खोजें और फ़ोकस करें"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "अगला खोजें"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "पिछला खोजें"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "अगली उपस्थिति खोजें (एक बार टैप) या त्रुटि ब्लॉक कॉपी करें (दो बार टैप)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "पिछली उपस्थिति खोजें"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "{count} आइटम मिले"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "{count} मिलान मिले।"
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "लॉग में बुकमार्क डालें"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "अमान्य रेगुलर एक्सप्रेशन: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "पंक्ति {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "लॉग खाली है"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "लॉग व्यूअर"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "लॉग में अगले बुकमार्क पर जाएं"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "लॉग में पिछले बुकमार्क पर जाएं"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "NVDA लॉग व्यूअर सुलभ नहीं है"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "कोई NVDA लॉग फ़ाइल नहीं मिली"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "कोई बुकमार्क उपलब्ध नहीं है"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "कोई बुकमार्क नहीं मिला"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "फ़ाइल में कोई बुकमार्क नहीं मिला"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "कोई मिलान उपलब्ध नहीं है"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "कोई मिलान नहीं मिला"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "'error' के लिए कोई मिलान नहीं मिला"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "NVDA लॉग फ़ाइल खोलें (nvda-old.log को प्राथमिकता, अन्यथा nvda.log)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "{file_type} खोला जा रहा है"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "बुकमार्क के अंत तक पहुँच गए"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "खोज विफल रही या अमान्य एक्सप्रेशन"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "NVDA लॉग में खोजें"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "NVDA लॉग व्यूअर में खोजें"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "खोज शब्द खाली नहीं हो सकता"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "आरंभ से फिर खोजें"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "पहले बुकमार्क पर वापस जा रहे हैं"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "पहले मिलान पर वापस जा रहे हैं"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "अंतिम बुकमार्क पर जा रहे हैं"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "अंतिम मिलान पर जा रहे हैं"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "वर्तमान लॉग फ़ाइल"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "पुरानी लॉग फ़ाइल"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{total} में से {current}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {total} में से {current}"

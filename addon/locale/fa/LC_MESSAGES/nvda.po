@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:15+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Persian\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "در حال حاضر در اولین نشانه هستید"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "نشانه {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "حساس به حروف بزرگ و کوچک"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "بستن"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "خطا در رفتن به نشانه"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "خطا در رفتن به مورد منطبق"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "باز کردن فایل گزارش ناموفق بود"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "باز کردن دیالوگ جستجو ناموفق بود"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "یافتن و تمرکز"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "یافتن بعدی"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "یافتن قبلی"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "یافتن مورد بعدی (یک ضربه) یا کپی کردن بلوک خطا (دو ضربه)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "یافتن مورد قبلی"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "{count} مورد پیدا شد"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "{count} مورد منطبق پیدا شد."
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "درج نشانه در گزارش"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "عبارت باقاعده نامعتبر: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "خط {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "گزارش خالی است"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "نمایشگر گزارش"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "رفتن به نشانه بعدی در گزارش"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "رفتن به نشانه قبلی در گزارش"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "نمایشگر گزارش NVDA در دسترس نیست"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "فایل گزارش NVDA پیدا نشد"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "نشانه‌ای در دسترس نیست"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "نشانه‌ای پیدا نشد"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "نشانه‌ای در فایل پیدا نشد"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "مورد منطبقی در دسترس نیست"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "مورد منطبقی پیدا نشد"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "مورد منطبقی برای 'error' پیدا نشد"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "باز کردن فایل گزارش NVDA (ترجیحاً nvda-old.log، در غیر این صورت nvda.log)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "در حال باز کردن {file_type}"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "به پایان نشانه‌ها رسیدید"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "جستجو ناموفق بود یا عبارت نامعتبر است"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "جستجو در گزارش NVDA"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "جستجو در نمایشگر گزارش NVDA"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "عبارت جستجو نمی‌تواند خالی باشد"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "جستجوی حلقوی"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "پرش به اولین نشانه"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "پرش به اولین مورد منطبق"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "پرش به آخرین نشانه"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "پرش به آخرین مورد منطبق"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "فایل گزارش فعلی"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "فایل گزارش قدیمی"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{current} از {total}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {current} از {total}"

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>logViewer - ยกระดับการวิเคราะห์ Log สำหรับ NVDA</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      margin: 0;
+      padding: 40px;
+      background-color: #f4f7f9;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .header-logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header-logo img {
+      max-width: 200px;
+      height: auto;
+    }
+    h1 {
+      color: #0056b3;
+      text-align: center;
+      font-size: 2.5em;
+      margin-top: 10px;
+    }
+    h2 {
+      color: #004494;
+      border-bottom: 2px solid #eef2f7;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #0078d4;
+    }
+    code {
+      background-color: #f0f0f0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Cascadia Code', 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #d63384;
+    }
+    ul {
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    .author-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #0056b3;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 35px;
+    }
+    a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .highlight {
+      color: #0056b3;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-logo">
+    <img src="https://www.nvaccess.org/wp-content/uploads/2015/10/NVDA_logo_standard_transparent.png" alt="NVDA Logo">
+  </div>
+
+  <h1>logViewer</h1>
+
+  <div class="author-info">
+    <p><strong>สร้างสรรค์โดย:</strong> chai chaimee &amp; Pierre-Louis R.</p>
+    <p><strong>ติดตามโปรเจกต์ได้ที่:</strong> <a href="https://github.com/chaichaimee/logViewer">GitHub Repository</a></p>
+  </div>
+
+  <div class="section">
+    <h2>What's New</h2>
+    <p>ก้าวไปอีกขั้นกับฟังก์ชัน <span class="highlight">oldLog</span> ระบบเข้าถึงไฟล์บันทึกย้อนหลังที่อัจฉริยะและรวดเร็วกว่าเดิม ช่วยให้คุณไม่พลาดทุกรายละเอียดสำคัญแม้โปรแกรมจะปิดตัวลงอย่างไม่คาดคิด</p>
+  </div>
+
+  <div class="section">
+    <h2>Features</h2>
+    <p><strong>logViewer</strong> ไม่ได้เป็นเพียงแค่เครื่องมือดู Log ทั่วไป แต่คือการอัปเกรดประสิทธิภาพการทำงานของ NVDA Log Viewer ให้ทรงพลังเทียบเท่า Text Editor ชั้นนำ ออกแบบมาเพื่อนักพัฒนาและผู้ใช้ระดับ Power User โดยเฉพาะ:</p>
+    <ul>
+      <li>
+        <strong>Advanced Search (ระบบค้นหาขั้นสูง):</strong><br />
+        เพียงกด <code>Control+F</code> เพื่อสัมผัสประสบการณ์การค้นหาที่เหนือกว่า รองรับทั้ง Case-sensitive, Wrap-around และการใช้ <strong>Regular Expressions</strong> พร้อมระบบ History จดจำคำค้นหาล่าสุดเพื่อให้คุณทำงานได้ต่อเนื่องไม่มีสะดุด
+      </li>
+      <li>
+        <strong>Quick Search Navigation (ทางลัดอัจฉริยะ):</strong><br />
+        ไม่ต้องเสียเวลาเปิดหน้าต่างค้นหาซ้ำๆ ใช้ <code>F3</code> เพื่อไปยังผลลัพธ์ถัดไป หรือ <code>Shift+F3</code> เพื่อย้อนกลับ สะดวก รวดเร็ว แม่นยำ
+      </li>
+      <li>
+        <strong>Bookmark System (ระบบคั่นหน้าอัจฉริยะ):</strong><br />
+        ปักหมุดจุดสำคัญใน Log ได้ทันทีด้วย <code>Control+F2</code> และเคลื่อนที่ไปยังจุดต่างๆ อย่างอิสระผ่าน <code>F2</code> (ถัดไป) และ <code>Shift+F2</code> (ก่อนหน้า)
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Old Log Functionality</h2>
+    <p>หมดกังวลเรื่องข้อมูลสูญหายเมื่อเครื่องเกิดอาการ Crash ด้วยระบบจัดการ Log ย้อนหลังที่มีประสิทธิภาพสูงสุด</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Instant Access to Previous Session</strong>: เข้าถึงข้อมูลจากเซสชันก่อนหน้าได้ทันที โดยระบบจะดึงไฟล์ <code>nvda-old.log</code> จากโฟลเดอร์ Temporary ของระบบมาเปิดให้คุณโดยตรง</li>
+      <li><strong>Seamless Integration</strong>: เพียงกดคีย์ลัดเดียว ระบบจะเปิดไฟล์ Log ล่าสุดที่เพิ่งจบการทำงานไปใน Text Editor ตัวโปรดของคุณทันที</li>
+      <li><strong>Precise Debugging</strong>: เหมาะสำหรับการวิเคราะห์สาเหตุการทำงานที่ผิดพลาด (Crash Analysis) เนื่องจากไฟล์นี้จะเก็บข้อมูลจนถึงวินาทีสุดท้ายก่อนที่ NVDA จะเริ่มทำงานใหม่</li>
+      <li><strong>Easy Access</strong>: เรียกใช้งานได้ง่ายๆ เพียงกด <code>NVDA+Control+L</code></li>
+    </ul>
+
+    <h3>Handling NVDA Crash and Restart</h3>
+    <p>เมื่อ NVDA เกิดข้อผิดพลาดและต้องเริ่มทำงานใหม่ (Restart) ข้อมูลการทำงานทั้งหมดในเซสชันที่เกิดปัญหาจะถูกจัดเก็บไว้ใน <code>nvda-old.log</code> โดยอัตโนมัติ <strong>logViewer</strong> จะทำหน้าที่เป็นสะพานเชื่อมให้คุณเข้าถึงไฟล์นั้นได้ทันทีผ่าน External Editor เพื่อให้การตรวจสอบโค้ดและการแก้ปัญหาสามารถทำได้อย่างราบรื่นที่สุด</p>
+  </div>
+
+  <div class="section">
+    <h2>Language Support</h2>
+    <p>เราออกแบบมาเพื่อผู้ใช้ทั่วโลก <strong>logViewer</strong> รองรับการทำงานร่วมกับ NVDA ในทุกภาษาอย่างสมบูรณ์</p>
+    <p>ด้วยเทคโนโลยีการตรวจจับผ่าน <span class="highlight">Window Handle</span> แทนการอ้างอิงชื่อหน้าต่าง (Title) ทำให้มั่นใจได้ว่าปลั๊กอินจะทำงานได้อย่างแม่นยำ ไม่ว่าคุณจะใช้ NVDA ในภาษาใดก็ตาม</p>
+  </div>
+
+  <div style="text-align: center; color: #888; margin-top: 50px; font-size: 0.85em;">
+    <p>© 2025 logViewer Team. All Rights Reserved.</p>
+  </div>
+</div>
+
+</body>
+</html>

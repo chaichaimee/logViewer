@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: logViewer 2026.5.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"PO-Revision-Date: 2026-05-20 11:40+0700\n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Sinhala\n"
+"Language: si\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: __init__.py:345
+#: __init__.py:386
+msgid "Already at first bookmark"
+msgstr "දැනටමත් පළමු පිටු සලකුණෙහි ඇත"
+
+#: __init__.py:245
+#: __init__.py:409
+#: __init__.py:430
+msgid "Bookmark {number}"
+msgstr "පිටු සලකුණ {number}"
+
+#: search_logic.py:318
+msgid "Case sensitive"
+msgstr "අකුරු ප්‍රමාණය සැලකිල්ලට ගන්න"
+
+#: search_logic.py:338
+msgid "Close"
+msgstr "වසා දමන්න"
+
+#: __init__.py:412
+#: __init__.py:433
+msgid "Error moving to bookmark"
+msgstr "පිටු සලකුණ වෙත යාමේදී දෝෂයකි"
+
+#: search_logic.py:261
+#: search_logic.py:551
+msgid "Error moving to match"
+msgstr "ගැලපීම වෙත යාමේදී දෝෂයකි"
+
+#: __init__.py:615
+msgid "Failed to open log file"
+msgstr "ලොග් ගොනුව විවෘත කිරීමට නොහැකි විය"
+
+#: __init__.py:234
+msgid "Failed to open search dialog"
+msgstr "සෙවුම් කවුළුව විවෘත කිරීමට නොහැකි විය"
+
+#: search_logic.py:312
+msgid "Find & Focus"
+msgstr "සොයා නාභිගත කරන්න"
+
+#: search_logic.py:309
+msgid "Find Next"
+msgstr "මීළඟ සෙවුම"
+
+#: search_logic.py:335
+msgid "Find Previous"
+msgstr "පෙර සෙවුම"
+
+#: __init__.py:542
+msgid "Find next occurrence (single tap) or copy error block (double tap)"
+msgstr "මීළඟ අවස්ථාව සොයන්න (තනි තට්ටුවක්) හෝ දෝෂ කොටස පිටපත් කරන්න (තට්ටු දෙකක්)"
+
+#: __init__.py:575
+msgid "Find previous occurrence"
+msgstr "පෙර අවස්ථාව සොයන්න"
+
+#: search_logic.py:269
+msgid "Found {count} items"
+msgstr "අයිතම {count} ක් හමු විය"
+
+#: search_logic.py:492
+msgid "Found {count} matches."
+msgstr "ගැලපීම් {count} ක් හමු විය."
+
+#: __init__.py:238
+msgid "Insert bookmark in log"
+msgstr "ලොගයට පිටු සලකුණක් එක් කරන්න"
+
+#: search_logic.py:374
+msgid "Invalid regular expression: {error}"
+msgstr "වලංගු නොවන regular expression: {error}"
+
+#: search_logic.py:515
+#: search_logic.py:548
+msgid "Line {number}: {text}"
+msgstr "පේළිය {number}: {text}"
+
+#: __init__.py:262
+#: search_logic.py:366
+msgid "Log is empty"
+msgstr "ලොගය හිස්ය"
+
+#: __init__.py:189
+#: __init__.py:238
+#: __init__.py:283
+#: __init__.py:321
+#: __init__.py:542
+#: __init__.py:575
+#: __init__.py:591
+msgid "LogViewer"
+msgstr "ලොග් නරඹන්නා"
+
+#: __init__.py:283
+msgid "Move to next bookmark in log"
+msgstr "ලොගයේ මීළඟ පිටු සලකුණ වෙත යන්න"
+
+#: __init__.py:321
+msgid "Move to previous bookmark in log"
+msgstr "ලොගයේ පෙර පිටු සලකුණ වෙත යන්න"
+
+#: __init__.py:196
+#: __init__.py:292
+#: __init__.py:330
+#: __init__.py:549
+#: __init__.py:582
+msgid "NVDA Log Viewer not accessible"
+msgstr "NVDA ලොග් නරඹන්නා වෙත ප්‍රවේශ විය නොහැක"
+
+#: __init__.py:605
+msgid "No NVDA log file found"
+msgstr "NVDA ලොග් ගොනුවක් හමු නොවීය"
+
+#: __init__.py:392
+#: __init__.py:419
+msgid "No bookmarks available"
+msgstr "පිටු සලකුණු නොමැත"
+
+#: __init__.py:296
+#: __init__.py:334
+msgid "No bookmarks found"
+msgstr "පිටු සලකුණු හමු නොවීය"
+
+#: __init__.py:361
+msgid "No bookmarks found in file"
+msgstr "ගොනුවේ පිටු සලකුණු හමු නොවීය"
+
+#: search_logic.py:237
+#: search_logic.py:522
+msgid "No matches available"
+msgstr "ගැලපීම් නොමැත"
+
+#: __init__.py:455
+#: __init__.py:459
+#: __init__.py:465
+#: __init__.py:488
+#: __init__.py:492
+#: __init__.py:498
+#: search_logic.py:431
+#: search_logic.py:435
+#: search_logic.py:436
+#: search_logic.py:467
+#: search_logic.py:500
+msgid "No matches found"
+msgstr "ගැලපීම් හමු නොවීය"
+
+#: __init__.py:444
+#: __init__.py:477
+msgid "No matches found for 'error'"
+msgstr "'error' සඳහා ගැලපීම් හමු නොවීය"
+
+#: __init__.py:591
+msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
+msgstr "NVDA ලොග් ගොනුව විවෘත කරන්න (nvda-old.log ට මනාපය දක්වයි)"
+
+#: __init__.py:612
+msgid "Opening {file_type}"
+msgstr "{file_type} විවෘත කරමින් පවතී"
+
+#: __init__.py:307
+#: __init__.py:377
+msgid "Reached end of bookmarks"
+msgstr "පිටු සලකුණු වල අවසානයට පැමිණ ඇත"
+
+#: search_logic.py:430
+msgid "Search failed or invalid expression"
+msgstr "සෙවීම අසාර්ථක විය හෝ වලංගු නොවන ප්‍රකාශනයකි"
+
+#: search_logic.py:288
+msgid "Search in NVDA Log"
+msgstr "NVDA ලොගය තුළ සොයන්න"
+
+#: __init__.py:189
+msgid "Search in NVDA Log Viewer"
+msgstr "NVDA ලොග් නරඹන්නා තුළ සොයන්න"
+
+#: search_logic.py:414
+msgid "Search term cannot be empty"
+msgstr "සෙවුම් පදය හිස් විය නොහැක"
+
+#: search_logic.py:322
+msgid "Wrap around"
+msgstr "නැවත මුල සිට සොයන්න"
+
+#: __init__.py:304
+#: __init__.py:375
+msgid "Wrapping to first bookmark"
+msgstr "පළමු පිටු සලකුණ වෙත යොමු කෙරේ"
+
+#: search_logic.py:451
+msgid "Wrapping to first match"
+msgstr "පළමු ගැලපීම වෙත යොමු කෙරේ"
+
+#: __init__.py:342
+#: __init__.py:384
+msgid "Wrapping to last bookmark"
+msgstr "අවසාන පිටු සලකුණ වෙත යොමු කෙරේ"
+
+#: search_logic.py:463
+msgid "Wrapping to last match"
+msgstr "අවසාන ගැලපීම වෙත යොමු කෙරේ"
+
+#: __init__.py:603
+msgid "current log file"
+msgstr "දැනට පවතින ලොග් ගොනුව"
+
+#: __init__.py:600
+msgid "old log file"
+msgstr "පැරණි ලොග් ගොනුව"
+
+#: search_logic.py:280
+msgid "{current} of {total}"
+msgstr "{total} න් {current}"
+
+#: search_logic.py:270
+msgid "{term} {current} of {total}"
+msgstr "{term} {total} න් {current}"
