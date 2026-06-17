@@ -28,6 +28,7 @@ import ctypes
 from ctypes import wintypes
 import tones
 import weakref
+import sys
 
 from .config_manager import initConfiguration, SearchHistory
 from .search_logic import SearchType, SearchManager, LogSearchDialog, fIsLogViewer, get_block_at_position
@@ -595,6 +596,7 @@ class GlobalPlugin(GlobalPlugin):
 				temp_dir = tempfile.gettempdir()
 				old_log_path = os.path.join(temp_dir, "nvda-old.log")
 				current_log_path = os.path.join(temp_dir, "nvda.log")
+				
 				if os.path.exists(old_log_path):
 					file_to_open = old_log_path
 					message_type = _("old log file")
@@ -602,16 +604,19 @@ class GlobalPlugin(GlobalPlugin):
 					file_to_open = current_log_path
 					message_type = _("current log file")
 				else:
-					wx.CallAfter(message, _("No NVDA log file found"))
+					core.callLater(0, message, _("No NVDA log file found"))
 					return
+					
 				self.current_log_file = file_to_open
+				
 				if sys.platform.startswith("win"):
 					os.startfile(file_to_open)
 				else:
 					subprocess.run(["xdg-open", file_to_open], check=True)
-				wx.CallAfter(message, _("Opening {file_type}").format(file_type=message_type))
+					
+				core.callLater(0, message, _("Opening {file_type}").format(file_type=message_type))
 			except Exception as e:
 				log.error(f"Error opening log file: {e}")
-				wx.CallAfter(message, _("Failed to open log file"))
+				core.callLater(0, message, _("Failed to open log file"))
 
 		threading.Thread(target=open_log_file, daemon=True).start()
