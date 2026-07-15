@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.5.4\n"
+"Project-Id-Version: logViewer 2026.7.7\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-05-20 11:05+0700\n"
+"POT-Creation-Date: 2026-07-15 14:32+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: English\n"
@@ -12,112 +12,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: __init__.py:345
-#: __init__.py:386
+#: __init__.py:346
+#: __init__.py:387
 msgid "Already at first bookmark"
 msgstr "Already at first bookmark"
 
-#: __init__.py:245
-#: __init__.py:409
-#: __init__.py:430
+#: __init__.py:246
+#: __init__.py:410
+#: __init__.py:431
 msgid "Bookmark {number}"
 msgstr "Bookmark {number}"
 
-#: search_logic.py:318
+#: search_logic.py:346
 msgid "Case sensitive"
 msgstr "Case sensitive"
 
-#: search_logic.py:338
+#: search_logic.py:366
 msgid "Close"
 msgstr "Close"
 
-#: __init__.py:412
-#: __init__.py:433
+#: __init__.py:413
+#: __init__.py:434
 msgid "Error moving to bookmark"
 msgstr "Error moving to bookmark"
 
-#: search_logic.py:261
-#: search_logic.py:551
+#: search_logic.py:289
+#: search_logic.py:552
+#: search_logic.py:606
 msgid "Error moving to match"
 msgstr "Error moving to match"
 
-#: __init__.py:615
+#: __init__.py:618
 msgid "Failed to open log file"
 msgstr "Failed to open log file"
 
-#: __init__.py:234
+#: __init__.py:235
 msgid "Failed to open search dialog"
 msgstr "Failed to open search dialog"
 
-#: search_logic.py:312
+#: search_logic.py:340
 msgid "Find & Focus"
 msgstr "Find & Focus"
 
-#: search_logic.py:309
+#: search_logic.py:337
 msgid "Find Next"
 msgstr "Find Next"
 
-#: search_logic.py:335
+#: search_logic.py:363
 msgid "Find Previous"
 msgstr "Find Previous"
 
-#: __init__.py:542
+#: __init__.py:541
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
 msgstr "Find next occurrence (single tap) or copy error block (double tap)"
 
-#: __init__.py:575
+#: __init__.py:574
 msgid "Find previous occurrence"
 msgstr "Find previous occurrence"
 
-#: search_logic.py:269
+#: search_logic.py:297
 msgid "Found {count} items"
 msgstr "Found {count} items"
 
-#: search_logic.py:492
+#: search_logic.py:520
 msgid "Found {count} matches."
 msgstr "Found {count} matches."
 
-#: __init__.py:238
+#: __init__.py:239
 msgid "Insert bookmark in log"
 msgstr "Insert bookmark in log"
 
-#: search_logic.py:374
+#: search_logic.py:401
 msgid "Invalid regular expression: {error}"
 msgstr "Invalid regular expression: {error}"
 
-#: search_logic.py:515
-#: search_logic.py:548
+#: search_logic.py:549
+#: search_logic.py:578
+#: search_logic.py:603
 msgid "Line {number}: {text}"
 msgstr "Line {number}: {text}"
 
-#: __init__.py:262
-#: search_logic.py:366
+#: __init__.py:263
+#: search_logic.py:393
 msgid "Log is empty"
 msgstr "Log is empty"
 
-#: __init__.py:189
-#: __init__.py:238
-#: __init__.py:283
-#: __init__.py:321
-#: __init__.py:542
-#: __init__.py:575
-#: __init__.py:591
+#: __init__.py:190
+#: __init__.py:239
+#: __init__.py:284
+#: __init__.py:322
+#: __init__.py:541
+#: __init__.py:574
+#: __init__.py:590
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:283
+#: __init__.py:284
 msgid "Move to next bookmark in log"
 msgstr "Move to next bookmark in log"
 
-#: __init__.py:321
+#: __init__.py:322
 msgid "Move to previous bookmark in log"
 msgstr "Move to previous bookmark in log"
 
-#: __init__.py:196
-#: __init__.py:292
-#: __init__.py:330
-#: __init__.py:549
-#: __init__.py:582
+#: __init__.py:197
+#: __init__.py:293
+#: __init__.py:331
+#: __init__.py:548
+#: __init__.py:581
 msgid "NVDA Log Viewer not accessible"
 msgstr "NVDA Log Viewer not accessible"
 
@@ -125,92 +127,93 @@ msgstr "NVDA Log Viewer not accessible"
 msgid "No NVDA log file found"
 msgstr "No NVDA log file found"
 
-#: __init__.py:392
-#: __init__.py:419
+#: __init__.py:393
+#: __init__.py:420
 msgid "No bookmarks available"
 msgstr "No bookmarks available"
 
-#: __init__.py:296
-#: __init__.py:334
+#: __init__.py:297
+#: __init__.py:335
 msgid "No bookmarks found"
 msgstr "No bookmarks found"
 
-#: __init__.py:361
+#: __init__.py:362
 msgid "No bookmarks found in file"
 msgstr "No bookmarks found in file"
 
-#: search_logic.py:237
-#: search_logic.py:522
+#: search_logic.py:265
+#: search_logic.py:524
+#: search_logic.py:585
 msgid "No matches available"
 msgstr "No matches available"
 
-#: __init__.py:455
-#: __init__.py:459
-#: __init__.py:465
-#: __init__.py:488
-#: __init__.py:492
-#: __init__.py:498
-#: search_logic.py:431
-#: search_logic.py:435
-#: search_logic.py:436
-#: search_logic.py:467
-#: search_logic.py:500
+#: __init__.py:456
+#: __init__.py:460
+#: __init__.py:466
+#: __init__.py:489
+#: __init__.py:493
+#: __init__.py:499
+#: search_logic.py:458
+#: search_logic.py:462
+#: search_logic.py:463
+#: search_logic.py:494
+#: search_logic.py:562
 msgid "No matches found"
 msgstr "No matches found"
 
-#: __init__.py:444
-#: __init__.py:477
+#: __init__.py:445
+#: __init__.py:478
 msgid "No matches found for 'error'"
 msgstr "No matches found for 'error'"
 
-#: __init__.py:591
+#: __init__.py:590
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
 msgstr "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
 
-#: __init__.py:612
+#: __init__.py:615
 msgid "Opening {file_type}"
 msgstr "Opening {file_type}"
 
-#: __init__.py:307
-#: __init__.py:377
+#: __init__.py:308
+#: __init__.py:378
 msgid "Reached end of bookmarks"
 msgstr "Reached end of bookmarks"
 
-#: search_logic.py:430
+#: search_logic.py:457
 msgid "Search failed or invalid expression"
 msgstr "Search failed or invalid expression"
 
-#: search_logic.py:288
+#: search_logic.py:316
 msgid "Search in NVDA Log"
 msgstr "Search in NVDA Log"
 
-#: __init__.py:189
+#: __init__.py:190
 msgid "Search in NVDA Log Viewer"
 msgstr "Search in NVDA Log Viewer"
 
-#: search_logic.py:414
+#: search_logic.py:441
 msgid "Search term cannot be empty"
 msgstr "Search term cannot be empty"
 
-#: search_logic.py:322
+#: search_logic.py:350
 msgid "Wrap around"
 msgstr "Wrap around"
 
-#: __init__.py:304
-#: __init__.py:375
+#: __init__.py:305
+#: __init__.py:376
 msgid "Wrapping to first bookmark"
 msgstr "Wrapping to first bookmark"
 
-#: search_logic.py:451
+#: search_logic.py:478
 msgid "Wrapping to first match"
 msgstr "Wrapping to first match"
 
-#: __init__.py:342
-#: __init__.py:384
+#: __init__.py:343
+#: __init__.py:385
 msgid "Wrapping to last bookmark"
 msgstr "Wrapping to last bookmark"
 
-#: search_logic.py:463
+#: search_logic.py:490
 msgid "Wrapping to last match"
 msgstr "Wrapping to last match"
 
@@ -222,10 +225,10 @@ msgstr "current log file"
 msgid "old log file"
 msgstr "old log file"
 
-#: search_logic.py:280
+#: search_logic.py:308
 msgid "{current} of {total}"
 msgstr "{current} of {total}"
 
-#: search_logic.py:270
+#: search_logic.py:298
 msgid "{term} {current} of {total}"
 msgstr "{term} {current} of {total}"

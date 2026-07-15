@@ -1,6 +1,4 @@
 # config_manager.py
-# Copyright (C) 2026 Chai Chaimee
-# Licensed under GNU General Public License. See COPYING.txt for details.
 
 import json
 import os
@@ -8,6 +6,8 @@ import shutil
 from logHandler import log
 import config
 import globalVars
+
+DEFAULT_TERMS = ["error", "warning", "debug"]
 
 
 def get_history_file_path():
@@ -34,13 +34,14 @@ class SearchHistory:
 		self._terms = []
 		self._history_file = get_history_file_path()
 
-		if not self._terms:
-			self._migrate_from_old_file()
+		self._migrate_from_old_file()
+		self._migrate_from_config()
+		self.load()  # Load existing history from new file
 
 		if not self._terms:
-			self._migrate_from_config()
+			self._terms = DEFAULT_TERMS.copy()
+			self.save()
 
-		self.save()
 		log.debug(f"Search history initialized. File: {self._history_file}, terms: {self._terms}")
 
 	def _migrate_from_old_file(self):
@@ -93,13 +94,16 @@ class SearchHistory:
 				if isinstance(terms, list) and all(isinstance(term, str) for term in terms):
 					self._terms = terms
 				else:
-					log.error("Corrupted search history data, resetting to empty list.")
-					self._terms = []
+					log.error("Corrupted search history data, resetting to default.")
+					self._terms = DEFAULT_TERMS.copy()
+					self.save()
 			else:
-				self._terms = []
+				self._terms = DEFAULT_TERMS.copy()
+				self.save()
 		except Exception as e:
-			log.error(f"Error loading search history: {e}, resetting to empty list.")
-			self._terms = []
+			log.error(f"Error loading search history: {e}, resetting to default.")
+			self._terms = DEFAULT_TERMS.copy()
+			self.save()
 
 	def save(self):
 		try:
@@ -119,8 +123,9 @@ class SearchHistory:
 	def append(self, term):
 		if not term:
 			return
-		if term.lower() in [t.lower() for t in self._terms]:
-			self._terms.remove(self.getItemByText(term))
+		existing = self.getItemByText(term)
+		if existing:
+			self._terms.remove(existing)
 		self._terms.insert(0, term)
 		if len(self._terms) > 20:
 			self._terms.pop()

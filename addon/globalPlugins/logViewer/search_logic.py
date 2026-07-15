@@ -1,6 +1,4 @@
 # search_logic.py
-# Copyright (C) 2026 Chai Chaimee
-# Licensed under GNU General Public License. See COPYING.txt for details.
 
 import wx
 import api
@@ -39,6 +37,35 @@ def fIsLogViewer(obj):
 	except (AttributeError, RuntimeError):
 		isLogViewer = False
 	return isLogViewer
+
+
+def get_full_text(textCtrl):
+	if fIsLogViewer(textCtrl):
+		try:
+			text = gui.logViewer.logViewer.outputCtrl.GetValue()
+			if text.strip():
+				log.debug(f"Got log text via outputCtrl, length: {len(text)}")
+				return text
+			else:
+				log.debug("outputCtrl returned empty text, falling back to makeTextInfo")
+		except Exception as e:
+			log.error(f"outputCtrl.GetValue failed: {e}, falling back to makeTextInfo")
+		# Fallback to IAccessible textInfo
+		try:
+			ti = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
+			fallback_text = ti.text
+			log.debug(f"Fallback text length: {len(fallback_text)}")
+			return fallback_text
+		except Exception as e2:
+			log.error(f"Fallback makeTextInfo also failed: {e2}")
+			return ""
+	else:
+		try:
+			ti = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
+			return ti.text
+		except Exception as e:
+			log.error(f"Error getting text from text control: {e}")
+			return ""
 
 
 @unique
@@ -166,15 +193,15 @@ class SearchManager:
 
 	def doQuickSearch(self, textCtrl, term, caseSensitive, searchType):
 		try:
-			textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
-			allText = textInfo.text
-			if not allText.strip():
+			allText = get_full_text(textCtrl)
+			if not allText or not allText.strip():
+				log.debug("doQuickSearch: empty text from get_full_text")
 				self.lastMatches = []
 				self.lastSearchTerm = term
 				self.lastCaseSensitive = caseSensitive
 				self.lastSearchType = searchType
 				self.newSearchPerformed = True
-				return True
+				return True  # search technically done, just no results
 
 			searchFlags = 0 if caseSensitive else re.IGNORECASE
 			isRegex = searchType == SearchType.REGULAR_EXPRESSION
@@ -206,6 +233,7 @@ class SearchManager:
 			self.lastCaseSensitive = caseSensitive
 			self.lastSearchType = searchType
 			self.newSearchPerformed = True
+			log.debug(f"Quick search for '{term}' found {len(self.lastMatches)} matches")
 			return True
 		except Exception as e:
 			log.error(f"Error during quick search: {e}")
@@ -360,9 +388,8 @@ class LogSearchDialog(wx.Dialog):
 		with self.searchLock:
 			self.matches = []
 			try:
-				textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
-				allText = textInfo.text
-				if not allText.strip():
+				allText = get_full_text(self.logCtrl)
+				if not allText or not allText.strip():
 					ui.message(_("Log is empty"))
 					return False
 				searchFlags = 0 if caseSensitive else re.IGNORECASE
@@ -481,15 +508,50 @@ class LogSearchDialog(wx.Dialog):
 			self.globalPlugin._lastSearchCaseSensitive = caseSensitive
 			self.globalPlugin._lastSearchType = searchType
 
-		self.updateResultDisplay()
+		if not focus:
+			self.updateResultDisplay()
 
 		if focus:
 			self.Destroy()
-			core.callLater(100, self.moveToMatch, focus)
+			core.callLater(50, self._focusAndMoveToMatch)
 		else:
-			self.moveToMatch(focus)
+			self.moveToMatch()
 
 		ui.message(_("Found {count} matches.").format(count=len(self.matches)))
+
+	def _focusAndMoveToMatch(self):
+		if not self.matches or self.currentMatch < 0 or self.currentMatch >= len(self.matches):
+			ui.message(_("No matches available"))
+			return
+		start_pos, end_pos = self.matches[self.currentMatch]
+
+		def _move():
+			try:
+				focusObj = api.getFocusObject()
+				if not (focusObj and focusObj.role == controlTypes.Role.EDITABLETEXT and hasattr(focusObj, 'windowHandle') and focusObj.windowHandle == self.logCtrl.windowHandle):
+					if hasattr(self.logCtrl, 'setFocus'):
+						self.logCtrl.setFocus()
+					else:
+						api.setFocusObject(self.logCtrl)
+
+				ti = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
+				ti.collapse()
+				ti.move(textInfos.UNIT_CHARACTER, start_pos)
+				ti.collapse()
+				ti.updateSelection()
+
+				line_num = ti.text.count('\n', 0, start_pos) + 1
+				line_start = ti.text.rfind('\n', 0, start_pos) + 1
+				line_end = ti.text.find('\n', end_pos)
+				if line_end == -1:
+					line_end = len(ti.text)
+				line_text = ti.text[line_start:line_end].strip()
+				ui.message(_("Line {number}: {text}").format(number=line_num, text=line_text))
+			except Exception as e:
+				log.error(f"Error moving to match: {e}")
+				ui.message(_("Error moving to match"))
+
+		wx.CallAfter(_move)
 
 	def updateResultDisplay(self):
 		if not self.dialogOpen:
@@ -501,8 +563,9 @@ class LogSearchDialog(wx.Dialog):
 			return
 		start_idx = max(0, self.currentMatch - 2)
 		end_idx = min(len(self.matches), self.currentMatch + 3)
-		textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
-		allText = textInfo.text
+		allText = get_full_text(self.logCtrl)
+		if not allText:
+			return
 		for i in range(start_idx, end_idx):
 			start_pos, end_pos = self.matches[i]
 			line_num = allText.count('\n', 0, start_pos) + 1
@@ -515,47 +578,34 @@ class LogSearchDialog(wx.Dialog):
 			displayText.append(f"{prefix}{_('Line {number}: {text}').format(number=line_num, text=line_text)}")
 		self.resultBox.SetValue("\n".join(displayText))
 
-	def moveToMatch(self, focus=False):
+	def moveToMatch(self):
 		if not self.dialogOpen:
 			return
 		if not self.matches or self.currentMatch < 0 or self.currentMatch >= len(self.matches):
 			ui.message(_("No matches available"))
 			return
 		start_pos, end_pos = self.matches[self.currentMatch]
-		try:
-			if focus:
-				self.Destroy()
 
-			def _move():
-				try:
-					focusObj = api.getFocusObject()
-					if not self.isNVDAViewerObject(focusObj):
-						if hasattr(self.logCtrl, 'setFocus'):
-							self.logCtrl.setFocus()
-						else:
-							api.setFocusObject(self.logCtrl)
-					textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
-					textInfo.collapse()
-					textInfo.move(textInfos.UNIT_CHARACTER, start_pos)
-					textInfo.collapse()
-					textInfo.updateSelection()
-					line_num = textInfo.text.count('\n', 0, start_pos) + 1
-					line_start = textInfo.text.rfind('\n', 0, start_pos) + 1
-					line_end = textInfo.text.find('\n', end_pos)
-					if line_end == -1:
-						line_end = len(textInfo.text)
-					line_text = textInfo.text[line_start:line_end].strip()
-					ui.message(_("Line {number}: {text}").format(number=line_num, text=line_text))
-				except Exception as e:
-					log.error(f"Error moving to match: {e}")
-					ui.message(_("Error moving to match"))
+		def _move():
+			try:
+				ti = self.logCtrl.makeTextInfo(textInfos.POSITION_ALL)
+				ti.collapse()
+				ti.move(textInfos.UNIT_CHARACTER, start_pos)
+				ti.collapse()
+				ti.updateSelection()
 
-			if focus:
-				core.callLater(100, lambda: wx.CallAfter(_move))
-			else:
-				wx.CallAfter(_move)
-		except Exception as e:
-			log.error(f"Error in moveToMatch: {e}")
+				line_num = ti.text.count('\n', 0, start_pos) + 1
+				line_start = ti.text.rfind('\n', 0, start_pos) + 1
+				line_end = ti.text.find('\n', end_pos)
+				if line_end == -1:
+					line_end = len(ti.text)
+				line_text = ti.text[line_start:line_end].strip()
+				ui.message(_("Line {number}: {text}").format(number=line_num, text=line_text))
+			except Exception as e:
+				log.error(f"Error moving to match: {e}")
+				ui.message(_("Error moving to match"))
+
+		wx.CallAfter(_move)
 
 	def isNVDAViewerObject(self, obj):
 		try:

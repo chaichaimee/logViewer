@@ -31,7 +31,7 @@ import weakref
 import sys
 
 from .config_manager import initConfiguration, SearchHistory
-from .search_logic import SearchType, SearchManager, LogSearchDialog, fIsLogViewer, get_block_at_position
+from .search_logic import SearchType, SearchManager, LogSearchDialog, get_block_at_position, get_full_text, fIsLogViewer
 
 addonHandler.initTranslation()
 
@@ -510,11 +510,9 @@ class GlobalPlugin(GlobalPlugin):
 			else:
 				pos = self.getCaretPosition(textCtrl)
 
-			try:
-				textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
-				all_text = textInfo.text
-			except Exception as e:
-				log.error(f"Error getting full text: {e}")
+			all_text = get_full_text(textCtrl)
+			if not all_text:
+				log.error("Could not retrieve log text")
 				return
 
 			start_offset, end_offset, block_type = get_block_at_position(all_text, pos)

@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.5.4\n"
+"Project-Id-Version: logViewer 2026.7.7\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-05-20 11:05+0700\n"
-"PO-Revision-Date: 2026-05-20 11:40+0700\n"
+"POT-Creation-Date: 2026-07-15 14:32+0700\n"
+"PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Malay\n"
 "Language: ms\n"
@@ -12,207 +12,210 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: __init__.py:345
-#: __init__.py:386
+#: __init__.py:346
+#: __init__.py:387
 msgid "Already at first bookmark"
-msgstr "Sudah berada di penanda buku pertama"
+msgstr "Sudah berada di tanda buku pertama"
 
-#: __init__.py:245
-#: __init__.py:409
-#: __init__.py:430
+#: __init__.py:246
+#: __init__.py:410
+#: __init__.py:431
 msgid "Bookmark {number}"
-msgstr "Penanda buku {number}"
+msgstr "Tanda buku {number}"
 
-#: search_logic.py:318
+#: search_logic.py:346
 msgid "Case sensitive"
-msgstr "Sensitif huruf"
+msgstr "Sensitif kata"
 
-#: search_logic.py:338
+#: search_logic.py:366
 msgid "Close"
 msgstr "Tutup"
 
-#: __init__.py:412
-#: __init__.py:433
+#: __init__.py:413
+#: __init__.py:434
 msgid "Error moving to bookmark"
-msgstr "Ralat semasa berpindah ke penanda buku"
+msgstr "Ralat semasa beralih ke tanda buku"
 
-#: search_logic.py:261
-#: search_logic.py:551
+#: search_logic.py:289
+#: search_logic.py:552
+#: search_logic.py:606
 msgid "Error moving to match"
-msgstr "Ralat semasa berpindah ke padanan"
+msgstr "Ralat semasa beralih ke padanan"
 
-#: __init__.py:615
+#: __init__.py:618
 msgid "Failed to open log file"
 msgstr "Gagal membuka fail log"
 
-#: __init__.py:234
+#: __init__.py:235
 msgid "Failed to open search dialog"
-msgstr "Gagal membuka dialog carian"
+msgstr "Gagal membuka dialog gelintar"
 
-#: search_logic.py:312
+#: search_logic.py:340
 msgid "Find & Focus"
 msgstr "Cari & Fokus"
 
-#: search_logic.py:309
+#: search_logic.py:337
 msgid "Find Next"
 msgstr "Cari Seterusnya"
 
-#: search_logic.py:335
+#: search_logic.py:363
 msgid "Find Previous"
-msgstr "Cari Sebelumnya"
+msgstr "Cari Terdahulu"
 
-#: __init__.py:542
+#: __init__.py:541
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
 msgstr "Cari kemunculan seterusnya (ketik sekali) atau salin blok ralat (ketik dua kali)"
 
-#: __init__.py:575
+#: __init__.py:574
 msgid "Find previous occurrence"
-msgstr "Cari kemunculan sebelumnya"
+msgstr "Cari kemunculan terdahulu"
 
-#: search_logic.py:269
+#: search_logic.py:297
 msgid "Found {count} items"
 msgstr "Menemui {count} item"
 
-#: search_logic.py:492
+#: search_logic.py:520
 msgid "Found {count} matches."
 msgstr "Menemui {count} padanan."
 
-#: __init__.py:238
+#: __init__.py:239
 msgid "Insert bookmark in log"
-msgstr "Masukkan penanda buku dalam log"
+msgstr "Sisip tanda buku dalam log"
 
-#: search_logic.py:374
+#: search_logic.py:401
 msgid "Invalid regular expression: {error}"
 msgstr "Ungkapan nalar tidak sah: {error}"
 
-#: search_logic.py:515
-#: search_logic.py:548
+#: search_logic.py:549
+#: search_logic.py:578
+#: search_logic.py:603
 msgid "Line {number}: {text}"
 msgstr "Baris {number}: {text}"
 
-#: __init__.py:262
-#: search_logic.py:366
+#: __init__.py:263
+#: search_logic.py:393
 msgid "Log is empty"
-msgstr "Log adalah kosong"
+msgstr "Log kosong"
 
-#: __init__.py:189
-#: __init__.py:238
-#: __init__.py:283
-#: __init__.py:321
-#: __init__.py:542
-#: __init__.py:575
-#: __init__.py:591
+#: __init__.py:190
+#: __init__.py:239
+#: __init__.py:284
+#: __init__.py:322
+#: __init__.py:541
+#: __init__.py:574
+#: __init__.py:590
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:283
+#: __init__.py:284
 msgid "Move to next bookmark in log"
-msgstr "Pindah ke penanda buku seterusnya dalam log"
+msgstr "Alih ke tanda buku seterusnya dalam log"
 
-#: __init__.py:321
+#: __init__.py:322
 msgid "Move to previous bookmark in log"
-msgstr "Pindah ke penanda buku sebelumnya dalam log"
+msgstr "Alih ke tanda buku terdahulu dalam log"
 
-#: __init__.py:196
-#: __init__.py:292
-#: __init__.py:330
-#: __init__.py:549
-#: __init__.py:582
+#: __init__.py:197
+#: __init__.py:293
+#: __init__.py:331
+#: __init__.py:548
+#: __init__.py:581
 msgid "NVDA Log Viewer not accessible"
-msgstr "Pelihat Log NVDA tidak dapat diakses"
+msgstr "Pelihat Log NVDA tidak boleh diakses"
 
 #: __init__.py:605
 msgid "No NVDA log file found"
-msgstr "Tiada fail log NVDA ditemui"
+msgstr "Fail log NVDA tidak ditemui"
 
-#: __init__.py:392
-#: __init__.py:419
+#: __init__.py:393
+#: __init__.py:420
 msgid "No bookmarks available"
-msgstr "Tiada penanda buku tersedia"
+msgstr "Tiada tanda buku tersedia"
 
-#: __init__.py:296
-#: __init__.py:334
+#: __init__.py:297
+#: __init__.py:335
 msgid "No bookmarks found"
-msgstr "Tiada penanda buku ditemui"
+msgstr "Tiada tanda buku ditemui"
 
-#: __init__.py:361
+#: __init__.py:362
 msgid "No bookmarks found in file"
-msgstr "Tiada penanda buku ditemui dalam fail"
+msgstr "Tiada tanda buku ditemui dalam fail"
 
-#: search_logic.py:237
-#: search_logic.py:522
+#: search_logic.py:265
+#: search_logic.py:524
+#: search_logic.py:585
 msgid "No matches available"
 msgstr "Tiada padanan tersedia"
 
-#: __init__.py:455
-#: __init__.py:459
-#: __init__.py:465
-#: __init__.py:488
-#: __init__.py:492
-#: __init__.py:498
-#: search_logic.py:431
-#: search_logic.py:435
-#: search_logic.py:436
-#: search_logic.py:467
-#: search_logic.py:500
+#: __init__.py:456
+#: __init__.py:460
+#: __init__.py:466
+#: __init__.py:489
+#: __init__.py:493
+#: __init__.py:499
+#: search_logic.py:458
+#: search_logic.py:462
+#: search_logic.py:463
+#: search_logic.py:494
+#: search_logic.py:562
 msgid "No matches found"
 msgstr "Tiada padanan ditemui"
 
-#: __init__.py:444
-#: __init__.py:477
+#: __init__.py:445
+#: __init__.py:478
 msgid "No matches found for 'error'"
 msgstr "Tiada padanan ditemui untuk 'error'"
 
-#: __init__.py:591
+#: __init__.py:590
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
-msgstr "Buka fail log NVDA (utamakan nvda-old.log, jika tiada nvda.log)"
+msgstr "Buka fail log NVDA (utamakan nvda-old.log, sandaran kepada nvda.log)"
 
-#: __init__.py:612
+#: __init__.py:615
 msgid "Opening {file_type}"
 msgstr "Membuka {file_type}"
 
-#: __init__.py:307
-#: __init__.py:377
+#: __init__.py:308
+#: __init__.py:378
 msgid "Reached end of bookmarks"
-msgstr "Telah sampai ke penghujung penanda buku"
+msgstr "Mencapai penghujung tanda buku"
 
-#: search_logic.py:430
+#: search_logic.py:457
 msgid "Search failed or invalid expression"
-msgstr "Carian gagal atau ungkapan tidak sah"
+msgstr "Gelintaran gagal atau ungkapan tidak sah"
 
-#: search_logic.py:288
+#: search_logic.py:316
 msgid "Search in NVDA Log"
 msgstr "Cari dalam Log NVDA"
 
-#: __init__.py:189
+#: __init__.py:190
 msgid "Search in NVDA Log Viewer"
 msgstr "Cari dalam Pelihat Log NVDA"
 
-#: search_logic.py:414
+#: search_logic.py:441
 msgid "Search term cannot be empty"
-msgstr "Istilah carian tidak boleh kosong"
+msgstr "Istilah gelintar tidak boleh kosong"
 
-#: search_logic.py:322
+#: search_logic.py:350
 msgid "Wrap around"
-msgstr "Carian berpusing"
+msgstr "Carian menyeluruh"
 
-#: __init__.py:304
-#: __init__.py:375
+#: __init__.py:305
+#: __init__.py:376
 msgid "Wrapping to first bookmark"
-msgstr "Berpusing ke penanda buku pertama"
+msgstr "Kembali ke tanda buku pertama"
 
-#: search_logic.py:451
+#: search_logic.py:478
 msgid "Wrapping to first match"
-msgstr "Berpusing ke padanan pertama"
+msgstr "Kembali ke padanan pertama"
 
-#: __init__.py:342
-#: __init__.py:384
+#: __init__.py:343
+#: __init__.py:385
 msgid "Wrapping to last bookmark"
-msgstr "Berpusing ke penanda buku terakhir"
+msgstr "Kembali ke tanda buku terakhir"
 
-#: search_logic.py:463
+#: search_logic.py:490
 msgid "Wrapping to last match"
-msgstr "Berpusing ke padanan terakhir"
+msgstr "Kembali ke padanan terakhir"
 
 #: __init__.py:603
 msgid "current log file"
@@ -222,10 +225,10 @@ msgstr "fail log semasa"
 msgid "old log file"
 msgstr "fail log lama"
 
-#: search_logic.py:280
+#: search_logic.py:308
 msgid "{current} of {total}"
 msgstr "{current} daripada {total}"
 
-#: search_logic.py:270
+#: search_logic.py:298
 msgid "{term} {current} of {total}"
 msgstr "{term} {current} daripada {total}"
