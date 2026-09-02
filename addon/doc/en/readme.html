@@ -1,165 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>logViewer - Professional Log Analysis for NVDA</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      line-height: 1.7;
-      margin: 0;
-      padding: 40px;
-      background-color: #f9fafb;
-      color: #333;
-    }
-    .container {
-      max-width: 850px;
-      margin: auto;
-      background: #ffffff;
-      padding: 50px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    }
-    .header-logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .header-logo img {
-      max-width: 180px;
-      height: auto;
-    }
-    h1 {
-      color: #0056b3;
-      text-align: center;
-      font-size: 2.8em;
-      margin-bottom: 10px;
-      letter-spacing: -1px;
-    }
-    h2 {
-      color: #004494;
-      border-bottom: 2px solid #f0f3f6;
-      padding-bottom: 8px;
-      margin-top: 45px;
-      font-size: 1.6em;
-    }
-    h3 {
-      color: #0078d4;
-      font-size: 1.3em;
-      margin-top: 25px;
-    }
-    code {
-      background-color: #f3f4f6;
-      padding: 3px 7px;
-      border-radius: 5px;
-      font-family: 'Cascadia Code', 'Consolas', monospace;
-      font-size: 0.95em;
-      color: #d63384;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 15px;
-    }
-    .author-info {
-      text-align: center;
-      font-size: 1.1em;
-      color: #666;
-      margin-bottom: 40px;
-    }
-    .author-info a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-    .author-info a:hover {
-      text-decoration: underline;
-    }
-    .section p {
-      margin-bottom: 20px;
-    }
-    .highlight {
-      font-weight: bold;
-      color: #0056b3;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>LogViewer NVDA Add-on</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1, h2, h3 {
+    text-align: center;
+}
+b {
+    font-weight: bold;
+}
+.section {
+    margin-bottom: 30px;
+}
+.nvda-logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 120px;
+    height: auto;
+}
+.hotkey {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+.tap-explanation {
+    background: #e8f4fc;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.feature-item {
+    margin: 15px 0;
+    padding-left: 10px;
+}
+.note {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+</style>
 </head>
 <body>
 
 <div class="container">
-  <div class="header-logo">
-    <img src="https://www.nvaccess.org/wp-content/uploads/2015/10/NVDA_logo_standard_transparent.png" alt="NVDA Logo">
-  </div>
 
-  <h1>logViewer</h1>
+<div class="section">
+    <img src="https://www.nvaccess.org/files/nvda/documentation/userGuide/images/nvda.ico" alt="NVDA Logo" class="nvda-logo">
+    <h1>LogViewer</h1>
+    <br>
+    <p style="text-align: center;">Find it, mark it, copy it — total command of the NVDA log.</p>
+</div>
+<br>
+<div class="section">
+    <p style="text-align: center;"><b>author:</b> chai chaimee & Pierre-Louis R.</p>
+    <p style="text-align: center;"><b>url:</b> https://github.com/chaichaimee/logViewer</p>
+</div>
+<br>
 
-  <div class="author-info">
-    <p><strong>Authors:</strong> chai chaimee &amp; Pierre-Louis R.</p>
-    <p><strong>Project Home:</strong> <a href="https://github.com/chaichaimee/logViewer">https://github.com/chaichaimee/logViewer</a></p>
-  </div>
+<div class="section">
+<h2>Introduction</h2>
+<br>
+<p>LogViewer is an NVDA add-on that turns the NVDA Log Viewer, and even a log file opened in an external text editor, into a fully searchable and bookmarkable workspace.</p>
+<br>
+<p>Instead of scrolling endlessly through thousands of log lines to find an error, you can search instantly, jump straight to any bookmark, and copy an entire error block to the clipboard with a single extra tap of a key.</p>
+<br>
+<p>It also watches for crashes automatically: if NVDA restarted after a crash, LogViewer quietly drops a bookmark at the point of failure in the old log so you can find it right away.</p>
+</div>
+<br>
 
-  <div class="section">
-    <h2>What's New</h2>
-    <p>Experience the new <span class="highlight">Old Log</span> functionality—an intelligent way to recover and review your logs from previous sessions instantly, ensuring no critical data is lost after a system restart.</p>
-  </div>
+<div class="section">
+<h3>Hot Keys</h3>
 
-  <div class="section">
-    <h2>Features</h2>
-    <p><strong>logViewer</strong> transforms the standard NVDA Log Viewer into a high-performance diagnostic tool. Designed for developers and power users, it brings professional-grade editing features directly into your workflow:</p>
-    <ul>
-      <li>
-        <strong>Advanced Search Engine:</strong><br />
-        Harness the power of <code>Control+F</code>. Our search dialog supports Case-sensitivity, Wrap-around navigation, and <span class="highlight">Regular Expressions</span>. Plus, it remembers your search history for rapid re-use.
-      </li>
-      <li>
-        <strong>Instant Navigation:</strong><br />
-        Move through results at lightning speed. Use <code>F3</code> for the next match or <code>Shift+F3</code> for the previous one—all without ever re-opening a dialog.
-      </li>
-      <li>
-        <strong>Precision Bookmarking:</strong><br />
-        Never lose your place again. Tag critical events with <code>Control+F2</code> and navigate between your custom markers effortlessly using <code>F2</code> and <code>Shift+F2</code>.
-      </li>
-    </ul>
-  </div>
+<div class="hotkey">
+<b>Control+F</b><br>
+Single Tap : Open the Search in NVDA Log dialog (only works while focused in the NVDA Log Viewer)
+</div>
 
-  <div class="section">
-    <h2>Old Log Functionality</h2>
-    <p>Stop worrying about losing logs after a crash. Our refined recovery system ensures your data is always within reach.</p>
+<div class="hotkey">
+<b>Control+F2</b><br>
+Single Tap : Insert a numbered bookmark at the current point in the log
+</div>
 
-    <h3>Reliable Log Recovery</h3>
-    <ul>
-      <li><strong>Direct Session Access</strong>: Instantly retrieve the <code>nvda-old.log</code> from your system's temporary directory. No manual searching required.</li>
-      <li><strong>One-Key Activation</strong>: Press <code>NVDA+Control+L</code> to immediately open your previous session's log in your preferred external text editor.</li>
-      <li><strong>Optimized for Debugging</strong>: By targeting the system's generated old log, you get the most accurate snapshot of what happened right before a crash or restart.</li>
-    </ul>
+<div class="hotkey">
+<b>F2</b><br>
+Single Tap : Move to the next bookmark in the log
+</div>
 
-    <h3>Resilience Against Crashes</h3>
-    <p>When NVDA crashes and restarts, the history of the failed session is preserved by the system. <strong>logViewer</strong> acts as your dedicated gateway to this data, allowing you to bypass technical hurdles and jump straight into analysis and troubleshooting.</p>
-  </div>
+<div class="hotkey">
+<b>Shift+F2</b><br>
+Single Tap : Move to the previous bookmark in the log
+</div>
 
-  <div class="section">
-    <h2>Universal Language Support</h2>
-    <p>Built for the global NVDA community, <strong>logViewer</strong> works seamlessly in any language.</p>
-    <p>By utilizing advanced <span class="highlight">Window Handle (HWND)</span> detection instead of relying on localized window titles, we guarantee 100% compatibility across all language versions of NVDA.</p>
-  </div>
+<div class="hotkey">
+<b>F3</b><br>
+Single Tap : Find the next occurrence of the current quick-search term<br>
+Double Tap : Copy the ERROR / WARNING / Traceback block at the current match to the clipboard
+</div>
+
+<div class="hotkey">
+<b>Shift+F3</b><br>
+Single Tap : Find the previous occurrence of the current quick-search term
+</div>
+
+<div class="hotkey">
+<b>NVDA+Control+L</b><br>
+Single Tap : Open the NVDA log file in your default text editor (prefers nvda-old.log, falls back to nvda.log)
+</div>
+
+<div class="hotkey">
+<b>Control+Shift+F2</b><br>
+Single Tap : Copy everything logged since the latest bookmark to the clipboard<br>
+Double Tap : Step back and copy the segment belonging to the previous bookmark<br>
+Triple Tap : Switch between reading the current log and the old log for this feature
+</div>
+
+</div>
+<br>
+
+<div class="section">
+<h2>Features</h2>
+<br>
+
+<div class="feature-item">
+<h3>Search Dialog (Control+F)</h3>
+<p>While focused in the NVDA Log Viewer, Control+F opens a dedicated search dialog with:</p>
+<br>
+<p>- A search box that remembers your last 20 search terms.<br>
+- A <b>Case sensitive</b> checkbox.<br>
+- A <b>Wrap around</b> checkbox, so searching continues from the top/bottom instead of stopping at the end.<br>
+- A choice between <b>normal text</b> and <b>regular expression</b> search.<br>
+- <b>Find Next</b> and <b>Find Previous</b> buttons to move through matches while the dialog stays open.<br>
+- A <b>Find &amp; Focus</b> button (or pressing Enter in the search box) that closes the dialog and moves your cursor directly onto the match inside the log.<br>
+- A results box that previews a few matches around your current position, marking the active one.</p>
+<br>
+<p>The search itself runs on a background thread so that very large logs do not slow down or freeze NVDA while scanning.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Bookmarks (Control+F2, F2, Shift+F2)</h3>
+<p>Control+F2 writes a line such as <b>BOOKMARK 3</b> into the log at your current position and speaks the bookmark number. Each new bookmark automatically increases the number by one.</p>
+<br>
+<p>F2 and Shift+F2 then let you jump forward or backward between these bookmarks. If <b>Wrap around</b> is enabled in settings, reaching the last bookmark loops back to the first, and vice versa.</p>
+<br>
+<p>Step by step, when you press F2:</p>
+<br>
+<p>1. LogViewer re-scans the log text for all <b>BOOKMARK</b> markers and sorts them by position.<br>
+2. It advances one position forward in that sorted list.<br>
+3. If you were already on the last bookmark and wrap is off, you hear "Reached end of bookmarks" and stay put.<br>
+4. Otherwise your cursor is moved to that bookmark's location and NVDA announces the bookmark number.</p>
+<br>
+<p>The bookmark counter itself resets to 1 automatically whenever Windows has been fully rebooted (detected via system uptime), but stays the same across ordinary NVDA restarts.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Automatic Crash Bookmark</h3>
+<p>On startup, LogViewer checks the previous session's log (nvda-old.log) for signs that NVDA crashed, such as a Traceback, an unhandled exception, or a CRASH entry as the very last line.</p>
+<br>
+<p>If a crash is detected and a bookmark was not already placed near it, LogViewer silently appends a bookmark to that old log so you can locate the crash point straight away with F2/Shift+F2, without having to manually search for it.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Quick Search and Copy Error Block (F3 / Shift+F3)</h3>
+<p>F3 performs a quick, dialog-free search using the term last searched, or, if none has been used yet, one of your configured default quick-search terms (see Settings below).</p>
+<br>
+<p>F3 is also a double-action key:</p>
+<br>
+<p>- <b>Single tap</b>: jump to the next match and announce it (the exact announcement format depends on your settings).<br>
+- <b>Double tap</b> (within half a second): instead of moving, LogViewer copies the whole error/warning/traceback block surrounding the current match to the clipboard, and plays a short beep to confirm the copy.</p>
+<br>
+<p>How the "block" is detected, step by step:</p>
+<br>
+<p>1. LogViewer looks upward from the match to find where the block starts, recognizing lines that begin with "ERROR -", "WARNING -", or "Traceback".<br>
+2. It then looks downward, including any indented continuation lines that belong to that same block (for example, the lines of a Python traceback).<br>
+3. It stops at the next INFO/WARNING/ERROR/DEBUG line, a blank line, or an unindented line, whichever comes first.<br>
+4. Only the resulting block of text is copied — not the entire log.</p>
+<br>
+<p>Shift+F3 always performs a plain "find previous" using the same last search term and never triggers the copy behavior.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Open Log File (NVDA+Control+L)</h3>
+<p>This opens the NVDA log in your system's default text editor. It prefers nvda-old.log (the previous session's log, most useful right after a crash or restart) and falls back to nvda.log if no old log exists.</p>
+<br>
+<p>Once opened this way, LogViewer remembers which file you opened so that F2, Shift+F2, and the search hotkeys can keep working even while your cursor is inside that external editor window, not just inside the built-in NVDA Log Viewer.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Copy From Bookmark (Control+Shift+F2)</h3>
+<p>This hotkey reads bookmarks directly from the log file on disk, so it works even if neither the NVDA Log Viewer nor an external editor is open. It has three tap levels:</p>
+<br>
+<p>- <b>Single tap</b>: copies everything logged after the most recent bookmark to the clipboard.<br>
+- <b>Double tap</b>: steps one bookmark further back and copies that earlier segment instead — pressing it repeatedly walks backward through your bookmark history, looping back to the latest bookmark once you pass the first.<br>
+- <b>Triple tap</b>: switches which log file this feature reads from, toggling between the current session's nvda.log and the previous session's nvda-old.log.</p>
+<br>
+<p>Each successful copy plays a short confirmation beep.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Conflicting Application Awareness</h3>
+<p>Some applications use Control+F2 or Control+Shift+F2 for their own purposes. LogViewer checks the current application (for example Notepad++, Word, VS Code, Sublime Text, Atom, or Brackets) and, if it matches one of these, passes the key press straight through to that application instead of intercepting it.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Settings Panel</h3>
+<p>A "Log Viewer" category is added to the NVDA Settings dialog, offering:</p>
+<br>
+<p>- <b>Case sensitive by default</b>, and <b>Wrap around by default</b>, checkboxes matching the search dialog's own options.<br>
+- <b>Search result announcement style</b>, choosing whether results are read as term, line number and match position together; line number only; or just the matched line's text.<br>
+- <b>Default quick-search terms</b>, a list (one per line) of terms that F3 falls back to automatically when no manual search has been made yet.</p>
+<br>
+<p>All settings, along with your search term history, are stored as JSON files under your NVDA user configuration folder, and LogViewer automatically migrates data saved by older versions of the add-on to this location.</p>
+</div>
+
+</div>
 
 <br><br>
 <h2>Support Me</h2>
     <p>If this tool has made your life easier, consider fueling the next update with a small donation.</p>
-
 <br>
-
 <p>
   <a href="https://buy.stripe.com/dRm9AU1xQ3Ds22N6VK1VK01">
     <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Support me">
   </a>
 </p>
 <br>
-
-
 <p>Your support means the world. Let's build something great together</p>
-
 <br>
-
   <div class="footer-note">
-<p>&copy; 2026 Chai Chaimee NVDA Add-on Released under GN
+<p>&copy; 2026 Chai Chaimee NVDA Add-on Released under GNU GPL</p>
+</div>
+
+</div> <!-- End container -->
+</body>
+</html>

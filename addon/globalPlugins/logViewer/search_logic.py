@@ -1,4 +1,6 @@
 # search_logic.py
+# Copyright (C) 2026 Chai Chaimee
+# Licensed under GNU General Public License. See COPYING.txt for details.
 
 import wx
 import api
@@ -27,6 +29,8 @@ user32.GetAncestor.restype = wintypes.HWND
 def fIsLogViewer(obj):
 	if obj is None:
 		return False
+	if not hasattr(gui, 'logViewer') or gui.logViewer.logViewer is None:
+		return False
 	if obj.role == controlTypes.Role.PANE:
 		hParent = obj.windowHandle
 	else:
@@ -42,13 +46,20 @@ def fIsLogViewer(obj):
 def get_full_text(textCtrl):
 	if fIsLogViewer(textCtrl):
 		try:
-			text = gui.logViewer.logViewer.outputCtrl.GetValue()
-			if text.strip():
-				log.debug(f"Got log text via outputCtrl, length: {len(text)}")
-				return text
+			# Ensure logViewer and outputCtrl are fully initialized before accessing
+			if (hasattr(gui.logViewer, 'logViewer') and
+				gui.logViewer.logViewer is not None and
+				hasattr(gui.logViewer.logViewer, 'outputCtrl') and
+				gui.logViewer.logViewer.outputCtrl is not None):
+				text = gui.logViewer.logViewer.outputCtrl.GetValue()
+				if text.strip():
+					log.debug(f"Got log text via outputCtrl, length: {len(text)}")
+					return text
+				else:
+					log.debug("outputCtrl returned empty text, falling back to makeTextInfo")
 			else:
-				log.debug("outputCtrl returned empty text, falling back to makeTextInfo")
-		except Exception as e:
+				log.debug("logViewer or outputCtrl not ready, falling back to makeTextInfo")
+		except (AttributeError, RuntimeError) as e:
 			log.error(f"outputCtrl.GetValue failed: {e}, falling back to makeTextInfo")
 		# Fallback to IAccessible textInfo
 		try:
@@ -56,14 +67,14 @@ def get_full_text(textCtrl):
 			fallback_text = ti.text
 			log.debug(f"Fallback text length: {len(fallback_text)}")
 			return fallback_text
-		except Exception as e2:
+		except (RuntimeError, NotImplementedError) as e2:
 			log.error(f"Fallback makeTextInfo also failed: {e2}")
 			return ""
 	else:
 		try:
 			ti = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
 			return ti.text
-		except Exception as e:
+		except (RuntimeError, NotImplementedError) as e:
 			log.error(f"Error getting text from text control: {e}")
 			return ""
 
@@ -98,8 +109,15 @@ class SearchType(Enum):
 
 def extract_line_from_textctrl(textCtrl, position):
 	try:
-		textInfo = textCtrl.makeTextInfo(textInfos.POSITION_ALL)
-		allText = textInfo.text
+		# Must use the same text source that produced the match offset
+		# (get_full_text), not a fresh raw COM call. The NVDA log viewer's
+		# COM-based text and its outputCtrl.GetValue() text are not guaranteed
+		# to be the same length/content, so mixing sources here makes
+		# "position" point at the wrong line -- this was the cause of quick
+		# search always reporting line 1 regardless of actual position.
+		allText = get_full_text(textCtrl)
+		if not allText:
+			return 0, ""
 		line_num = allText.count('\n', 0, position) + 1
 		line_start = allText.rfind('\n', 0, position) + 1
 		line_end = allText.find('\n', position)
@@ -107,7 +125,7 @@ def extract_line_from_textctrl(textCtrl, position):
 			line_end = len(allText)
 		line_text = allText[line_start:line_end].strip()
 		return line_num, line_text
-	except Exception as e:
+	except (RuntimeError, NotImplementedError) as e:
 		log.error(f"Error extracting line: {e}")
 		return 0, ""
 
@@ -235,7 +253,7 @@ class SearchManager:
 			self.newSearchPerformed = True
 			log.debug(f"Quick search for '{term}' found {len(self.lastMatches)} matches")
 			return True
-		except Exception as e:
+		except re.error as e:
 			log.error(f"Error during quick search: {e}")
 			return False
 
@@ -283,31 +301,53 @@ class SearchManager:
 				ti.collapse()
 				ti.updateSelection()
 
-				core.callLater(50, self._speakResult, index, len(self.lastMatches), announce_total)
-			except Exception as e:
+				core.callLater(50, self._speakResult, index, len(self.lastMatches), announce_total, line_num, line_text)
+			except (RuntimeError, NotImplementedError) as e:
 				log.error(f"Error moving to match: {e}")
 				ui.message(_("Error moving to match"))
 
 		wx.CallAfter(_move)
 
-	def _speakResult(self, current_index, total_matches, announce_total):
+	# Hard cap on how much text is ever handed to ui.message() in one call.
+	# SAPI5 and other synth drivers can lock up or crash NVDA outright when fed
+	# a very long string in one shot (this is what caused the "string only"
+	# mode to crash the synth and take NVDA down with it). One log line is
+	# normally well under this, so the cap only bites on pathological lines.
+	_MAX_SPOKEN_CHARS = 300
+
+	def _speakResult(self, current_index, total_matches, announce_total, line_num, line_text):
+		from .config_manager import PluginSettings
 		try:
+			announceMode = PluginSettings.get().announceMode
 			parts = []
-			if announce_total:
-				parts.append(_("Found {count} items").format(count=total_matches))
-			parts.append(_("{term} {current} of {total}").format(
-				term=self.lastSearchTerm,
-				current=current_index+1,
-				total=total_matches
-			))
+			if announceMode == "line_only":
+				if announce_total:
+					parts.append(_("Found {count} items").format(count=total_matches))
+				parts.append(_("{line} line").format(line=line_num))
+			elif announceMode == "string_only":
+				safeLineText = line_text
+				if len(safeLineText) > self._MAX_SPOKEN_CHARS:
+					safeLineText = safeLineText[:self._MAX_SPOKEN_CHARS] + "..."
+				parts.append(safeLineText)
+			else:
+				# "full" mode: term, line number, and match position together,
+				# e.g. "error line 125 1 of 30" -- the line number was
+				# previously missing from this format entirely.
+				if announce_total:
+					parts.append(_("Found {count} items").format(count=total_matches))
+				parts.append(_("{term} line {line} {current} of {total}").format(
+					term=self.lastSearchTerm,
+					line=line_num,
+					current=current_index + 1,
+					total=total_matches
+				))
 			full_message = " ".join(parts)
+			if len(full_message) > self._MAX_SPOKEN_CHARS:
+				full_message = full_message[:self._MAX_SPOKEN_CHARS] + "..."
 			ui.message(full_message)
-		except Exception as e:
+		except LookupError as e:
 			log.error(f"Error speaking result: {e}")
-			try:
-				ui.message(_("{current} of {total}").format(current=current_index+1, total=total_matches))
-			except:
-				pass
+			ui.message(_("{current} of {total}").format(current=current_index + 1, total=total_matches))
 
 
 class LogSearchDialog(wx.Dialog):
@@ -325,6 +365,7 @@ class LogSearchDialog(wx.Dialog):
 		self.currentMatch = -1
 		self.matches = []
 		self.searchLock = threading.Lock()
+		self._pendingFocusMove = False
 
 		self.panel = wx.Panel(self)
 		self.mainSizer = wx.BoxSizer(wx.VERTICAL)
@@ -375,6 +416,10 @@ class LogSearchDialog(wx.Dialog):
 		self.prevButton.Bind(wx.EVT_BUTTON, lambda evt: self.performSearch(forward=False, focus=False))
 		self.cancelButton.Bind(wx.EVT_BUTTON, self.onClose)
 		self.Bind(wx.EVT_CLOSE, self.onClose)
+		# Event-driven focus handoff: rather than guessing how long window
+		# destruction takes with a hardcoded core.callLater delay, wait for the
+		# actual OS destroy notification before touching the caret/focus.
+		self.Bind(wx.EVT_WINDOW_DESTROY, self._onWindowDestroy)
 
 		self.searchBox.SetFocus()
 
@@ -384,25 +429,37 @@ class LogSearchDialog(wx.Dialog):
 			self.globalPlugin.searchDialog = None
 		self.Destroy()
 
+	def _onWindowDestroy(self, event):
+		event.Skip()
+		if event.GetEventObject() is not self:
+			return
+		if self._pendingFocusMove:
+			self._pendingFocusMove = False
+			wx.CallAfter(self._focusAndMoveToMatch)
+
 	def doSearch(self, term, caseSensitive, searchType):
+		"""Runs entirely off the main thread (called from a worker thread by
+		performSearch). Retrieves the full log text and performs the regex scan,
+		then returns a plain list of match spans -- never touches wx widgets or
+		self.matches directly, so the caller must marshal the result back to the
+		main thread via wx.CallAfter before applying it to UI state."""
 		with self.searchLock:
-			self.matches = []
 			try:
 				allText = get_full_text(self.logCtrl)
 				if not allText or not allText.strip():
-					ui.message(_("Log is empty"))
-					return False
+					return []
 				searchFlags = 0 if caseSensitive else re.IGNORECASE
 				isRegex = searchType == SearchType.REGULAR_EXPRESSION
 				if isRegex:
 					try:
 						found_iter = re.finditer(term, allText, searchFlags)
 					except re.error as e:
-						ui.message(_("Invalid regular expression: {error}").format(error=e))
-						return False
+						log.error(f"Invalid regular expression: {e}")
+						return None
 				else:
 					found_iter = re.finditer(re.escape(term), allText, searchFlags)
 
+				matches = []
 				if term.lower() == "error":
 					for m in found_iter:
 						start = m.start()
@@ -412,23 +469,19 @@ class LogSearchDialog(wx.Dialog):
 							line_end = len(allText)
 						line_text = allText[line_start:line_end]
 						if not _is_excluded_error_line(line_text):
-							self.matches.append(m.span())
+							matches.append(m.span())
 				else:
-					self.matches = [m.span() for m in found_iter]
-
-				self.lastSearchTerm = term
-				self.lastCaseSensitive = caseSensitive
-				self.lastSearchType = searchType
-				return True
-			except Exception as e:
+					matches = [m.span() for m in found_iter]
+				return matches
+			except re.error as e:
 				log.error(f"Error during search: {e}")
-				return False
+				return None
 
 	def getCaretPosition(self):
 		try:
 			textInfo = self.logCtrl.makeTextInfo(textInfos.POSITION_CARET)
 			return textInfo.bookmark.startOffset
-		except Exception as e:
+		except (RuntimeError, NotImplementedError) as e:
 			log.error(f"Error getting caret position: {e}")
 			return 0
 
@@ -449,15 +502,43 @@ class LogSearchDialog(wx.Dialog):
 		config.conf["LogViewerPlugin"]["searchType"] = searchType.name
 		config.conf.save()
 
-		if (term != self.lastSearchTerm or
-				caseSensitive != self.lastCaseSensitive or
-				searchType != self.lastSearchType or
-				not self.matches):
-			if not self.doSearch(term, caseSensitive, searchType):
-				self.resultBox.SetValue(_("Search failed or invalid expression"))
-				ui.message(_("No matches found"))
-				return
+		needsNewSearch = (
+			term != self.lastSearchTerm or
+			caseSensitive != self.lastCaseSensitive or
+			searchType != self.lastSearchType or
+			not self.matches
+		)
 
+		if not needsNewSearch:
+			self._continueSearchNavigation(wrap, forward, focus)
+			return
+
+		# Offload the full-text retrieval and regex scan to a background thread
+		# so a large log file cannot trip NVDA's main-thread watchdog timeout.
+		self.resultBox.SetValue(_("Searching..."))
+
+		def worker():
+			matches = self.doSearch(term, caseSensitive, searchType)
+			wx.CallAfter(self._onSearchComplete, term, caseSensitive, searchType, wrap, matches, forward, focus)
+
+		threading.Thread(target=worker, daemon=True).start()
+
+	def _onSearchComplete(self, term, caseSensitive, searchType, wrap, matches, forward, focus):
+		if not self.dialogOpen:
+			return
+		if matches is None:
+			self.resultBox.SetValue(_("Search failed or invalid expression"))
+			ui.message(_("No matches found"))
+			return
+		self.matches = matches
+		self.lastSearchTerm = term
+		self.lastCaseSensitive = caseSensitive
+		self.lastSearchType = searchType
+		self._continueSearchNavigation(wrap, forward, focus)
+
+	def _continueSearchNavigation(self, wrap, forward, focus):
+		if not self.dialogOpen:
+			return
 		if not self.matches:
 			self.resultBox.SetValue(_("No matches found"))
 			ui.message(_("No matches found"))
@@ -495,25 +576,28 @@ class LogSearchDialog(wx.Dialog):
 			return
 
 		if self.globalPlugin:
-			self.globalPlugin.search_manager.lastSearchTerm = term
+			self.globalPlugin.search_manager.lastSearchTerm = self.lastSearchTerm
 			self.globalPlugin.search_manager.lastMatches = self.matches
 			self.globalPlugin.search_manager.currentMatchIndex = self.currentMatch
-			self.globalPlugin.search_manager.lastCaseSensitive = caseSensitive
-			self.globalPlugin.search_manager.lastSearchType = searchType
+			self.globalPlugin.search_manager.lastCaseSensitive = self.lastCaseSensitive
+			self.globalPlugin.search_manager.lastSearchType = self.lastSearchType
 			self.globalPlugin.search_manager.newSearchPerformed = True
 
-			self.globalPlugin.lastSearchTerm = term
+			self.globalPlugin.lastSearchTerm = self.lastSearchTerm
 			self.globalPlugin.lastMatches = self.matches
 			self.globalPlugin.currentMatchIndex = self.currentMatch
-			self.globalPlugin._lastSearchCaseSensitive = caseSensitive
-			self.globalPlugin._lastSearchType = searchType
+			self.globalPlugin._lastSearchCaseSensitive = self.lastCaseSensitive
+			self.globalPlugin._lastSearchType = self.lastSearchType
 
 		if not focus:
 			self.updateResultDisplay()
 
 		if focus:
+			# Defer the actual focus move until wx confirms the dialog window has
+			# genuinely finished being destroyed (see _onWindowDestroy), instead of
+			# guessing at a fixed millisecond delay.
+			self._pendingFocusMove = True
 			self.Destroy()
-			core.callLater(50, self._focusAndMoveToMatch)
 		else:
 			self.moveToMatch()
 
@@ -547,7 +631,7 @@ class LogSearchDialog(wx.Dialog):
 					line_end = len(ti.text)
 				line_text = ti.text[line_start:line_end].strip()
 				ui.message(_("Line {number}: {text}").format(number=line_num, text=line_text))
-			except Exception as e:
+			except (RuntimeError, NotImplementedError) as e:
 				log.error(f"Error moving to match: {e}")
 				ui.message(_("Error moving to match"))
 
@@ -601,7 +685,7 @@ class LogSearchDialog(wx.Dialog):
 					line_end = len(ti.text)
 				line_text = ti.text[line_start:line_end].strip()
 				ui.message(_("Line {number}: {text}").format(number=line_num, text=line_text))
-			except Exception as e:
+			except (RuntimeError, NotImplementedError) as e:
 				log.error(f"Error moving to match: {e}")
 				ui.message(_("Error moving to match"))
 
@@ -610,5 +694,5 @@ class LogSearchDialog(wx.Dialog):
 	def isNVDAViewerObject(self, obj):
 		try:
 			return obj.role == controlTypes.Role.EDITABLETEXT and fIsLogViewer(obj)
-		except Exception:
+		except (AttributeError, RuntimeError):
 			return False

@@ -1,79 +1,261 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>logViewer - Professionelle Log-Analyse für NVDA</title>
-  <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.7; margin: 0; padding: 40px; background-color: #f9fafb; color: #333; }
-    .container { max-width: 850px; margin: auto; background: #ffffff; padding: 50px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-    .header-logo { text-align: center; margin-bottom: 20px; }
-    .header-logo img { max-width: 180px; height: auto; }
-    h1 { color: #0056b3; text-align: center; font-size: 2.8em; margin-bottom: 10px; letter-spacing: -1px; }
-    h2 { color: #004494; border-bottom: 2px solid #f0f3f6; padding-bottom: 8px; margin-top: 45px; font-size: 1.6em; }
-    h3 { color: #0078d4; font-size: 1.3em; margin-top: 25px; }
-    code { background-color: #f3f4f6; padding: 3px 7px; border-radius: 5px; font-family: 'Cascadia Code', monospace; font-size: 0.95em; color: #d63384; }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 15px; }
-    .author-info { text-align: center; font-size: 1.1em; color: #666; margin-bottom: 40px; }
-    .highlight { font-weight: bold; color: #0056b3; }
-  </style>
+<meta charset="UTF-8">
+<title>LogViewer NVDA-Erweiterung</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1, h2, h3 {
+    text-align: center;
+}
+b {
+    font-weight: bold;
+}
+.section {
+    margin-bottom: 30px;
+}
+.nvda-logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 120px;
+    height: auto;
+}
+.hotkey {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+.tap-explanation {
+    background: #e8f4fc;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.feature-item {
+    margin: 15px 0;
+    padding-left: 10px;
+}
+.note {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+</style>
 </head>
 <body>
+
 <div class="container">
-  <div class="header-logo"><img src="https://www.nvaccess.org/wp-content/uploads/2015/10/NVDA_logo_standard_transparent.png" alt="NVDA Logo"></div>
-  <h1>logViewer</h1>
-  <div class="author-info">
-    <p><strong>Autoren:</strong> chai chaimee &amp; Pierre-Louis R.</p>
-    <p><strong>URL:</strong> <a href="https://github.com/chaichaimee/logViewer">GitHub Repository</a></p>
-  </div>
-  <div class="section">
-    <h2>Was ist neu?</h2>
-    <p>Entdecken Sie die neue <span class="highlight">Old Log</span> Funktionalität – der intelligente Weg, Protokolle aus vorherigen Sitzungen sofort wiederherzustellen und zu prüfen.</p>
-  </div>
-  <div class="section">
-    <h2>Funktionen</h2>
-    <p><strong>logViewer</strong> macht aus dem NVDA Log Viewer ein Hochleistungs-Diagnosetool für Entwickler und Power-User:</p>
-    <ul>
-      <li><strong>Erweiterte Suche:</strong> Nutzen Sie <code>Control+F</code> für Case-Sensitivity, Wrap-around und <span class="highlight">Reguläre Ausdrücke</span> inklusive Suchverlauf.</li>
-      <li><strong>Schnellnavigation:</strong> Mit <code>F3</code> zum nächsten Treffer oder <code>Shift+F3</code> zum vorherigen – ohne Dialoge neu zu öffnen.</li>
-      <li><strong>Präzises Bookmark-System:</strong> Markieren Sie wichtige Stellen mit <code>Control+F2</code> und navigieren Sie mit <code>F2</code> und <code>Shift+F2</code>.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>Old Log Funktionalität</h2>
-    <p>Keine Angst mehr vor Datenverlust nach einem Absturz. Unser System hält Ihre Daten bereit.</p>
-    <ul>
-      <li><strong>Direkter Zugriff:</strong> Öffnet sofort die <code>nvda-old.log</code> aus dem temporären Verzeichnis.</li>
-      <li><strong>Ein-Tasten-Aktivierung:</strong> Drücken Sie <code>NVDA+Control+L</code>, um das Protokoll der letzten Sitzung in Ihrem externen Editor zu öffnen.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>Sprachunterstützung</h2>
-    <p>Dank <span class="highlight">Window Handle (HWND)</span> Erkennung funktioniert logViewer weltweit in jeder NVDA-Sprachversion perfekt.</p>
-  </div>
+
+<div class="section">
+    <img src="https://www.nvaccess.org/files/nvda/documentation/userGuide/images/nvda.ico" alt="NVDA Logo" class="nvda-logo">
+    <h1>LogViewer</h1>
+    <br>
+    <p style="text-align: center;">Suchen, markieren, kopieren – die vollständige Kontrolle über das NVDA-Protokoll.</p>
+</div>
+<br>
+<div class="section">
+    <p style="text-align: center;"><b>Autor:</b> chai chaimee & Pierre-Louis R.</p>
+    <p style="text-align: center;"><b>URL:</b> https://github.com/chaichaimee/logViewer</p>
+</div>
+<br>
+
+<div class="section">
+<h2>Einführung</h2>
+<br>
+<p>LogViewer ist eine NVDA-Erweiterung, die den NVDA-Protokollbetrachter und sogar in einem externen Texteditor geöffnetes NVDA-Protokoll in einen vollständig durchsuchbaren und mit Lesezeichen versehenbaren Arbeitsbereich verwandelt.</p>
+<br>
+<p>Anstatt endlos durch Tausende von Protokollzeilen zu scrollen, um einen Fehler zu finden, können Sie sofort suchen, direkt zu jedem Lesezeichen springen und einen gesamten Fehlerblock mit einem einzigen zusätzlichen Tastendruck in die Zwischenablage kopieren.</p>
+<br>
+<p>Es überwacht auch automatisch Abstürze: Wenn NVDA nach einem Absturz neu gestartet wurde, setzt LogViewer leise ein Lesezeichen an der Fehlerstelle im alten Protokoll, damit Sie diese sofort finden können.</p>
+</div>
+<br>
+
+<div class="section">
+<h3>Tastenkombinationen</h3>
+
+<div class="hotkey">
+<b>Strg+F</b><br>
+Einmaliges Drücken : Öffnet den Dialog "Im NVDA-Protokoll suchen" (funktioniert nur, wenn der Fokus im NVDA-Protokollbetrachter liegt)
+</div>
+
+<div class="hotkey">
+<b>Strg+F2</b><br>
+Einmaliges Drücken : Fügt ein nummeriertes Lesezeichen an der aktuellen Position im Protokoll ein
+</div>
+
+<div class="hotkey">
+<b>F2</b><br>
+Einmaliges Drücken : Springt zum nächsten Lesezeichen im Protokoll
+</div>
+
+<div class="hotkey">
+<b>Umschalt+F2</b><br>
+Einmaliges Drücken : Springt zum vorherigen Lesezeichen im Protokoll
+</div>
+
+<div class="hotkey">
+<b>F3</b><br>
+Einmaliges Drücken : Findet das nächste Vorkommen des aktuellen Schnellsuchbegriffs<br>
+Zweimaliges Drücken : Kopiert den ERROR- / WARNING- / Traceback-Block des aktuellen Treffers in die Zwischenablage
+</div>
+
+<div class="hotkey">
+<b>Umschalt+F3</b><br>
+Einmaliges Drücken : Findet das vorherige Vorkommen des aktuellen Schnellsuchbegriffs
+</div>
+
+<div class="hotkey">
+<b>NVDA+Strg+L</b><br>
+Einmaliges Drücken : Öffnet die NVDA-Protokolldatei in Ihrem Standard-Texteditor (bevorzugt nvda-old.log, fällt auf nvda.log zurück)
+</div>
+
+<div class="hotkey">
+<b>Strg+Umschalt+F2</b><br>
+Einmaliges Drücken : Kopiert alles ab dem neuesten Lesezeichen in die Zwischenablage<br>
+Zweimaliges Drücken : Geht einen Schritt zurück und kopiert das Segment des vorherigen Lesezeichens<br>
+Dreimaliges Drücken : Wechselt für diese Funktion zwischen dem Auslesen des aktuellen und des alten Protokolls
+</div>
+
+</div>
+<br>
+
+<div class="section">
+<h2>Funktionen</h2>
+<br>
+
+<div class="feature-item">
+<h3>Suchdialog (Strg+F)</h3>
+<p>Wenn der Fokus im NVDA-Protokollbetrachter liegt, öffnet Strg+F einen speziellen Suchdialog mit:</p>
+<br>
+<p>- Einem Suchfeld, das sich Ihre letzten 20 Suchbegriffe merkt.<br>
+- Einer Kontrollkästchen für <b>Groß-/Kleinschreibung beachten</b>.<br>
+- Einer Kontrollkästchen für <b>Zyklische Suche</b>, damit die Suche oben/unten fortgesetzt wird, anstatt am Ende zu stoppen.<br>
+- Einer Auswahl zwischen <b>Normalem Text</b> und <b>Regulärem Ausdruck</b>.<br>
+- Schaltflächen <b>Weitersuchen</b> und <b>Rückwärts suchen</b>, um durch Treffer zu navigieren, während der Dialog geöffnet bleibt.<br>
+- Einer Schaltfläche <b>Suchen &amp; Fokus</b> (oder Eingabetaste im Suchfeld), die den Dialog schließt und den Cursor direkt auf den Treffer im Protokoll setzt.<br>
+- Einem Ergebnisbereich, der eine Vorschau von Treffern um Ihre aktuelle Position anzeigt und den aktiven Treffer markiert.</p>
+<br>
+<p>Die Suche selbst läuft in einem Hintergrund-Thread, sodass sehr große Protokolle NVDA beim Scannen nicht verlangsamen oder einfrieren.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Lesezeichen (Strg+F2, F2, Umschalt+F2)</h3>
+<p>Strg+F2 schreibt eine Zeile wie <b>BOOKMARK 3</b> an Ihrer aktuellen Position in das Protokoll und sagt die Lesezeichennummer an. Jedes neue Lesezeichen erhöht die Nummer automatisch um eins.</p>
+<br>
+<p>Mit F2 und Umschalt+F2 können Sie dann vorwärts oder rückwärts zwischen diesen Lesezeichen springen. Wenn <b>Zyklische Suche</b> in den Einstellungen aktiviert ist, springt das Erreichen des letzten Lesezeichens zurück zum ersten und umgekehrt.</p>
+<br>
+<p>Schritt für Schritt beim Drücken von F2:</p>
+<br>
+<p>1. LogViewer scannt den Protokolltext erneut nach allen <b>BOOKMARK</b>-Markierungen und sortiert sie nach Position.<br>
+2. Es rückt eine Position in dieser sortierten Liste vor.<br>
+3. Wenn Sie sich bereits auf dem letzten Lesezeichen befanden und die zyklische Suche aus ist, hören Sie "Ende der Lesezeichen erreicht" und bleiben an Ort und Stelle.<br>
+4. Andernfalls wird Ihr Cursor an die Position dieses Lesezeichens bewegt und NVDA kündigt die Lesezeichennummer an.</p>
+<br>
+<p>Der Lesezeichenzähler selbst wird automatisch auf 1 zurückgesetzt, wenn Windows vollständig neu gestartet wurde (erkannt über die Systemlaufzeit), bleibt aber bei normalen NVDA-Neustarts erhalten.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Automatisches Absturz-Lesezeichen</h3>
+<p>Beim Start prüft LogViewer das Protokoll der vorherigen Sitzung (nvda-old.log) auf Anzeichen eines NVDA-Absturzes, z. B. einen Traceback, eine unbehandelte Ausnahme oder einen CRASH-Eintrag als allerletzte Zeile.</p>
+<br>
+<p>Wenn ein Absturz erkannt wird und noch kein Lesezeichen in der Nähe platziert wurde, fügt LogViewer diesem alten Protokoll stillschweigend ein Lesezeichen hinzu, sodass Sie die Absturzstelle sofort mit F2/Umschalt+F2 lokalisieren können, ohne manuell danach suchen zu müssen.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Schnellsuche und Fehlerblock kopieren (F3 / Umschalt+F3)</h3>
+<p>F3 führt eine schnelle Suche ohne Dialog durch, wobei der zuletzt gesuchte Begriff verwendet wird oder, falls noch keiner verwendet wurde, einer Ihrer konfigurierten Standard-Schnellsuchbegriffe (siehe Einstellungen unten).</p>
+<br>
+<p>F3 ist auch eine Taste mit Doppelbelegung:</p>
+<br>
+<p>- <b>Einmaliges Drücken</b>: Springt zum nächsten Treffer und kündigt ihn an (das genaue Ansageformat hängt von Ihren Einstellungen ab).<br>
+- <b>Zweimaliges Drücken</b> (innerhalb einer halben Sekunde): Anstatt sich zu bewegen, kopiert LogViewer den gesamten ERROR-/WARNING-/Traceback-Block um den aktuellen Treffer in die Zwischenablage und spielt einen kurzen Signalton ab, um das Kopieren zu bestätigen.</p>
+<br>
+<p>Wie der "Block" Schritt für Schritt erkannt wird:</p>
+<br>
+<p>1. LogViewer sucht vom Treffer aus nach oben, um den Anfang des Blocks zu finden, und erkennt Zeilen, die mit "ERROR -", "WARNING -" oder "Traceback" beginnen.<br>
+2. Es sucht dann nach unten, einschließlich aller eingerückten Fortsetzungszeilen, die zu demselben Block gehören (z. B. die Zeilen eines Python-Tracebacks).<br>
+3. Es stoppt bei der nächsten INFO/WARNING/ERROR/DEBUG-Zeile, einer Leerzeile oder einer nicht eingerückten Zeile, je nachdem, was zuerst kommt.<br>
+4. Nur der resultierende Textblock wird kopiert – nicht das gesamte Protokoll.</p>
+<br>
+<p>Umschalt+F3 führt immer eine einfache Suche nach dem vorherigen Treffer mit demselben letzten Suchbegriff aus und löst niemals das Kopierverhalten aus.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Protokolldatei öffnen (NVDA+Strg+L)</h3>
+<p>Dies öffnet das NVDA-Protokoll in Ihrem Standard-Texteditor. Es bevorzugt nvda-old.log (das Protokoll der vorherigen Sitzung, am nützlichsten direkt nach einem Absturz oder Neustart) und fällt auf nvda.log zurück, wenn kein altes Protokoll existiert.</p>
+<br>
+<p>Einmal auf diese Weise geöffnet, merkt sich LogViewer, welche Datei Sie geöffnet haben, sodass F2, Umschalt+F2 und die Such-Tastenkombinationen weiterhin funktionieren, selbst wenn sich Ihr Cursor in diesem externen Editor-Fenster und nicht nur im integrierten NVDA-Protokollbetrachter befindet.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Von Lesezeichen kopieren (Strg+Umschalt+F2)</h3>
+<p>Diese Tastenkombination liest Lesezeichen direkt aus der Protokolldatei auf der Festplatte, sodass sie auch dann funktioniert, wenn weder der NVDA-Protokollbetrachter noch ein externer Editor geöffnet ist. Sie hat drei Druckstufen:</p>
+<br>
+<p>- <b>Einmaliges Drücken</b>: Kopiert alles, was nach dem neuesten Lesezeichen protokolliert wurde, in die Zwischenablage.<br>
+- <b>Zweimaliges Drücken</b>: Geht ein Lesezeichen weiter zurück und kopiert stattdessen dieses frühere Segment – wiederholtes Drücken wandert rückwärts durch Ihre Lesezeichenhistorie und springt zum neuesten Lesezeichen zurück, sobald Sie das erste passiert haben.<br>
+- <b>Dreimaliges Drücken</b>: Schaltet um, aus welcher Protokolldatei diese Funktion liest, und wechselt zwischen der nvda.log der aktuellen Sitzung und der nvda-old.log der vorherigen Sitzung.</p>
+<br>
+<p>Jedes erfolgreiche Kopieren spielt einen kurzen Bestätigungston ab.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Erkennung von Anwendungskonflikten</h3>
+<p>Einige Anwendungen verwenden Strg+F2 oder Strg+Umschalt+F2 für ihre eigenen Zwecke. LogViewer überprüft die aktuelle Anwendung (z. B. Notepad++, Word, VS Code, Sublime Text, Atom oder Brackets) und leitet den Tastendruck direkt an diese Anwendung weiter, anstatt ihn abzufangen, wenn sie mit einer dieser Anwendungen übereinstimmt.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Einstellungen</h3>
+<p>Der NVDA-Einstellungsdialog wird um die Kategorie "Protokollbetrachter" erweitert, die Folgendes bietet:</p>
+<br>
+<p>- <b>Standardmäßig Groß-/Kleinschreibung beachten</b> und <b>Standardmäßig zyklische Suche</b> als Kontrollkästchen entsprechend den Optionen des Suchdialogs.<br>
+- <b>Ansagestil für Suchergebnisse</b>, zur Auswahl, ob Ergebnisse als Begriff, Zeilennummer und Trefferposition zusammen, nur Zeilennummer oder nur der Text der Trefferzeile vorgelesen werden.<br>
+- <b>Standard-Schnellsuchbegriffe</b>, eine Liste (einer pro Zeile) von Begriffen, auf die F3 automatisch zurückgreift, wenn noch keine manuelle Suche durchgeführt wurde.</p>
+<br>
+<p>Alle Einstellungen sowie Ihr Suchbegriffsverlauf werden als JSON-Dateien in Ihrem NVDA-Benutzerkonfigurationsordner gespeichert. LogViewer migriert von älteren Versionen der Erweiterung gespeicherte Daten automatisch an diesen Ort.</p>
+</div>
+
 </div>
 
 <br><br>
 <h2>Unterstützen Sie mich</h2>
-    <p>Wenn dieses Tool Ihr Leben erleichtert hat, freuen wir uns über eine kleine Spende für das nächste Update.</p>
-
+    <p>Wenn dieses Werkzeug Ihr Leben erleichtert hat, erwägen Sie bitte, das nächste Update mit einer kleinen Spende zu unterstützen.</p>
 <br>
-
 <p>
   <a href="https://buy.stripe.com/dRm9AU1xQ3Ds22N6VK1VK01">
-    <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Support me">
+    <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Unterstützen Sie mich">
   </a>
 </p>
 <br>
-
-<p>Ihre Unterstützung bedeutet mir viel. Lassen Sie uns gemeinsam Großartiges bauen.</p>
-
+<p>Ihre Unterstützung bedeutet mir sehr viel. Lassen Sie uns gemeinsam etwas Großartiges bauen.</p>
 <br>
-
   <div class="footer-note">
-<p>&copy; 2026 Chai Chaimee NVDA Add-on Veröffentlicht unter GN</p>
+<p>&copy; 2026 Chai Chaimee NVDA Add-on Veröffentlicht unter der GNU GPL</p>
 </div>
-</div>
+
+</div> <!-- Ende Container -->
 </body>
 </html>

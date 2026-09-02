@@ -1,61 +1,261 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>logViewer - Analyse de Log Professionnelle pour NVDA</title>
-  <style> body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.7; margin: 0; padding: 40px; background-color: #f9fafb; color: #333; } .container { max-width: 850px; margin: auto; background: #ffffff; padding: 50px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); } .header-logo { text-align: center; margin-bottom: 20px; } .header-logo img { max-width: 180px; height: auto; } h1 { color: #0056b3; text-align: center; font-size: 2.8em; margin-bottom: 10px; } h2 { color: #004494; border-bottom: 2px solid #f0f3f6; padding-bottom: 8px; margin-top: 45px; } code { background-color: #f3f4f6; padding: 3px 7px; border-radius: 5px; color: #d63384; } .author-info { text-align: center; color: #666; margin-bottom: 40px; } .highlight { font-weight: bold; color: #0056b3; } </style>
+<meta charset="UTF-8">
+<title>Extension LogViewer pour NVDA</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1, h2, h3 {
+    text-align: center;
+}
+b {
+    font-weight: bold;
+}
+.section {
+    margin-bottom: 30px;
+}
+.nvda-logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 120px;
+    height: auto;
+}
+.hotkey {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+.tap-explanation {
+    background: #e8f4fc;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.feature-item {
+    margin: 15px 0;
+    padding-left: 10px;
+}
+.note {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+</style>
 </head>
 <body>
+
 <div class="container">
-  <div class="header-logo"><img src="https://www.nvaccess.org/wp-content/uploads/2015/10/NVDA_logo_standard_transparent.png" alt="NVDA Logo"></div>
-  <h1>logViewer</h1>
-  <div class="author-info">
-    <p><strong>Auteurs :</strong> chai chaimee &amp; Pierre-Louis R.</p>
-    <p><strong>URL :</strong> <a href="https://github.com/chaichaimee/logViewer">Dépôt GitHub</a></p>
-  </div>
-  <div class="section">
-    <h2>Nouveautés</h2>
-    <p>Découvrez la fonction <span class="highlight">Old Log</span> : un moyen intelligent de consulter instantanément vos journaux de sessions précédentes.</p>
-  </div>
-  <div class="section">
-    <h2>Fonctionnalités</h2>
-    <p><strong>logViewer</strong> transforme le Visionneur de journal NVDA en un outil de diagnostic haute performance :</p>
-    <ul>
-      <li><strong>Recherche Avancée :</strong> <code>Control+F</code> avec support des <span class="highlight">Expressions Régulières</span> et historique de recherche.</li>
-      <li><strong>Navigation Rapide :</strong> <code>F3</code> pour le suivant, <code>Shift+F3</code> pour le précédent, sans rouvrir de dialogue.</li>
-      <li><strong>Marque-pages :</strong> Marquez les points clés avec <code>Control+F2</code> et naviguez via <code>F2</code> / <code>Shift+F2</code>.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>Fonction Old Log</h2>
-    <p>Ne craignez plus de perdre vos logs après un crash.</p>
-    <ul>
-      <li><strong>Accès Direct :</strong> Récupère le fichier <code>nvda-old.log</code> du dossier temporaire.</li>
-      <li><strong>Raccourci Dédié :</strong> Appuyez sur <code>NVDA+Control+L</code> pour ouvrir le log précédent dans votre éditeur de texte externe.</li>
-    </ul>
-  </div>
 
-
-<br><br>
-<h2>Soutenez-moi</h2>
-    <p>Si cet outil vous facilite la vie, vous pouvez soutenir les prochaines mises à jour avec un petit don.</p>
-
+<div class="section">
+    <img src="https://www.nvaccess.org/files/nvda/documentation/userGuide/images/nvda.ico" alt="Logo NVDA" class="nvda-logo">
+    <h1>LogViewer</h1>
+    <br>
+    <p style="text-align: center;">Trouvez, marquez, copiez — la maîtrise totale du journal NVDA.</p>
+</div>
+<br>
+<div class="section">
+    <p style="text-align: center;"><b>Auteur :</b> chai chaimee & Pierre-Louis R.</p>
+    <p style="text-align: center;"><b>URL :</b> https://github.com/chaichaimee/logViewer</p>
+</div>
 <br>
 
+<div class="section">
+<h2>Introduction</h2>
+<br>
+<p>LogViewer est une extension NVDA qui transforme la visionneuse de journal NVDA, et même un fichier journal ouvert dans un éditeur de texte externe, en un espace de travail entièrement recherchable et compatible avec des signets.</p>
+<br>
+<p>Au lieu de faire défiler indéfiniment des milliers de lignes de journal pour trouver une erreur, vous pouvez rechercher instantanément, sauter directement à n'importe quel signet et copier tout un bloc d'erreur dans le presse-papiers d'un seul appui supplémentaire sur une touche.</p>
+<br>
+<p>Elle surveille également les plantages automatiquement : si NVDA a redémarré après un plantage, LogViewer dépose silencieusement un signet au point de défaillance dans l'ancien journal afin que vous puissiez le retrouver immédiatement.</p>
+</div>
+<br>
+
+<div class="section">
+<h3>Touches de raccourci</h3>
+
+<div class="hotkey">
+<b>Control+F</b><br>
+Simple appui : Ouvrir la boîte de dialogue Rechercher dans le journal NVDA (fonctionne uniquement lorsque le focus est dans la Visionneuse de journal NVDA)
+</div>
+
+<div class="hotkey">
+<b>Control+F2</b><br>
+Simple appui : Insérer un signet numéroté à l'emplacement actuel dans le journal
+</div>
+
+<div class="hotkey">
+<b>F2</b><br>
+Simple appui : Passer au signet suivant dans le journal
+</div>
+
+<div class="hotkey">
+<b>Shift+F2</b><br>
+Simple appui : Passer au signet précédent dans le journal
+</div>
+
+<div class="hotkey">
+<b>F3</b><br>
+Simple appui : Rechercher l'occurrence suivante du terme de recherche rapide actuel<br>
+Double appui : Copier le bloc ERROR / WARNING / Traceback du résultat actuel dans le presse-papiers
+</div>
+
+<div class="hotkey">
+<b>Shift+F3</b><br>
+Simple appui : Rechercher l'occurrence précédente du terme de recherche rapide actuel
+</div>
+
+<div class="hotkey">
+<b>NVDA+Control+L</b><br>
+Simple appui : Ouvrir le fichier journal NVDA dans votre éditeur de texte par défaut (préfère nvda-old.log, se rabat sur nvda.log)
+</div>
+
+<div class="hotkey">
+<b>Control+Shift+F2</b><br>
+Simple appui : Copier tout le contenu journalisé depuis le plus récent signet dans le presse-papiers<br>
+Double appui : Reculer d'un pas et copier le segment appartenant au signet précédent<br>
+Triple appui : Basculer entre la lecture du journal actuel et de l'ancien journal pour cette fonctionnalité
+</div>
+
+</div>
+<br>
+
+<div class="section">
+<h2>Fonctionnalités</h2>
+<br>
+
+<div class="feature-item">
+<h3>Dialogue de recherche (Control+F)</h3>
+<p>Lorsque le focus est dans la visionneuse de journal NVDA, Control+F ouvre une boîte de dialogue de recherche dédiée avec :</p>
+<br>
+<p>- Une zone de recherche qui mémorise vos 20 derniers termes recherchés.<br>
+- Une case à cocher <b>Respecter la casse</b>.<br>
+- Une case à cocher <b>Recherche circulaire</b>, afin que la recherche reprenne depuis le haut/bas au lieu de s'arrêter à la fin.<br>
+- Un choix entre recherche par <b>texte normal</b> et <b>expression régulière</b>.<br>
+- Des boutons <b>Rechercher le suivant</b> et <b>Rechercher le précédent</b> pour parcourir les résultats tout en gardant le dialogue ouvert.<br>
+- Un bouton <b>Rechercher &amp; Placer le focus</b> (ou appuyer sur Entrée dans la zone de recherche) qui ferme le dialogue et déplace votre curseur directement sur le résultat dans le journal.<br>
+- Une zone de résultats qui prévisualise quelques occurrences autour de votre position actuelle, en marquant l'occurrence active.</p>
+<br>
+<p>La recherche elle-même s'exécute sur un thread secondaire afin que les journaux volumineux ne ralentissent ni ne bloquent NVDA pendant l'analyse.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Signets (Control+F2, F2, Shift+F2)</h3>
+<p>Control+F2 écrit une ligne telle que <b>BOOKMARK 3</b> dans le journal à votre position actuelle et annonce le numéro du signet. Chaque nouveau signet augmente automatiquement la valeur de un.</p>
+<br>
+<p>F2 et Shift+F2 vous permettent ensuite de naviguer vers l'avant ou l'arrière entre ces signets. Si la <b>Recherche circulaire</b> est activée dans les paramètres, atteindre le dernier signet revient au premier, et inversement.</p>
+<br>
+<p>Étape par étape, lorsque vous appuyez sur F2 :</p>
+<br>
+<p>1. LogViewer réanalyse le texte du journal pour trouver tous les repères <b>BOOKMARK</b> et les trie par position.<br>
+2. Il avance d'une position dans cette liste triée.<br>
+3. Si vous étiez déjà sur le dernier signet et que le bouclage est désactivé, vous entendez "Fin des signets atteinte" et restez sur place.<br>
+4. Sinon, votre curseur se déplace à l'emplacement de ce signet et NVDA annonce le numéro du signet.</p>
+<br>
+<p>Le compteur de signets se réinitialise automatiquement à 1 lorsque Windows a été complètement redémarré (détecté via le temps de fonctionnement du système), mais reste identique lors des redémarrages ordinaires de NVDA.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Signet automatique en cas de plantage</h3>
+<p>Au démarrage, LogViewer vérifie le journal de la session précédente (nvda-old.log) à la recherche de signes de plantage de NVDA, comme un Traceback, une exception non gérée ou une entrée CRASH sur la toute dernière ligne.</p>
+<br>
+<p>Si un plantage est détecté et qu'aucun signet n'a été placé à proximité, LogViewer ajoute silencieusement un signet à cet ancien journal afin que vous puissiez localiser immédiatement le point de plantage avec F2/Shift+F2, sans avoir à le chercher manuellement.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Recherche rapide et copie de bloc d'erreur (F3 / Shift+F3)</h3>
+<p>F3 effectue une recherche rapide sans boîte de dialogue en utilisant le dernier terme recherché ou, si aucun n'a encore été utilisé, l'un de vos termes de recherche rapide par défaut configurés (voir Paramètres ci-dessous).</p>
+<br>
+<p>F3 est également une touche à double action :</p>
+<br>
+<p>- <b>Simple appui</b> : aller au résultat suivant et l'annoncer (le format d'annonce exact dépend de vos paramètres).<br>
+- <b>Double appui</b> (dans la demi-seconde) : au lieu de se déplacer, LogViewer copie l'intégralité du bloc d'erreur/avertissement/traceback entourant la recherche actuelle dans le presse-papiers, et émet un bref signal sonore pour confirmer la copie.</p>
+<br>
+<p>Comment le "bloc" est détecté, étape par étape :</p>
+<br>
+<p>1. LogViewer cherche vers le haut à partir du résultat pour trouver où commence le bloc, en reconnaissant les lignes qui commencent par "ERROR -", "WARNING -" ou "Traceback".<br>
+2. Il cherche ensuite vers le bas, y compris les lignes de continuation indentées qui appartiennent à ce même bloc (par exemple, les lignes d'un traceback Python).<br>
+3. Il s'arrête à la ligne INFO/WARNING/ERROR/DEBUG suivante, à une ligne vide ou à une ligne non indentée, selon ce qui arrive en premier.<br>
+4. Seul le bloc de texte résultant est copié — pas l'intégralité du journal.</p>
+<br>
+<p>Shift+F3 effectue toujours une simple recherche vers le haut en utilisant le même dernier terme de recherche et ne déclenche jamais le comportement de copie.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Ouvrir le fichier journal (NVDA+Control+L)</h3>
+<p>Cela ouvre le journal NVDA dans l'éditeur de texte par défaut de votre système. Il préfère nvda-old.log (le journal de la session précédente, très utile juste après un plantage ou un redémarrage) et se rabat sur nvda.log si aucun ancien journal n'existe.</p>
+<br>
+<p>Une fois ouvert de cette façon, LogViewer se souvient du fichier que vous avez ouvert afin que F2, Shift+F2 et les raccourcis de recherche continuent de fonctionner même lorsque votre curseur est à l'intérieur de cette fenêtre d'éditeur externe, et pas seulement dans la visionneuse de journal intégrée de NVDA.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Copier depuis le signet (Control+Shift+F2)</h3>
+<p>Ce raccourci lit les signets directement à partir du fichier journal sur le disque, il fonctionne donc même si ni la visionneuse de journal NVDA ni un éditeur externe ne sont ouverts. Il comporte trois niveaux d'appui :</p>
+<br>
+<p>- <b>Simple appui</b> : copie tout ce qui a été journalisé depuis le signet le plus récent dans le presse-papiers.<br>
+- <b>Double appui</b> : recule d'un signet supplémentaire et copie ce segment antérieur à la place — appuyer plusieurs fois de suite remonte l'historique de vos signets, en revenant au signet le plus récent une fois le premier dépassé.<br>
+- <b>Triple appui</b> : bascule le fichier journal à partir duquel cette fonctionnalité lit, en alternant entre le nvda.log de la session actuelle et le nvda-old.log de la session précédente.</p>
+<br>
+<p>Chaque copie réussie émet un bref signal sonore de confirmation.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Prise en compte des applications en conflit</h3>
+<p>Certaines applications utilisent Control+F2 ou Control+Shift+F2 à leurs propres fins. LogViewer vérifie l'application actuelle (par exemple Notepad++, Word, VS Code, Sublime Text, Atom ou Brackets) et, si elle correspond à l'une d'elles, transmet l'appui de touche directement à cette application au lieu de l'intercepter.</p>
+</div>
+<br>
+
+<div class="feature-item">
+<h3>Panneau des paramètres</h3>
+<p>Une catégorie "Visionneuse de journal" est ajoutée à la boîte de dialogue des paramètres NVDA, offrant :</p>
+<br>
+<p>- Les cases à cocher <b>Respecter la casse par défaut</b> et <b>Recherche circulaire par défaut</b> correspondant aux options du dialogue de recherche.<br>
+- <b>Style d'annonce des résultats de recherche</b>, permettant de choisir si les résultats sont lus sous forme de terme, numéro de ligne et position ensemble ; numéro de ligne uniquement ; ou simplement le texte de la ligne correspondante.<br>
+- <b>Termes de recherche rapide par défaut</b>, une liste (un par ligne) de termes sur lesquels F3 se rabat automatiquement lorsqu'aucune recherche manuelle n'a encore été effectuée.</p>
+<br>
+<p>Tous les paramètres, ainsi que l'historique de vos termes de recherche, sont stockés sous forme de fichiers JSON dans le dossier de configuration utilisateur de NVDA, et LogViewer migre automatiquement les données enregistrées par les anciennes versions de l'extension vers cet emplacement.</p>
+</div>
+
+</div>
+
+<br><br>
+<h2>Me soutenir</h2>
+    <p>Si cet outil vous a facilité la vie, envisagez de soutenir la prochaine mise à jour en faisant un petit don.</p>
+<br>
 <p>
   <a href="https://buy.stripe.com/dRm9AU1xQ3Ds22N6VK1VK01">
-    <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Support me">
+    <img src="https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe" alt="Me soutenir">
   </a>
 </p>
 <br>
-
-<p>Votre soutien est essentiel. Bâtissons de grands outils ensemble.</p>
-
+<p>Votre soutien compte énormément. Construisons de belles choses ensemble.</p>
 <br>
-
   <div class="footer-note">
-<p>&copy; 2026 Chai Chaimee Add-on NVDA publié sous GN</p>
+<p>&copy; 2026 Chai Chaimee Extension NVDA publiée sous licence GNU GPL</p>
 </div>
-</div>
+
+</div> <!-- Fin du conteneur -->
 </body>
 </html>

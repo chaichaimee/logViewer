@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.7.7\n"
+"Project-Id-Version: logViewer 2026.9.0\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 14:32+0700\n"
+"POT-Creation-Date: 2026-09-02 12:07+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: English\n"
@@ -12,223 +12,297 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: __init__.py:346
-#: __init__.py:387
+#: settings_panel.py:24
+msgid "&Case sensitive by default"
+msgstr "&Case sensitive by default"
+
+#: settings_panel.py:29
+msgid "&Wrap around by default"
+msgstr "&Wrap around by default"
+
+#: __init__.py:450
+#: __init__.py:496
 msgid "Already at first bookmark"
 msgstr "Already at first bookmark"
 
-#: __init__.py:246
-#: __init__.py:410
-#: __init__.py:431
+#: __init__.py:318
+#: __init__.py:519
+#: __init__.py:540
+#: __init__.py:871
 msgid "Bookmark {number}"
 msgstr "Bookmark {number}"
 
-#: search_logic.py:346
+#: search_logic.py:387
 msgid "Case sensitive"
 msgstr "Case sensitive"
 
-#: search_logic.py:366
+#: search_logic.py:407
 msgid "Close"
 msgstr "Close"
 
-#: __init__.py:413
-#: __init__.py:434
+#: __init__.py:761
+msgid "Copy log since the latest bookmark (single tap), step back through older bookmarks copying each one's segment (double tap), or switch between the current and old log (triple tap)"
+msgstr "Copy log since the latest bookmark (single tap), step back through older bookmarks copying each one's segment (double tap), or switch between the current and old log (triple tap)"
+
+#: __init__.py:867
+msgid "Could not access clipboard"
+msgstr "Could not access clipboard"
+
+#: __init__.py:800
+msgid "Current log"
+msgstr "Current log"
+
+#: settings_panel.py:45
+msgid "Default &quick-search terms (used by F3), one per line:"
+msgstr "Default &quick-search terms (used by F3), one per line:"
+
+#: __init__.py:522
+#: __init__.py:543
 msgid "Error moving to bookmark"
 msgstr "Error moving to bookmark"
 
-#: search_logic.py:289
-#: search_logic.py:552
-#: search_logic.py:606
+#: search_logic.py:307
+#: search_logic.py:636
+#: search_logic.py:690
 msgid "Error moving to match"
 msgstr "Error moving to match"
 
-#: __init__.py:618
+#: __init__.py:733
 msgid "Failed to open log file"
 msgstr "Failed to open log file"
 
-#: __init__.py:235
+#: __init__.py:307
 msgid "Failed to open search dialog"
 msgstr "Failed to open search dialog"
 
-#: search_logic.py:340
+#: __init__.py:852
+msgid "Failed to read log file"
+msgstr "Failed to read log file"
+
+#: search_logic.py:381
 msgid "Find & Focus"
 msgstr "Find & Focus"
 
-#: search_logic.py:337
+#: search_logic.py:378
 msgid "Find Next"
 msgstr "Find Next"
 
-#: search_logic.py:363
+#: search_logic.py:404
 msgid "Find Previous"
 msgstr "Find Previous"
 
-#: __init__.py:541
+#: __init__.py:656
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
 msgstr "Find next occurrence (single tap) or copy error block (double tap)"
 
-#: __init__.py:574
+#: __init__.py:689
 msgid "Find previous occurrence"
 msgstr "Find previous occurrence"
 
-#: search_logic.py:297
+#: search_logic.py:325
+#: search_logic.py:337
 msgid "Found {count} items"
 msgstr "Found {count} items"
 
-#: search_logic.py:520
+#: search_logic.py:604
 msgid "Found {count} matches."
 msgstr "Found {count} matches."
 
-#: __init__.py:239
+#: __init__.py:311
 msgid "Insert bookmark in log"
 msgstr "Insert bookmark in log"
 
-#: search_logic.py:401
-msgid "Invalid regular expression: {error}"
-msgstr "Invalid regular expression: {error}"
+#: config_manager.py:23
+msgid "Line number only (e.g. \"125 line\")"
+msgstr "Line number only (e.g. \"125 line\")"
 
-#: search_logic.py:549
-#: search_logic.py:578
-#: search_logic.py:603
+#: search_logic.py:633
+#: search_logic.py:662
+#: search_logic.py:687
 msgid "Line {number}: {text}"
 msgstr "Line {number}: {text}"
 
-#: __init__.py:263
-#: search_logic.py:393
+#: settings_panel.py:17
+msgid "Log Viewer"
+msgstr "Log Viewer"
+
+#: __init__.py:798
+msgid "Log file not found"
+msgstr "Log file not found"
+
+#: __init__.py:339
 msgid "Log is empty"
 msgstr "Log is empty"
 
-#: __init__.py:190
-#: __init__.py:239
-#: __init__.py:284
-#: __init__.py:322
-#: __init__.py:541
-#: __init__.py:574
-#: __init__.py:590
+#: __init__.py:254
+#: __init__.py:311
+#: __init__.py:370
+#: __init__.py:400
+#: __init__.py:656
+#: __init__.py:689
+#: __init__.py:705
+#: __init__.py:763
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:284
+#: config_manager.py:24
+msgid "Matched line text only"
+msgstr "Matched line text only"
+
+#: __init__.py:370
 msgid "Move to next bookmark in log"
 msgstr "Move to next bookmark in log"
 
-#: __init__.py:322
+#: __init__.py:400
 msgid "Move to previous bookmark in log"
 msgstr "Move to previous bookmark in log"
 
-#: __init__.py:197
-#: __init__.py:293
-#: __init__.py:331
-#: __init__.py:548
-#: __init__.py:581
+#: __init__.py:261
+#: __init__.py:379
+#: __init__.py:409
+#: __init__.py:462
+#: __init__.py:465
+#: __init__.py:663
+#: __init__.py:696
 msgid "NVDA Log Viewer not accessible"
 msgstr "NVDA Log Viewer not accessible"
 
-#: __init__.py:605
+#: __init__.py:720
+#: __init__.py:807
+#: __init__.py:822
 msgid "No NVDA log file found"
 msgstr "No NVDA log file found"
 
-#: __init__.py:393
-#: __init__.py:420
+#: __init__.py:502
+#: __init__.py:529
 msgid "No bookmarks available"
 msgstr "No bookmarks available"
 
-#: __init__.py:297
-#: __init__.py:335
+#: __init__.py:428
 msgid "No bookmarks found"
 msgstr "No bookmarks found"
 
-#: __init__.py:362
+#: __init__.py:471
 msgid "No bookmarks found in file"
 msgstr "No bookmarks found in file"
 
-#: search_logic.py:265
-#: search_logic.py:524
-#: search_logic.py:585
+#: __init__.py:811
+#: __init__.py:826
+msgid "No bookmarks found in log"
+msgstr "No bookmarks found in log"
+
+#: search_logic.py:283
+#: search_logic.py:608
+#: search_logic.py:669
 msgid "No matches available"
 msgstr "No matches available"
 
-#: __init__.py:456
-#: __init__.py:460
-#: __init__.py:466
-#: __init__.py:489
-#: __init__.py:493
-#: __init__.py:499
-#: search_logic.py:458
-#: search_logic.py:462
-#: search_logic.py:463
-#: search_logic.py:494
-#: search_logic.py:562
+#: __init__.py:570
+#: __init__.py:574
+#: __init__.py:580
+#: __init__.py:604
+#: __init__.py:608
+#: __init__.py:614
+#: search_logic.py:531
+#: search_logic.py:543
+#: search_logic.py:544
+#: search_logic.py:575
+#: search_logic.py:646
 msgid "No matches found"
 msgstr "No matches found"
 
-#: __init__.py:445
-#: __init__.py:478
-msgid "No matches found for 'error'"
-msgstr "No matches found for 'error'"
+#: __init__.py:559
+#: __init__.py:593
+msgid "No matches found for '{term}'"
+msgstr "No matches found for '{term}'"
 
-#: __init__.py:590
+#: __init__.py:800
+msgid "Old log"
+msgstr "Old log"
+
+#: __init__.py:705
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
 msgstr "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
 
-#: __init__.py:615
+#: __init__.py:730
 msgid "Opening {file_type}"
 msgstr "Opening {file_type}"
 
-#: __init__.py:308
-#: __init__.py:378
+#: __init__.py:440
+#: __init__.py:487
 msgid "Reached end of bookmarks"
 msgstr "Reached end of bookmarks"
 
-#: search_logic.py:457
+#: search_logic.py:530
 msgid "Search failed or invalid expression"
 msgstr "Search failed or invalid expression"
 
-#: search_logic.py:316
+#: search_logic.py:356
 msgid "Search in NVDA Log"
 msgstr "Search in NVDA Log"
 
-#: __init__.py:190
+#: __init__.py:254
 msgid "Search in NVDA Log Viewer"
 msgstr "Search in NVDA Log Viewer"
 
-#: search_logic.py:441
+#: settings_panel.py:36
+msgid "Search result &announcement style:"
+msgstr "Search result &announcement style:"
+
+#: search_logic.py:494
 msgid "Search term cannot be empty"
 msgstr "Search term cannot be empty"
 
-#: search_logic.py:350
+#: search_logic.py:518
+msgid "Searching..."
+msgstr "Searching..."
+
+#: config_manager.py:22
+msgid "Term, line number and match position (e.g. \"error line 125 1 of 30\")"
+msgstr "Term, line number and match position (e.g. \"error line 125 1 of 30\")"
+
+#: search_logic.py:391
 msgid "Wrap around"
 msgstr "Wrap around"
 
-#: __init__.py:305
-#: __init__.py:376
+#: __init__.py:437
+#: __init__.py:485
 msgid "Wrapping to first bookmark"
 msgstr "Wrapping to first bookmark"
 
-#: search_logic.py:478
+#: search_logic.py:559
 msgid "Wrapping to first match"
 msgstr "Wrapping to first match"
 
-#: __init__.py:343
-#: __init__.py:385
+#: __init__.py:447
+#: __init__.py:494
 msgid "Wrapping to last bookmark"
 msgstr "Wrapping to last bookmark"
 
-#: search_logic.py:490
+#: search_logic.py:571
 msgid "Wrapping to last match"
 msgstr "Wrapping to last match"
 
-#: __init__.py:603
+#: __init__.py:838
+msgid "Wrapping to latest bookmark"
+msgstr "Wrapping to latest bookmark"
+
+#: __init__.py:718
 msgid "current log file"
 msgstr "current log file"
 
-#: __init__.py:600
+#: __init__.py:715
 msgid "old log file"
 msgstr "old log file"
 
-#: search_logic.py:308
+#: search_logic.py:350
 msgid "{current} of {total}"
 msgstr "{current} of {total}"
 
-#: search_logic.py:298
-msgid "{term} {current} of {total}"
-msgstr "{term} {current} of {total}"
+#: search_logic.py:326
+msgid "{line} line"
+msgstr "{line} line"
+
+#: search_logic.py:338
+msgid "{term} line {line} {current} of {total}"
+msgstr "{term} line {line} {current} of {total}"
