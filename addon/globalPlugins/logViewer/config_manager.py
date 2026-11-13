@@ -1,6 +1,4 @@
 # config_manager.py
-# Copyright (C) 2026 Chai Chaimee
-# Licensed under GNU General Public License. See COPYING.txt for details.
 
 import json
 import os
@@ -15,9 +13,13 @@ addonHandler.initTranslation()
 DEFAULT_TERMS = ["error", "warning", "debug"]
 DEFAULT_ANNOUNCE_MODE = "full"
 DEFAULT_QUICK_SEARCH_TERMS = ["error", "warning", "DEBUGWARNING"]
+DEFAULT_SEARCH_TYPE = "NORMAL"
+VALID_SEARCH_TYPES = ("NORMAL", "REGULAR_EXPRESSION")
+HISTORY_LIMIT = 20
 
-# Human readable labels are resolved lazily via _() so translation is applied
-# whenever the settings panel actually reads this list, not at import time.
+LEGACY_INI_SECTION = "LogViewerPlugin"
+LEGACY_INI_SEARCH_KEYS = ("searchCaseSensitivity", "searchWrap", "searchType", "searchHistory")
+
 ANNOUNCE_MODE_CHOICES = (
 	("full", _("Term, line number and match position (e.g. \"error line 125 1 of 30\")")),
 	("line_only", _("Line number only (e.g. \"125 line\")")),
@@ -27,14 +29,13 @@ ANNOUNCE_MODE_CHOICES = (
 
 def get_addon_dir():
 	"""Returns userConfig\\ChaiChaimee\\logViewer, creating it if necessary."""
-	base_dir = globalVars.appArgs.configPath
-	addon_dir = os.path.join(base_dir, "ChaiChaimee", "logViewer")
-	if not os.path.exists(addon_dir):
+	addonDir = os.path.join(globalVars.appArgs.configPath, "ChaiChaimee", "logViewer")
+	if not os.path.isdir(addonDir):
 		try:
-			os.makedirs(addon_dir)
+			os.makedirs(addonDir)
 		except OSError as e:
-			log.error(f"Could not create directory {addon_dir}: {e}")
-	return addon_dir
+			log.error(f"Could not create directory {addonDir}: {e}")
+	return addonDir
 
 
 def get_history_file_path():
@@ -43,6 +44,81 @@ def get_history_file_path():
 
 def get_settings_file_path():
 	return os.path.join(get_addon_dir(), "settings.json")
+
+
+def _readJson(filePath):
+	"""Returns (data, usedPath). Falls back to the rolling backup when the main file is unreadable."""
+	for candidate in (filePath, filePath + ".bak"):
+		if not os.path.isfile(candidate):
+			continue
+		try:
+			with open(candidate, "r", encoding="utf-8") as jsonFile:
+				return json.load(jsonFile), candidate
+		except (OSError, ValueError) as e:
+			log.error(f"Could not read {candidate}: {e}")
+	return None, None
+
+
+def _writeJsonAtomic(filePath, payload):
+	tempPath = filePath + ".tmp"
+	backupPath = filePath + ".bak"
+	try:
+		os.makedirs(os.path.dirname(filePath), exist_ok=True)
+		with open(tempPath, "w", encoding="utf-8") as tempFile:
+			json.dump(payload, tempFile, ensure_ascii=False, indent=2)
+			tempFile.flush()
+			os.fsync(tempFile.fileno())
+		if os.path.isfile(filePath):
+			shutil.copy2(filePath, backupPath)
+		os.replace(tempPath, filePath)
+		return True
+	except (OSError, TypeError, ValueError) as e:
+		log.error(f"Could not write {filePath}: {e}")
+		if os.path.isfile(tempPath):
+			try:
+				os.remove(tempPath)
+			except OSError as cleanupError:
+				log.error(f"Could not remove temporary file {tempPath}: {cleanupError}")
+		return False
+
+
+def _isInsideConfigPath(filePath):
+	configRoot = os.path.abspath(globalVars.appArgs.configPath)
+	try:
+		return os.path.commonpath([configRoot, os.path.abspath(filePath)]) == configRoot
+	except ValueError:
+		return False
+
+
+def _removeLegacyFile(filePath):
+	if not _isInsideConfigPath(filePath):
+		log.error(f"Refusing to delete {filePath}: outside the NVDA configuration folder")
+		return
+	if os.path.isfile(filePath):
+		try:
+			os.remove(filePath)
+			log.info(f"Removed migrated legacy file {filePath}")
+		except OSError as e:
+			log.error(f"Could not remove legacy file {filePath}: {e}")
+
+
+def _validTermList(data):
+	if not isinstance(data, list) or not all(isinstance(term, str) for term in data):
+		return None
+	terms = [term for term in data if term.strip()][:HISTORY_LIMIT]
+	return terms or None
+
+
+def _toBool(value, default):
+	if isinstance(value, bool):
+		return value
+	if isinstance(value, str):
+		lowered = value.strip().lower()
+		if lowered in ("true", "1", "yes", "on"):
+			return True
+		if lowered in ("false", "0", "no", "off"):
+			return False
+	return default
 
 
 class SearchHistory:
@@ -56,139 +132,73 @@ class SearchHistory:
 
 	def __init__(self):
 		self._terms = []
-		self._history_file = get_history_file_path()
+		self._historyFile = get_history_file_path()
+		self._importLegacyFile()
+		self._load()
+		log.debug(f"Search history ready: {self._historyFile}, {len(self._terms)} terms")
 
-		self._migrate_from_legacy_root_file()
-		self._migrate_from_previous_chai_dir()
-		self._migrate_from_config()
-		self.load()  # Load existing history from new file
+	def _importLegacyFile(self):
+		if os.path.isfile(self._historyFile):
+			return
+		configRoot = globalVars.appArgs.configPath
+		legacyFiles = (
+			os.path.join(configRoot, "ChaiChaimee", "logViewer.json"),
+			os.path.join(configRoot, "logViewer.json"),
+		)
+		for legacyFile in legacyFiles:
+			if not os.path.isfile(legacyFile):
+				continue
+			terms = _validTermList(_readJson(legacyFile)[0])
+			if terms is None:
+				log.error(f"Legacy search history {legacyFile} holds no usable data, ignoring it")
+				continue
+			self._terms = terms
+			if not self.save():
+				return
+			log.info(f"Migrated search history from {legacyFile} to {self._historyFile}")
+			_removeLegacyFile(legacyFile)
+			return
 
+	def _load(self):
+		data, usedPath = _readJson(self._historyFile)
+		terms = _validTermList(data)
+		if terms is not None:
+			self._terms = terms
+			return
+		if data is not None:
+			log.error(f"Search history in {usedPath} is unusable, resetting to defaults")
 		if not self._terms:
 			self._terms = DEFAULT_TERMS.copy()
-			self.save()
-
-		log.debug(f"Search history initialized. File: {self._history_file}, terms: {self._terms}")
-
-	def _migrate_from_legacy_root_file(self):
-		"""Migrates from the oldest layout: userConfig\\logViewer.json"""
-		old_file = os.path.join(globalVars.appArgs.configPath, "logViewer.json")
-		if not os.path.exists(old_file):
-			return
-		if os.path.exists(self._history_file):
-			return
-		log.info(f"Found legacy history file at {old_file}, attempting migration...")
-		try:
-			shutil.move(old_file, self._history_file)
-			log.info(f"Successfully moved legacy file to new location: {self._history_file}")
-		except OSError as e:
-			log.error(f"Failed to move legacy file using shutil.move: {e}")
-			try:
-				with open(old_file, 'r', encoding='utf-8') as f:
-					terms = json.load(f)
-				if isinstance(terms, list) and all(isinstance(t, str) for t in terms):
-					self._terms = terms
-					self.save()
-					os.remove(old_file)
-					log.info("Migrated legacy search history by copying and deleting old file.")
-				else:
-					log.error("Legacy search history file contains invalid data, ignoring.")
-			except (OSError, json.JSONDecodeError) as e2:
-				log.error(f"Failed fallback migration from legacy file: {e2}")
-
-	def _migrate_from_previous_chai_dir(self):
-		"""Migrates from the previous layout: userConfig\\ChaiChaimee\\logViewer.json
-		(a plain file, before the ChaiChaimee\\logViewer\\ subfolder existed)."""
-		previous_file = os.path.join(globalVars.appArgs.configPath, "ChaiChaimee", "logViewer.json")
-		if not os.path.exists(previous_file):
-			return
-		if os.path.exists(self._history_file):
-			return
-		log.info(f"Found previous-layout history file at {previous_file}, migrating to {self._history_file}...")
-		try:
-			shutil.move(previous_file, self._history_file)
-			log.info("Successfully migrated previous-layout history file to new subfolder.")
-		except OSError as e:
-			log.error(f"Failed to move previous-layout file using shutil.move: {e}")
-			try:
-				with open(previous_file, 'r', encoding='utf-8') as f:
-					terms = json.load(f)
-				if isinstance(terms, list) and all(isinstance(t, str) for t in terms):
-					self._terms = terms
-					self.save()
-					os.remove(previous_file)
-					log.info("Migrated previous-layout search history by copying and deleting old file.")
-				else:
-					log.error("Previous-layout search history file contains invalid data, ignoring.")
-			except (OSError, json.JSONDecodeError) as e2:
-				log.error(f"Failed fallback migration from previous-layout file: {e2}")
-
-	def _migrate_from_config(self):
-		try:
-			old_data = config.conf["LogViewerPlugin"].get("searchHistory")
-			if old_data and old_data != "[]":
-				try:
-					terms = json.loads(old_data)
-					if isinstance(terms, list) and all(isinstance(t, str) for t in terms):
-						self._terms = terms
-						self.save()
-						config.conf["LogViewerPlugin"]["searchHistory"] = "[]"
-						config.conf.save()
-						log.info("Migrated search history from config to JSON file.")
-				except json.JSONDecodeError as e:
-					log.error(f"Failed to migrate search history: {e}")
-		except KeyError:
-			pass
-
-	def load(self):
-		try:
-			if os.path.exists(self._history_file):
-				with open(self._history_file, 'r', encoding='utf-8') as f:
-					terms = json.load(f)
-				if isinstance(terms, list) and all(isinstance(term, str) for term in terms):
-					self._terms = terms
-				else:
-					log.error("Corrupted search history data, resetting to default.")
-					self._terms = DEFAULT_TERMS.copy()
-					self.save()
-			else:
-				self._terms = DEFAULT_TERMS.copy()
-				self.save()
-		except (OSError, json.JSONDecodeError) as e:
-			log.error(f"Error loading search history: {e}, resetting to default.")
-			self._terms = DEFAULT_TERMS.copy()
-			self.save()
+		self.save()
 
 	def save(self):
-		try:
-			os.makedirs(os.path.dirname(self._history_file), exist_ok=True)
-			with open(self._history_file, 'w', encoding='utf-8') as f:
-				json.dump(self._terms, f, ensure_ascii=False, indent=2)
-			log.debug(f"Saved search history to {self._history_file}")
-		except OSError as e:
-			log.error(f"Error saving search history: {e}")
+		return _writeJsonAtomic(self._historyFile, self._terms)
 
 	def getItems(self):
-		return self._terms
-
-	def getItemByText(self, text):
-		return next((term for term in self._terms if term.lower() == text.lower()), None)
+		return list(self._terms)
 
 	def append(self, term):
 		if not term:
 			return
-		existing = self.getItemByText(term)
-		if existing:
-			self._terms.remove(existing)
+		loweredTerm = term.lower()
+		self._terms = [existing for existing in self._terms if existing.lower() != loweredTerm]
 		self._terms.insert(0, term)
-		if len(self._terms) > 20:
-			self._terms.pop()
+		del self._terms[HISTORY_LIMIT:]
 		self.save()
+
+	def addOlderTerms(self, terms):
+		knownTerms = {existing.lower() for existing in self._terms}
+		for term in terms:
+			if len(self._terms) >= HISTORY_LIMIT:
+				break
+			if term.strip() and term.lower() not in knownTerms:
+				self._terms.append(term)
+				knownTerms.add(term.lower())
 
 
 class PluginSettings:
-	"""Holds user-configurable preferences shown on the LogViewer settings panel.
-	Stored as JSON under userConfig\\ChaiChaimee\\logViewer\\settings.json, alongside
-	the search history file."""
+	"""User preferences stored as JSON in userConfig\\ChaiChaimee\\logViewer\\settings.json,
+	next to the search history file."""
 
 	_instance = None
 
@@ -199,49 +209,116 @@ class PluginSettings:
 		return cls._instance
 
 	def __init__(self):
-		self._settings_file = get_settings_file_path()
+		self._settingsFile = get_settings_file_path()
 		self.announceMode = DEFAULT_ANNOUNCE_MODE
 		self.quickSearchTerms = DEFAULT_QUICK_SEARCH_TERMS.copy()
+		self.searchCaseSensitive = False
+		self.searchWrap = True
+		self.searchType = DEFAULT_SEARCH_TYPE
+		self.hasSearchOptions = False
 		self.load()
 
 	def load(self):
-		try:
-			if os.path.exists(self._settings_file):
-				with open(self._settings_file, 'r', encoding='utf-8') as f:
-					data = json.load(f)
-				self.announceMode = data.get("announceMode", DEFAULT_ANNOUNCE_MODE)
-				terms = data.get("quickSearchTerms")
-				if isinstance(terms, list) and all(isinstance(t, str) for t in terms) and terms:
-					self.quickSearchTerms = terms
-			else:
-				self.save()
-		except (OSError, json.JSONDecodeError) as e:
-			log.error(f"Error loading LogViewer settings: {e}, using defaults.")
-			self.announceMode = DEFAULT_ANNOUNCE_MODE
-			self.quickSearchTerms = DEFAULT_QUICK_SEARCH_TERMS.copy()
+		data, usedPath = _readJson(self._settingsFile)
+		if data is None:
+			return
+		if not isinstance(data, dict):
+			log.error(f"Settings in {usedPath} are unusable, using defaults")
+			return
+		announceMode = data.get("announceMode")
+		if announceMode in [choice[0] for choice in ANNOUNCE_MODE_CHOICES]:
+			self.announceMode = announceMode
+		terms = data.get("quickSearchTerms")
+		if isinstance(terms, list) and terms and all(isinstance(term, str) for term in terms):
+			self.quickSearchTerms = terms
+		self.searchCaseSensitive = _toBool(data.get("searchCaseSensitive"), self.searchCaseSensitive)
+		self.searchWrap = _toBool(data.get("searchWrap"), self.searchWrap)
+		if data.get("searchType") in VALID_SEARCH_TYPES:
+			self.searchType = data["searchType"]
+		self.hasSearchOptions = all(
+			key in data for key in ("searchCaseSensitive", "searchWrap", "searchType")
+		)
 
 	def save(self):
-		try:
-			os.makedirs(os.path.dirname(self._settings_file), exist_ok=True)
-			with open(self._settings_file, 'w', encoding='utf-8') as f:
-				json.dump(
-					{
-						"announceMode": self.announceMode,
-						"quickSearchTerms": self.quickSearchTerms,
-					},
-					f, ensure_ascii=False, indent=2
-				)
-			log.debug(f"Saved LogViewer settings to {self._settings_file}")
-		except OSError as e:
-			log.error(f"Error saving LogViewer settings: {e}")
+		saved = _writeJsonAtomic(
+			self._settingsFile,
+			{
+				"announceMode": self.announceMode,
+				"quickSearchTerms": self.quickSearchTerms,
+				"searchCaseSensitive": self.searchCaseSensitive,
+				"searchWrap": self.searchWrap,
+				"searchType": self.searchType,
+			},
+		)
+		if saved:
+			self.hasSearchOptions = True
+		return saved
+
+	def ensureFileExists(self):
+		if not os.path.isfile(self._settingsFile):
+			self.save()
+
+	def setSearchOptions(self, caseSensitive, wrap, searchTypeName):
+		self.searchCaseSensitive = bool(caseSensitive)
+		self.searchWrap = bool(wrap)
+		self.searchType = searchTypeName if searchTypeName in VALID_SEARCH_TYPES else DEFAULT_SEARCH_TYPE
+		return self.save()
+
+
+def _getBaseIniSection():
+	try:
+		return config.conf.profiles[0][LEGACY_INI_SECTION]
+	except (AttributeError, IndexError, KeyError):
+		return None
+
+
+def _parseLegacyHistory(rawValue):
+	if not isinstance(rawValue, str) or rawValue in ("", "[]"):
+		return []
+	try:
+		terms = json.loads(rawValue)
+	except ValueError as e:
+		log.error(f"Legacy searchHistory in nvda.ini is not valid JSON: {e}")
+		return []
+	return _validTermList(terms) or []
+
+
+def importLegacyNvdaIniSettings():
+	"""Moves search options and history out of nvda.ini into the add-on's own JSON files.
+
+	Idempotent: when none of the legacy keys exist it does nothing. The keys are deleted
+	from nvda.ini only after both JSON files were written successfully."""
+	section = _getBaseIniSection()
+	if section is None:
+		return
+	foundKeys = [key for key in LEGACY_INI_SEARCH_KEYS if key in section]
+	if not foundKeys:
+		return
+	log.info(f"Found legacy search settings in nvda.ini: {', '.join(foundKeys)}")
+	settings = PluginSettings.get()
+	history = SearchHistory.get()
+	if not settings.hasSearchOptions:
+		settings.searchCaseSensitive = _toBool(section.get("searchCaseSensitivity"), False)
+		settings.searchWrap = _toBool(section.get("searchWrap"), True)
+		legacyType = section.get("searchType", DEFAULT_SEARCH_TYPE)
+		settings.searchType = legacyType if legacyType in VALID_SEARCH_TYPES else DEFAULT_SEARCH_TYPE
+	history.addOlderTerms(_parseLegacyHistory(section.get("searchHistory")))
+	if not (settings.save() and history.save()):
+		log.error("Legacy search settings could not be stored in JSON; nvda.ini was left untouched")
+		return
+	for key in foundKeys:
+		del section[key]
+	try:
+		config.conf.save()
+	except (OSError, ValueError) as e:
+		log.error(f"Could not save nvda.ini after removing legacy search settings: {e}")
+		return
+	log.info("Legacy search settings moved from nvda.ini to " + get_addon_dir())
 
 
 def initConfiguration():
 	confspec = {
-		"searchCaseSensitivity": "boolean(default=False)",
-		"searchWrap": "boolean(default=True)",
-		"searchType": "string(default='NORMAL')",
 		"bookmarkCount": "integer(default=1)",
 		"lastBootTimestamp": "float(default=0.0)",
 	}
-	config.conf.spec["LogViewerPlugin"] = confspec
+	config.conf.spec[LEGACY_INI_SECTION] = confspec

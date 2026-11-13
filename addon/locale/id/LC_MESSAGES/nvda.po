@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.7.7\n"
+"Project-Id-Version: logViewer 2026.11.0\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 14:32+0700\n"
+"POT-Creation-Date: 2026-11-13 09:48+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Indonesian\n"
@@ -10,225 +10,316 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: DevOn Addon\n"
+"X-Generator: ChaiBot Addon\n"
 
-#: __init__.py:346
-#: __init__.py:387
+#: settings_panel.py:22
+msgid "&Case sensitive by default"
+msgstr "Peka &huruf besar/kecil secara default"
+
+#: search_dialog.py:52
+msgid "&Find"
+msgstr "&Cari"
+
+#: search_dialog.py:48
+msgid "&Wrap around"
+msgstr "&Kembali ke awal jika sudah di ujung"
+
+#: settings_panel.py:27
+msgid "&Wrap around by default"
+msgstr "Kembal&i ke awal secara default secara default"
+
+#: search_logic.py:488
+msgid "... truncated"
+msgstr "... dipotong"
+
+#: addonCore.py:426
+#: addonCore.py:472
 msgid "Already at first bookmark"
-msgstr "Sudah berada di penanda pertama"
+msgstr "Sudah berada di penanda buku pertama"
 
-#: __init__.py:246
-#: __init__.py:410
-#: __init__.py:431
+#: addonCore.py:324
+#: addonCore.py:495
+#: addonCore.py:515
 msgid "Bookmark {number}"
-msgstr "Penanda {number}"
+msgstr "Penanda buku {number}"
 
-#: search_logic.py:346
-msgid "Case sensitive"
-msgstr "Sensitif huruf besar/kecil"
+#: addonCore.py:731
+msgid "Bookmark {number} has no log lines"
+msgstr "Penanda buku {number} tidak memiliki baris log"
 
-#: search_logic.py:366
-msgid "Close"
-msgstr "Tutup"
+#: addonCore.py:736
+msgid "Bookmark {number}, {count} lines"
+msgstr "Penanda buku {number}, {count} baris"
 
-#: __init__.py:413
-#: __init__.py:434
+#: search_dialog.py:45
+msgid "Case &sensitive"
+msgstr "Peka huruf &besar/kecil"
+
+#: addonCore.py:652
+msgid "Copy log since the latest bookmark (single tap), step back through older bookmarks copying each one's segment (double tap), or switch between the current and old log (triple tap)"
+msgstr "Salin log sejak penanda buku terakhir (ketukan tunggal), mundur melalui penanda buku yang lebih lama untuk menyalin segmen setiap penanda buku (ketukan ganda), atau beralih antara log saat ini dan log lama (ketukan tiga kali)"
+
+#: addonCore.py:580
+#: addonCore.py:719
+#: addonCore.py:734
+msgid "Could not access clipboard"
+msgstr "Tidak dapat mengakses papan klip"
+
+#: addonCore.py:572
+msgid "Could not read the log text"
+msgstr "Tidak dapat membaca teks log"
+
+#: settings_panel.py:70
+msgid "Could not save Log Viewer settings"
+msgstr "Tidak dapat menyimpan pengaturan Penampil Log"
+
+#: addonCore.py:692
+msgid "Current log"
+msgstr "Log saat ini"
+
+#: settings_panel.py:43
+msgid "Default &quick-search terms (used by F3), one per line:"
+msgstr "Istilah pencarian c&epat default (digunakan oleh F3), satu per baris:"
+
+#: settings_panel.py:56
+msgid "Enter at least one quick-search term"
+msgstr "Masukkan setidaknya satu istilah pencarian cepat"
+
+#: addonCore.py:498
+#: addonCore.py:518
 msgid "Error moving to bookmark"
-msgstr "Gagal berpindah ke penanda"
+msgstr "Galat saat berpindah ke penanda buku"
 
-#: search_logic.py:289
-#: search_logic.py:552
-#: search_logic.py:606
+#: search_logic.py:462
 msgid "Error moving to match"
-msgstr "Gagal berpindah ke hasil pencarian"
+msgstr "Galat saat berpindah ke hasil yang cocok"
 
-#: __init__.py:618
+#: addonCore.py:647
 msgid "Failed to open log file"
-msgstr "Gagal membuka file log"
+msgstr "Gagal membuka berkas log"
 
-#: __init__.py:235
+#: addonCore.py:292
 msgid "Failed to open search dialog"
 msgstr "Gagal membuka dialog pencarian"
 
-#: search_logic.py:340
-msgid "Find & Focus"
-msgstr "Cari & Fokus"
+#: addonCore.py:712
+msgid "Failed to read log file"
+msgstr "Gagal membaca berkas log"
 
-#: search_logic.py:337
-msgid "Find Next"
-msgstr "Cari Berikutnya"
-
-#: search_logic.py:363
-msgid "Find Previous"
-msgstr "Cari Sebelumnya"
-
-#: __init__.py:541
+#: addonCore.py:584
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
-msgstr "Cari kemunculan berikutnya (ketukan tunggal) atau salin blok kesalahan (ketukan ganda)"
+msgstr "Cari kemunculan berikutnya (ketukan tunggal) atau salin blok galat (ketukan ganda)"
 
-#: __init__.py:574
+#: addonCore.py:617
 msgid "Find previous occurrence"
 msgstr "Cari kemunculan sebelumnya"
 
-#: search_logic.py:297
+#: search_logic.py:472
+#: search_logic.py:478
 msgid "Found {count} items"
 msgstr "Ditemukan {count} item"
 
-#: search_logic.py:520
-msgid "Found {count} matches."
-msgstr "Ditemukan {count} kecocokan."
-
-#: __init__.py:239
+#: addonCore.py:317
 msgid "Insert bookmark in log"
-msgstr "Sisipkan penanda di log"
+msgstr "Sisipkan penanda buku di log"
 
-#: search_logic.py:401
-msgid "Invalid regular expression: {error}"
-msgstr "Ekspresi reguler tidak valid: {error}"
+#: search_logic.py:303
+msgid "Invalid regular expression"
+msgstr "Ekpresi reguler tidak valid"
 
-#: search_logic.py:549
-#: search_logic.py:578
-#: search_logic.py:603
-msgid "Line {number}: {text}"
-msgstr "Baris {number}: {text}"
+#: config_manager.py:25
+msgid "Line number only (e.g. \"125 line\")"
+msgstr "Nomor baris saja (mis. \"baris 125\")"
 
-#: __init__.py:263
-#: search_logic.py:393
+#: settings_panel.py:15
+msgid "Log Viewer"
+msgstr "Penampil Log"
+
+#: addonCore.py:690
+msgid "Log file not found"
+msgstr "Berkas log tidak ditemukan"
+
+#: addonCore.py:339
 msgid "Log is empty"
 msgstr "Log kosong"
 
-#: __init__.py:190
-#: __init__.py:239
-#: __init__.py:284
-#: __init__.py:322
-#: __init__.py:541
-#: __init__.py:574
-#: __init__.py:590
+#: addonCore.py:261
+#: addonCore.py:317
+#: addonCore.py:394
+#: addonCore.py:398
+#: addonCore.py:584
+#: addonCore.py:617
+#: addonCore.py:633
+#: addonCore.py:654
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:284
+#: config_manager.py:26
+msgid "Matched line text only"
+msgstr "Teks baris yang cocok saja"
+
+#: addonCore.py:394
 msgid "Move to next bookmark in log"
-msgstr "Pindah ke penanda berikutnya di log"
+msgstr "Pindah ke penanda buku berikutnya di log"
 
-#: __init__.py:322
+#: addonCore.py:398
 msgid "Move to previous bookmark in log"
-msgstr "Pindah ke penanda sebelumnya di log"
+msgstr "Pindah ke penanda buku sebelumnya di log"
 
-#: __init__.py:197
-#: __init__.py:293
-#: __init__.py:331
-#: __init__.py:548
-#: __init__.py:581
+#: addonCore.py:268
+#: addonCore.py:374
+#: addonCore.py:438
+#: addonCore.py:441
+#: addonCore.py:591
+#: addonCore.py:624
 msgid "NVDA Log Viewer not accessible"
-msgstr "NVDA Log Viewer tidak dapat diakses"
+msgstr "Penampil Log NVDA tidak dapat diakses"
 
-#: __init__.py:605
+#: addonCore.py:639
+#: addonCore.py:709
 msgid "No NVDA log file found"
-msgstr "File log NVDA tidak ditemukan"
+msgstr "Berkas log NVDA tidak ditemukan"
 
-#: __init__.py:393
-#: __init__.py:420
+#: addonCore.py:721
+msgid "No bookmark yet, whole log copied, {count} lines"
+msgstr "Belum ada penanda buku, seluruh log disalin, {count} baris"
+
+#: addonCore.py:478
+#: addonCore.py:504
 msgid "No bookmarks available"
-msgstr "Penanda tidak tersedia"
+msgstr "Tidak ada penanda buku yang tersedia"
 
-#: __init__.py:297
-#: __init__.py:335
+#: addonCore.py:404
 msgid "No bookmarks found"
-msgstr "Penanda tidak ditemukan"
+msgstr "Tidak ada penanda buku yang ditemukan"
 
-#: __init__.py:362
+#: addonCore.py:447
 msgid "No bookmarks found in file"
-msgstr "Penanda tidak ditemukan di dalam file"
+msgstr "Tidak ada penanda buku yang ditemukan dalam berkas"
 
-#: search_logic.py:265
-#: search_logic.py:524
-#: search_logic.py:585
+#: addonCore.py:577
+msgid "No error block found here"
+msgstr "Tidak ada blok galat yang ditemukan di sini"
+
+#: search_logic.py:437
 msgid "No matches available"
-msgstr "Kecocokan tidak tersedia"
+msgstr "Tidak ada hasil yang tersedia"
 
-#: __init__.py:456
-#: __init__.py:460
-#: __init__.py:466
-#: __init__.py:489
-#: __init__.py:493
-#: __init__.py:499
-#: search_logic.py:458
-#: search_logic.py:462
-#: search_logic.py:463
-#: search_logic.py:494
-#: search_logic.py:562
-msgid "No matches found"
-msgstr "Kecocokan tidak ditemukan"
+#: addonCore.py:543
+msgid "No matches found for '{term}'"
+msgstr "Tidak ada hasil yang ditemukan untuk '{term}'"
 
-#: __init__.py:445
-#: __init__.py:478
-msgid "No matches found for 'error'"
-msgstr "Kecocokan tidak ditemukan untuk 'error'"
+#: addonCore.py:692
+msgid "Old log"
+msgstr "Log lama"
 
-#: __init__.py:590
+#: addonCore.py:633
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
-msgstr "Buka file log NVDA (mengutamakan nvda-old.log, jika tidak ada beralih ke nvda.log)"
+msgstr "Buka file log NVDA (utamakan nvda-old.log, cadangan ke nvda.log)"
 
-#: __init__.py:615
+#: addonCore.py:644
 msgid "Opening {file_type}"
 msgstr "Membuka {file_type}"
 
-#: __init__.py:308
-#: __init__.py:378
+#: addonCore.py:416
+#: addonCore.py:463
 msgid "Reached end of bookmarks"
-msgstr "Sudah mencapai batas akhir penanda"
+msgstr "Mencapai akhir penanda buku"
 
-#: search_logic.py:457
-msgid "Search failed or invalid expression"
-msgstr "Pencarian gagal atau ekspresi tidak valid"
+#: addonCore.py:551
+msgid "Reached end of matches"
+msgstr "Mencapai akhir hasil pencarian"
 
-#: search_logic.py:316
+#: addonCore.py:551
+msgid "Reached start of matches"
+msgstr "Mencapai awal hasil pencarian"
+
+#: search_logic.py:307
+msgid "Regular expression is too long"
+msgstr "Ekspresi reguler terlalu panjang"
+
+#: search_dialog.py:31
+msgid "Search &for:"
+msgstr "Cari &untuk:"
+
+#: search_logic.py:309
+msgid "Search aborted because it took too long"
+msgstr "Pencarian dibatalkan karena memakan waktu terlalu lama"
+
+#: search_logic.py:312
+msgid "Search failed"
+msgstr "Pencarian gagal"
+
+#: search_dialog.py:17
 msgid "Search in NVDA Log"
 msgstr "Cari di Log NVDA"
 
-#: __init__.py:190
+#: addonCore.py:261
 msgid "Search in NVDA Log Viewer"
-msgstr "Cari di NVDA Log Viewer"
+msgstr "Cari di Penampil Log NVDA"
 
-#: search_logic.py:441
+#: settings_panel.py:34
+msgid "Search result &announcement style:"
+msgstr "Gaya &pengumuman hasil pencarian:"
+
+#: search_dialog.py:64
 msgid "Search term cannot be empty"
 msgstr "Kata kunci pencarian tidak boleh kosong"
 
-#: search_logic.py:350
-msgid "Wrap around"
-msgstr "Pencarian melingkar"
+#: search_dialog.py:38
+msgid "Search type:"
+msgstr "Jenis pencarian:"
 
-#: __init__.py:305
-#: __init__.py:376
+#: config_manager.py:24
+msgid "Term, line number and match position (e.g. \"error line 125 1 of 30\")"
+msgstr "Kata kunci, nomor baris, dan posisi hasil (mis. \"error baris 125 1 dari 30\")"
+
+#: search_logic.py:305
+msgid "This regular expression can be very slow. Remove nested repeats such as (a+)+"
+msgstr "Ekspresi reguler ini bisa sangat lambat. Hapus pengulangan bertumpuk seperti (a+)+"
+
+#: search_logic.py:311
+msgid "Too many matches. Refine the search"
+msgstr "Terlalu banyak hasil. Persempit pencarian"
+
+#: addonCore.py:413
+#: addonCore.py:461
 msgid "Wrapping to first bookmark"
-msgstr "Kembali ke penanda pertama"
+msgstr "Melompat kembali ke penanda pertama"
 
-#: search_logic.py:478
+#: addonCore.py:555
 msgid "Wrapping to first match"
-msgstr "Kembali ke kecocokan pertama"
+msgstr "Melompat kembali ke kecocokan pertama"
 
-#: __init__.py:343
-#: __init__.py:385
+#: addonCore.py:423
+#: addonCore.py:470
 msgid "Wrapping to last bookmark"
-msgstr "Kembali ke penanda terakhir"
+msgstr "Melompat kembali ke penanda terakhir"
 
-#: search_logic.py:490
+#: addonCore.py:557
 msgid "Wrapping to last match"
-msgstr "Kembali ke kecocokan terakhir"
+msgstr "Melompat kembali ke kecocokan terakhir"
 
-#: __init__.py:603
+#: addonCore.py:729
+msgid "Wrapping to latest bookmark"
+msgstr "Melompat kembali ke penanda terbaru"
+
+#: addonCore.py:641
 msgid "current log file"
-msgstr "file log saat ini"
+msgstr "berkas log saat ini"
 
-#: __init__.py:600
+#: addonCore.py:641
 msgid "old log file"
-msgstr "file log lama"
+msgstr "berkas log lama"
 
-#: search_logic.py:308
+#: search_logic.py:492
 msgid "{current} of {total}"
 msgstr "{current} dari {total}"
 
-#: search_logic.py:298
-msgid "{term} {current} of {total}"
-msgstr "{term} {current} dari {total}"
+#: search_logic.py:473
+msgid "{line} line"
+msgstr "baris {line}"
+
+#: search_logic.py:479
+msgid "{term} line {line} {current} of {total}"
+msgstr "{term} baris {line} {current} dari {total}"

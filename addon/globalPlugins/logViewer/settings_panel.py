@@ -1,9 +1,7 @@
 # settings_panel.py
-# Copyright (C) 2026 Chai Chaimee
-# Licensed under GNU General Public License. See COPYING.txt for details.
 
 import wx
-import config
+import ui
 from gui import guiHelper
 from gui.settingsDialogs import SettingsPanel
 import addonHandler
@@ -23,12 +21,12 @@ class LogViewerSettingsPanel(SettingsPanel):
 		self.caseSensitiveCheck = helper.addItem(
 			wx.CheckBox(self, label=_("&Case sensitive by default"))
 		)
-		self.caseSensitiveCheck.SetValue(config.conf["LogViewerPlugin"]["searchCaseSensitivity"])
+		self.caseSensitiveCheck.SetValue(settings.searchCaseSensitive)
 
 		self.wrapCheck = helper.addItem(
 			wx.CheckBox(self, label=_("&Wrap around by default"))
 		)
-		self.wrapCheck.SetValue(config.conf["LogViewerPlugin"]["searchWrap"])
+		self.wrapCheck.SetValue(settings.searchWrap)
 
 		self._announceModeKeys = [choice[0] for choice in ANNOUNCE_MODE_CHOICES]
 		announceModeLabels = [choice[1] for choice in ANNOUNCE_MODE_CHOICES]
@@ -49,17 +47,24 @@ class LogViewerSettingsPanel(SettingsPanel):
 		)
 		self.quickTermsBox.SetValue("\n".join(settings.quickSearchTerms))
 
-	def onSave(self):
-		config.conf["LogViewerPlugin"]["searchCaseSensitivity"] = self.caseSensitiveCheck.GetValue()
-		config.conf["LogViewerPlugin"]["searchWrap"] = self.wrapCheck.GetValue()
+	def _getCleanedTerms(self):
+		rawTerms = self.quickTermsBox.GetValue().splitlines()
+		return [term.strip() for term in rawTerms if term.strip()]
 
+	def isValid(self):
+		if not self._getCleanedTerms():
+			ui.message(_("Enter at least one quick-search term"))
+			self.quickTermsBox.SetFocus()
+			return False
+		return True
+
+	def onSave(self):
 		settings = PluginSettings.get()
+		settings.searchCaseSensitive = self.caseSensitiveCheck.GetValue()
+		settings.searchWrap = self.wrapCheck.GetValue()
 		selectedIndex = self.announceModeCombo.GetSelection()
 		if 0 <= selectedIndex < len(self._announceModeKeys):
 			settings.announceMode = self._announceModeKeys[selectedIndex]
-
-		rawTerms = self.quickTermsBox.GetValue().splitlines()
-		cleanedTerms = [term.strip() for term in rawTerms if term.strip()]
-		if cleanedTerms:
-			settings.quickSearchTerms = cleanedTerms
-		settings.save()
+		settings.quickSearchTerms = self._getCleanedTerms()
+		if not settings.save():
+			ui.message(_("Could not save Log Viewer settings"))

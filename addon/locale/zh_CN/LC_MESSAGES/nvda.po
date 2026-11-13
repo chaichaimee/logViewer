@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.7.7\n"
+"Project-Id-Version: logViewer 2026.11.0\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 14:32+0700\n"
+"POT-Creation-Date: 2026-11-13 09:48+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Chinese (Simplified)\n"
@@ -10,225 +10,316 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: DevOn Addon\n"
+"X-Generator: ChaiBot Addon\n"
 
-#: __init__.py:346
-#: __init__.py:387
+#: settings_panel.py:22
+msgid "&Case sensitive by default"
+msgstr "区分大小写(&C)"
+
+#: search_dialog.py:52
+msgid "&Find"
+msgstr "查找(&F)"
+
+#: search_dialog.py:48
+msgid "&Wrap around"
+msgstr "循环查找(&W)"
+
+#: settings_panel.py:27
+msgid "&Wrap around by default"
+msgstr "默认循环查找(&W)"
+
+#: search_logic.py:488
+msgid "... truncated"
+msgstr "... 已截断"
+
+#: addonCore.py:426
+#: addonCore.py:472
 msgid "Already at first bookmark"
-msgstr "已处于第一个书签"
+msgstr "已经是第一个书签"
 
-#: __init__.py:246
-#: __init__.py:410
-#: __init__.py:431
+#: addonCore.py:324
+#: addonCore.py:495
+#: addonCore.py:515
 msgid "Bookmark {number}"
 msgstr "书签 {number}"
 
-#: search_logic.py:346
-msgid "Case sensitive"
-msgstr "区分大小写"
+#: addonCore.py:731
+msgid "Bookmark {number} has no log lines"
+msgstr "书签 {number} 没有日志行"
 
-#: search_logic.py:366
-msgid "Close"
-msgstr "关闭"
+#: addonCore.py:736
+msgid "Bookmark {number}, {count} lines"
+msgstr "书签 {number}，{count} 行"
 
-#: __init__.py:413
-#: __init__.py:434
+#: search_dialog.py:45
+msgid "Case &sensitive"
+msgstr "区分大小写(&S)"
+
+#: addonCore.py:652
+msgid "Copy log since the latest bookmark (single tap), step back through older bookmarks copying each one's segment (double tap), or switch between the current and old log (triple tap)"
+msgstr "复制自最新书签以来的日志（单击），向后遍历较旧的书签并分别复制每个书签的片段（双击），或在当前日志与旧日志之间切换（三击）"
+
+#: addonCore.py:580
+#: addonCore.py:719
+#: addonCore.py:734
+msgid "Could not access clipboard"
+msgstr "无法访问剪贴板"
+
+#: addonCore.py:572
+msgid "Could not read the log text"
+msgstr "无法读取日志文本"
+
+#: settings_panel.py:70
+msgid "Could not save Log Viewer settings"
+msgstr "无法保存日志查看器设置"
+
+#: addonCore.py:692
+msgid "Current log"
+msgstr "当前日志"
+
+#: settings_panel.py:43
+msgid "Default &quick-search terms (used by F3), one per line:"
+msgstr "默认快速搜索词（F3 使用），每行一个(&Q)："
+
+#: settings_panel.py:56
+msgid "Enter at least one quick-search term"
+msgstr "请至少输入一个快速搜索词"
+
+#: addonCore.py:498
+#: addonCore.py:518
 msgid "Error moving to bookmark"
-msgstr "移至书签时出错"
+msgstr "移动到书签时出错"
 
-#: search_logic.py:289
-#: search_logic.py:552
-#: search_logic.py:606
+#: search_logic.py:462
 msgid "Error moving to match"
-msgstr "移至匹配项时出错"
+msgstr "移动到匹配项时出错"
 
-#: __init__.py:618
+#: addonCore.py:647
 msgid "Failed to open log file"
 msgstr "无法打开日志文件"
 
-#: __init__.py:235
+#: addonCore.py:292
 msgid "Failed to open search dialog"
-msgstr "无法打开搜索对话框"
+msgstr "无法打开查找对话框"
 
-#: search_logic.py:340
-msgid "Find & Focus"
-msgstr "查找并聚焦"
+#: addonCore.py:712
+msgid "Failed to read log file"
+msgstr "读取日志文件失败"
 
-#: search_logic.py:337
-msgid "Find Next"
-msgstr "查找下一个"
-
-#: search_logic.py:363
-msgid "Find Previous"
-msgstr "查找上一个"
-
-#: __init__.py:541
+#: addonCore.py:584
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
 msgstr "查找下一个匹配项（单击）或复制错误块（双击）"
 
-#: __init__.py:574
+#: addonCore.py:617
 msgid "Find previous occurrence"
 msgstr "查找上一个匹配项"
 
-#: search_logic.py:297
+#: search_logic.py:472
+#: search_logic.py:478
 msgid "Found {count} items"
-msgstr "找到 {count} 个项目"
+msgstr "已找到 {count} 个项目"
 
-#: search_logic.py:520
-msgid "Found {count} matches."
-msgstr "找到 {count} 个匹配项。"
-
-#: __init__.py:239
+#: addonCore.py:317
 msgid "Insert bookmark in log"
 msgstr "在日志中插入书签"
 
-#: search_logic.py:401
-msgid "Invalid regular expression: {error}"
-msgstr "无效的正则表达式: {error}"
+#: search_logic.py:303
+msgid "Invalid regular expression"
+msgstr "无效的正则表达式"
 
-#: search_logic.py:549
-#: search_logic.py:578
-#: search_logic.py:603
-msgid "Line {number}: {text}"
-msgstr "第 {number} 行: {text}"
+#: config_manager.py:25
+msgid "Line number only (e.g. \"125 line\")"
+msgstr "仅行号（例如：“125行”）"
 
-#: __init__.py:263
-#: search_logic.py:393
+#: settings_panel.py:15
+msgid "Log Viewer"
+msgstr "日志查看器"
+
+#: addonCore.py:690
+msgid "Log file not found"
+msgstr "未找到日志文件"
+
+#: addonCore.py:339
 msgid "Log is empty"
 msgstr "日志为空"
 
-#: __init__.py:190
-#: __init__.py:239
-#: __init__.py:284
-#: __init__.py:322
-#: __init__.py:541
-#: __init__.py:574
-#: __init__.py:590
+#: addonCore.py:261
+#: addonCore.py:317
+#: addonCore.py:394
+#: addonCore.py:398
+#: addonCore.py:584
+#: addonCore.py:617
+#: addonCore.py:633
+#: addonCore.py:654
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:284
+#: config_manager.py:26
+msgid "Matched line text only"
+msgstr "仅匹配的行文本"
+
+#: addonCore.py:394
 msgid "Move to next bookmark in log"
-msgstr "移至日志中的下一个书签"
+msgstr "移动到日志中的下一个书签"
 
-#: __init__.py:322
+#: addonCore.py:398
 msgid "Move to previous bookmark in log"
-msgstr "移至日志中的上一个书签"
+msgstr "移动到日志中的上一个书签"
 
-#: __init__.py:197
-#: __init__.py:293
-#: __init__.py:331
-#: __init__.py:548
-#: __init__.py:581
+#: addonCore.py:268
+#: addonCore.py:374
+#: addonCore.py:438
+#: addonCore.py:441
+#: addonCore.py:591
+#: addonCore.py:624
 msgid "NVDA Log Viewer not accessible"
-msgstr "无法访问 NVDA 日志查看器"
+msgstr "NVDA 日志查看器不可访问"
 
-#: __init__.py:605
+#: addonCore.py:639
+#: addonCore.py:709
 msgid "No NVDA log file found"
 msgstr "未找到 NVDA 日志文件"
 
-#: __init__.py:393
-#: __init__.py:420
+#: addonCore.py:721
+msgid "No bookmark yet, whole log copied, {count} lines"
+msgstr "尚无书签，已复制整个日志，共 {count} 行"
+
+#: addonCore.py:478
+#: addonCore.py:504
 msgid "No bookmarks available"
 msgstr "无可用书签"
 
-#: __init__.py:297
-#: __init__.py:335
+#: addonCore.py:404
 msgid "No bookmarks found"
 msgstr "未找到书签"
 
-#: __init__.py:362
+#: addonCore.py:447
 msgid "No bookmarks found in file"
 msgstr "文件中未找到书签"
 
-#: search_logic.py:265
-#: search_logic.py:524
-#: search_logic.py:585
+#: addonCore.py:577
+msgid "No error block found here"
+msgstr "此处未找到错误块"
+
+#: search_logic.py:437
 msgid "No matches available"
-msgstr "无可用匹配项"
+msgstr "没有可用的匹配项"
 
-#: __init__.py:456
-#: __init__.py:460
-#: __init__.py:466
-#: __init__.py:489
-#: __init__.py:493
-#: __init__.py:499
-#: search_logic.py:458
-#: search_logic.py:462
-#: search_logic.py:463
-#: search_logic.py:494
-#: search_logic.py:562
-msgid "No matches found"
-msgstr "未找到匹配项"
+#: addonCore.py:543
+msgid "No matches found for '{term}'"
+msgstr "未找到“{term}”的匹配项"
 
-#: __init__.py:445
-#: __init__.py:478
-msgid "No matches found for 'error'"
-msgstr "未找到与 'error' 匹配的项"
+#: addonCore.py:692
+msgid "Old log"
+msgstr "旧日志"
 
-#: __init__.py:590
+#: addonCore.py:633
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
-msgstr "打开 NVDA 日志文件（优先选用 nvda-old.log，否则选用 nvda.log）"
+msgstr "打开 NVDA 日志文件（优先选择 nvda-old.log，若无则使用 nvda.log）"
 
-#: __init__.py:615
+#: addonCore.py:644
 msgid "Opening {file_type}"
 msgstr "正在打开 {file_type}"
 
-#: __init__.py:308
-#: __init__.py:378
+#: addonCore.py:416
+#: addonCore.py:463
 msgid "Reached end of bookmarks"
 msgstr "已到达书签末尾"
 
-#: search_logic.py:457
-msgid "Search failed or invalid expression"
-msgstr "搜索失败或表达式无效"
+#: addonCore.py:551
+msgid "Reached end of matches"
+msgstr "已到达匹配项末尾"
 
-#: search_logic.py:316
+#: addonCore.py:551
+msgid "Reached start of matches"
+msgstr "已到达匹配项开头"
+
+#: search_logic.py:307
+msgid "Regular expression is too long"
+msgstr "正则表达式过长"
+
+#: search_dialog.py:31
+msgid "Search &for:"
+msgstr "查找(&F)："
+
+#: search_logic.py:309
+msgid "Search aborted because it took too long"
+msgstr "搜索耗时过长已中止"
+
+#: search_logic.py:312
+msgid "Search failed"
+msgstr "搜索失败"
+
+#: search_dialog.py:17
 msgid "Search in NVDA Log"
 msgstr "在 NVDA 日志中搜索"
 
-#: __init__.py:190
+#: addonCore.py:261
 msgid "Search in NVDA Log Viewer"
 msgstr "在 NVDA 日志查看器中搜索"
 
-#: search_logic.py:441
+#: settings_panel.py:34
+msgid "Search result &announcement style:"
+msgstr "搜索结果朗读样式(&A)："
+
+#: search_dialog.py:64
 msgid "Search term cannot be empty"
 msgstr "搜索词不能为空"
 
-#: search_logic.py:350
-msgid "Wrap around"
-msgstr "循环查找"
+#: search_dialog.py:38
+msgid "Search type:"
+msgstr "搜索类型："
 
-#: __init__.py:305
-#: __init__.py:376
+#: config_manager.py:24
+msgid "Term, line number and match position (e.g. \"error line 125 1 of 30\")"
+msgstr "搜索词、行号和匹配位置（例如：“error line 125 1 of 30”）"
+
+#: search_logic.py:305
+msgid "This regular expression can be very slow. Remove nested repeats such as (a+)+"
+msgstr "此正则表达式可能会非常慢。请移除嵌套重复项，例如 (a+)+"
+
+#: search_logic.py:311
+msgid "Too many matches. Refine the search"
+msgstr "匹配项过多。请缩小搜索范围"
+
+#: addonCore.py:413
+#: addonCore.py:461
 msgid "Wrapping to first bookmark"
-msgstr "正在回绕至第一个书签"
+msgstr "已循环至第一个书签"
 
-#: search_logic.py:478
+#: addonCore.py:555
 msgid "Wrapping to first match"
-msgstr "正在回绕至第一个匹配项"
+msgstr "已循环至第一个匹配项"
 
-#: __init__.py:343
-#: __init__.py:385
+#: addonCore.py:423
+#: addonCore.py:470
 msgid "Wrapping to last bookmark"
-msgstr "正在回绕至最后一个书签"
+msgstr "已循环至最后一个书签"
 
-#: search_logic.py:490
+#: addonCore.py:557
 msgid "Wrapping to last match"
-msgstr "正在回绕至最后一个匹配项"
+msgstr "已循环至最后一个匹配项"
 
-#: __init__.py:603
+#: addonCore.py:729
+msgid "Wrapping to latest bookmark"
+msgstr "已循环至最新书签"
+
+#: addonCore.py:641
 msgid "current log file"
 msgstr "当前日志文件"
 
-#: __init__.py:600
+#: addonCore.py:641
 msgid "old log file"
 msgstr "旧日志文件"
 
-#: search_logic.py:308
+#: search_logic.py:492
 msgid "{current} of {total}"
-msgstr "第 {current} 个，共 {total} 个"
+msgstr "{current} / {total}"
 
-#: search_logic.py:298
-msgid "{term} {current} of {total}"
-msgstr "{term} 第 {current} 个，共 {total} 个"
+#: search_logic.py:473
+msgid "{line} line"
+msgstr "第 {line} 行"
+
+#: search_logic.py:479
+msgid "{term} line {line} {current} of {total}"
+msgstr "{term} 行 {line} {current} / {total}"

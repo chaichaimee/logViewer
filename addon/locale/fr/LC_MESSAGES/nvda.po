@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: logViewer 2026.7.7\n"
+"Project-Id-Version: logViewer 2026.11.0\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 14:32+0700\n"
+"POT-Creation-Date: 2026-11-13 09:48+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: French\n"
@@ -10,225 +10,316 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: DevOn Addon\n"
+"X-Generator: ChaiBot Addon\n"
 
-#: __init__.py:346
-#: __init__.py:387
+#: settings_panel.py:22
+msgid "&Case sensitive by default"
+msgstr "&Sensible à la casse par défaut"
+
+#: search_dialog.py:52
+msgid "&Find"
+msgstr "&Rechercher"
+
+#: search_dialog.py:48
+msgid "&Wrap around"
+msgstr "&Boucler"
+
+#: settings_panel.py:27
+msgid "&Wrap around by default"
+msgstr "&Boucler par défaut"
+
+#: search_logic.py:488
+msgid "... truncated"
+msgstr "... tronqué"
+
+#: addonCore.py:426
+#: addonCore.py:472
 msgid "Already at first bookmark"
 msgstr "Déjà au premier signet"
 
-#: __init__.py:246
-#: __init__.py:410
-#: __init__.py:431
+#: addonCore.py:324
+#: addonCore.py:495
+#: addonCore.py:515
 msgid "Bookmark {number}"
 msgstr "Signet {number}"
 
-#: search_logic.py:346
-msgid "Case sensitive"
-msgstr "Respecter la casse"
+#: addonCore.py:731
+msgid "Bookmark {number} has no log lines"
+msgstr "Le signet {number} ne contient aucune ligne de journal"
 
-#: search_logic.py:366
-msgid "Close"
-msgstr "Fermer"
+#: addonCore.py:736
+msgid "Bookmark {number}, {count} lines"
+msgstr "Signet {number}, {count} lignes"
 
-#: __init__.py:413
-#: __init__.py:434
+#: search_dialog.py:45
+msgid "Case &sensitive"
+msgstr "Sensible à la &casse"
+
+#: addonCore.py:652
+msgid "Copy log since the latest bookmark (single tap), step back through older bookmarks copying each one's segment (double tap), or switch between the current and old log (triple tap)"
+msgstr "Copier le journal depuis le dernier signet (simple touche), reculer dans les anciens signets en copiant le segment de chacun (double touche), ou basculer entre le journal actuel et les anciens (triple touche)"
+
+#: addonCore.py:580
+#: addonCore.py:719
+#: addonCore.py:734
+msgid "Could not access clipboard"
+msgstr "Impossible d'accéder au presse-papiers"
+
+#: addonCore.py:572
+msgid "Could not read the log text"
+msgstr "Impossible de lire le texte du journal"
+
+#: settings_panel.py:70
+msgid "Could not save Log Viewer settings"
+msgstr "Échec de l'enregistrement des paramètres de la visionneuse du journal"
+
+#: addonCore.py:692
+msgid "Current log"
+msgstr "Journal actuel"
+
+#: settings_panel.py:43
+msgid "Default &quick-search terms (used by F3), one per line:"
+msgstr "Termes de &recherche rapide par défaut (utilisés par F3), un par ligne :"
+
+#: settings_panel.py:56
+msgid "Enter at least one quick-search term"
+msgstr "Saisissez au moins un terme de recherche rapide"
+
+#: addonCore.py:498
+#: addonCore.py:518
 msgid "Error moving to bookmark"
 msgstr "Erreur lors du déplacement vers le signet"
 
-#: search_logic.py:289
-#: search_logic.py:552
-#: search_logic.py:606
+#: search_logic.py:462
 msgid "Error moving to match"
-msgstr "Erreur lors du déplacement vers l'occurrence"
+msgstr "Erreur lors du déplacement vers la correspondance"
 
-#: __init__.py:618
+#: addonCore.py:647
 msgid "Failed to open log file"
 msgstr "Échec de l'ouverture du fichier journal"
 
-#: __init__.py:235
+#: addonCore.py:292
 msgid "Failed to open search dialog"
 msgstr "Échec de l'ouverture de la boîte de dialogue de recherche"
 
-#: search_logic.py:340
-msgid "Find & Focus"
-msgstr "Rechercher et focaliser"
+#: addonCore.py:712
+msgid "Failed to read log file"
+msgstr "Échec de la lecture du fichier journal"
 
-#: search_logic.py:337
-msgid "Find Next"
-msgstr "Rechercher le suivant"
-
-#: search_logic.py:363
-msgid "Find Previous"
-msgstr "Rechercher le précédent"
-
-#: __init__.py:541
+#: addonCore.py:584
 msgid "Find next occurrence (single tap) or copy error block (double tap)"
-msgstr "Rechercher l'occurrence suivante (simple pression) ou copier le bloc d'erreur (double pression)"
+msgstr "Rechercher l'occurrence suivante (un seul appui) ou copier le bloc d'erreur (double appui)"
 
-#: __init__.py:574
+#: addonCore.py:617
 msgid "Find previous occurrence"
 msgstr "Rechercher l'occurrence précédente"
 
-#: search_logic.py:297
+#: search_logic.py:472
+#: search_logic.py:478
 msgid "Found {count} items"
 msgstr "{count} éléments trouvés"
 
-#: search_logic.py:520
-msgid "Found {count} matches."
-msgstr "{count} occurrences trouvées."
-
-#: __init__.py:239
+#: addonCore.py:317
 msgid "Insert bookmark in log"
 msgstr "Insérer un signet dans le journal"
 
-#: search_logic.py:401
-msgid "Invalid regular expression: {error}"
-msgstr "Expression régulière non valide : {error}"
+#: search_logic.py:303
+msgid "Invalid regular expression"
+msgstr "Expression régulière invalide"
 
-#: search_logic.py:549
-#: search_logic.py:578
-#: search_logic.py:603
-msgid "Line {number}: {text}"
-msgstr "Ligne {number} : {text}"
+#: config_manager.py:25
+msgid "Line number only (e.g. \"125 line\")"
+msgstr "Numéro de ligne uniquement (ex. : \"ligne 125\")"
 
-#: __init__.py:263
-#: search_logic.py:393
+#: settings_panel.py:15
+msgid "Log Viewer"
+msgstr "Visionneuse du journal"
+
+#: addonCore.py:690
+msgid "Log file not found"
+msgstr "Fichier journal introuvable"
+
+#: addonCore.py:339
 msgid "Log is empty"
 msgstr "Le journal est vide"
 
-#: __init__.py:190
-#: __init__.py:239
-#: __init__.py:284
-#: __init__.py:322
-#: __init__.py:541
-#: __init__.py:574
-#: __init__.py:590
+#: addonCore.py:261
+#: addonCore.py:317
+#: addonCore.py:394
+#: addonCore.py:398
+#: addonCore.py:584
+#: addonCore.py:617
+#: addonCore.py:633
+#: addonCore.py:654
 msgid "LogViewer"
 msgstr "LogViewer"
 
-#: __init__.py:284
+#: config_manager.py:26
+msgid "Matched line text only"
+msgstr "Texte de la ligne correspondante uniquement"
+
+#: addonCore.py:394
 msgid "Move to next bookmark in log"
-msgstr "Déplacer vers le signet suivant dans le journal"
+msgstr "Aller au signet suivant dans le journal"
 
-#: __init__.py:322
+#: addonCore.py:398
 msgid "Move to previous bookmark in log"
-msgstr "Déplacer vers le signet précédent dans le journal"
+msgstr "Aller au signet précédent dans le journal"
 
-#: __init__.py:197
-#: __init__.py:293
-#: __init__.py:331
-#: __init__.py:548
-#: __init__.py:581
+#: addonCore.py:268
+#: addonCore.py:374
+#: addonCore.py:438
+#: addonCore.py:441
+#: addonCore.py:591
+#: addonCore.py:624
 msgid "NVDA Log Viewer not accessible"
-msgstr "Le visionneur de journal NVDA n'est pas accessible"
+msgstr "Visionneuse du journal NVDA inaccessible"
 
-#: __init__.py:605
+#: addonCore.py:639
+#: addonCore.py:709
 msgid "No NVDA log file found"
 msgstr "Aucun fichier journal NVDA trouvé"
 
-#: __init__.py:393
-#: __init__.py:420
+#: addonCore.py:721
+msgid "No bookmark yet, whole log copied, {count} lines"
+msgstr "Aucun signet pour l'instant, journal entier copié, {count} lignes"
+
+#: addonCore.py:478
+#: addonCore.py:504
 msgid "No bookmarks available"
 msgstr "Aucun signet disponible"
 
-#: __init__.py:297
-#: __init__.py:335
+#: addonCore.py:404
 msgid "No bookmarks found"
 msgstr "Aucun signet trouvé"
 
-#: __init__.py:362
+#: addonCore.py:447
 msgid "No bookmarks found in file"
 msgstr "Aucun signet trouvé dans le fichier"
 
-#: search_logic.py:265
-#: search_logic.py:524
-#: search_logic.py:585
+#: addonCore.py:577
+msgid "No error block found here"
+msgstr "Aucun bloc d'erreur trouvé ici"
+
+#: search_logic.py:437
 msgid "No matches available"
-msgstr "Aucune occurrence disponible"
+msgstr "Aucune correspondance disponible"
 
-#: __init__.py:456
-#: __init__.py:460
-#: __init__.py:466
-#: __init__.py:489
-#: __init__.py:493
-#: __init__.py:499
-#: search_logic.py:458
-#: search_logic.py:462
-#: search_logic.py:463
-#: search_logic.py:494
-#: search_logic.py:562
-msgid "No matches found"
-msgstr "Aucune occurrence trouvée"
+#: addonCore.py:543
+msgid "No matches found for '{term}'"
+msgstr "Aucun résultat trouvé pour '{term}'"
 
-#: __init__.py:445
-#: __init__.py:478
-msgid "No matches found for 'error'"
-msgstr "Aucune occurrence trouvée pour 'error'"
+#: addonCore.py:692
+msgid "Old log"
+msgstr "Ancien journal"
 
-#: __init__.py:590
+#: addonCore.py:633
 msgid "Open NVDA log file (prefers nvda-old.log, falls back to nvda.log)"
-msgstr "Ouvrir le fichier journal NVDA (préfère nvda-old.log, se rabat sur nvda.log)"
+msgstr "Ouvrir le fichier journal NVDA (privilégie nvda-old.log, sinon nvda.log)"
 
-#: __init__.py:615
+#: addonCore.py:644
 msgid "Opening {file_type}"
 msgstr "Ouverture de {file_type}"
 
-#: __init__.py:308
-#: __init__.py:378
+#: addonCore.py:416
+#: addonCore.py:463
 msgid "Reached end of bookmarks"
 msgstr "Fin des signets atteinte"
 
-#: search_logic.py:457
-msgid "Search failed or invalid expression"
-msgstr "Échec de la recherche ou expression non valide"
+#: addonCore.py:551
+msgid "Reached end of matches"
+msgstr "Fin des correspondances atteinte"
 
-#: search_logic.py:316
+#: addonCore.py:551
+msgid "Reached start of matches"
+msgstr "Début des correspondances atteint"
+
+#: search_logic.py:307
+msgid "Regular expression is too long"
+msgstr "L'expression régulière est trop longue"
+
+#: search_dialog.py:31
+msgid "Search &for:"
+msgstr "&Rechercher :"
+
+#: search_logic.py:309
+msgid "Search aborted because it took too long"
+msgstr "Recherche interrompue car elle a pris trop de temps"
+
+#: search_logic.py:312
+msgid "Search failed"
+msgstr "Échec de la recherche"
+
+#: search_dialog.py:17
 msgid "Search in NVDA Log"
 msgstr "Rechercher dans le journal NVDA"
 
-#: __init__.py:190
+#: addonCore.py:261
 msgid "Search in NVDA Log Viewer"
-msgstr "Rechercher dans le visionneur de journal NVDA"
+msgstr "Rechercher dans la visualisation du journal NVDA"
 
-#: search_logic.py:441
+#: settings_panel.py:34
+msgid "Search result &announcement style:"
+msgstr "Style d'&annonce des résultats de recherche :"
+
+#: search_dialog.py:64
 msgid "Search term cannot be empty"
 msgstr "Le terme de recherche ne peut pas être vide"
 
-#: search_logic.py:350
-msgid "Wrap around"
-msgstr "Recherche en boucle"
+#: search_dialog.py:38
+msgid "Search type:"
+msgstr "Type de recherche :"
 
-#: __init__.py:305
-#: __init__.py:376
+#: config_manager.py:24
+msgid "Term, line number and match position (e.g. \"error line 125 1 of 30\")"
+msgstr "Terme, numéro de ligne et position de la correspondance (ex. \"error line 125 1 sur 30\")"
+
+#: search_logic.py:305
+msgid "This regular expression can be very slow. Remove nested repeats such as (a+)+"
+msgstr "Cette expression régulière peut être très lente. Supprimez les répulsions imbriquées telles que (a+)+"
+
+#: search_logic.py:311
+msgid "Too many matches. Refine the search"
+msgstr "Trop de correspondances. Affinez la recherche"
+
+#: addonCore.py:413
+#: addonCore.py:461
 msgid "Wrapping to first bookmark"
 msgstr "Retour au premier signet"
 
-#: search_logic.py:478
+#: addonCore.py:555
 msgid "Wrapping to first match"
 msgstr "Retour à la première occurrence"
 
-#: __init__.py:343
-#: __init__.py:385
+#: addonCore.py:423
+#: addonCore.py:470
 msgid "Wrapping to last bookmark"
 msgstr "Retour au dernier signet"
 
-#: search_logic.py:490
+#: addonCore.py:557
 msgid "Wrapping to last match"
 msgstr "Retour à la dernière occurrence"
 
-#: __init__.py:603
+#: addonCore.py:729
+msgid "Wrapping to latest bookmark"
+msgstr "Retour au dernier signet"
+
+#: addonCore.py:641
 msgid "current log file"
 msgstr "fichier journal actuel"
 
-#: __init__.py:600
+#: addonCore.py:641
 msgid "old log file"
 msgstr "ancien fichier journal"
 
-#: search_logic.py:308
+#: search_logic.py:492
 msgid "{current} of {total}"
 msgstr "{current} sur {total}"
 
-#: search_logic.py:298
-msgid "{term} {current} of {total}"
-msgstr "{term} {current} sur {total}"
+#: search_logic.py:473
+msgid "{line} line"
+msgstr "ligne {line}"
+
+#: search_logic.py:479
+msgid "{term} line {line} {current} of {total}"
+msgstr "{term} ligne {line} {current} sur {total}"
